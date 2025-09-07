@@ -1,0 +1,37 @@
+{
+  "cosmic-connector": {
+    "filename": "cosmic-connector.json",
+    "description": "Connector archetype for onboarding, affiliate resonance, and soul-coded matching",
+    "used_in": ["copy_generator.py", "agent_tars.py", "archetype_router.py"]
+  },
+  "digital-oracle": {
+    "filename": "digital-oracle.json",
+    "description": "Oracle archetype for affirmation flows, prediction prompts, and social post generation",
+    "used_in": ["social_post_generator.py", "quotes.py"]
+  },
+  "faceless-visionary": {
+    "filename": "faceless-visionary.json",
+    "description": "Visionary archetype for funnel clarity, faceless branding, and comic-style homepage flows",
+    "used_in": ["html_output.py", "copy_generator.py"]
+  },
+  "alter-ego-alchemist": {
+    "filename": "alter-ego-alchemist.json",
+    "description": "Alchemist archetype for transformation rituals, tool generation, and modular widget flows",
+    "used_in": ["tool_generator.py", "agent_tars.py"]
+  },
+  "mystic-mentor": {
+    "filename": "mystic-mentor.json",
+    "description": "Mentor archetype for onboarding guidance, soul-purpose mapping, and affirmation delivery",
+    "used_in": ["copy_generator.py", "social_post_generator.py"]
+  },
+  "rebel-healer": {
+    "filename": "rebel-healer.json",
+    "description": "Healer archetype for trauma-informed flows, emotional sovereignty, and funnel calibration",
+    "used_in": ["agent_tars.py", "quotes.py"]
+  },
+  "strategic-sage": {
+    "filename": "strategic-sage.json",
+    "description": "Sage archetype for clarity-driven copy, campaign mapping, and backend logic refinement",
+    "used_in": ["copy_generator.py", "tool_generator.py"]
+  }
+}
