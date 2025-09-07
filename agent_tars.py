@@ -86,12 +86,23 @@ def activate_agent_tars():
 			if keyword.lower() in file_name.lower():
 				matched_archetype = archetype
 				break
+				
 # 🔮 Match keyword to ritual type
 matched_ritual_type = "Visibility"  # default fallback
 for keyword in ritual_map:
     if keyword.lower() in file_name.lower():
         matched_ritual_type = ritual_map[keyword]
         break
+# 🧬 Pull Soul Blueprint for user
+user_name = extract_user_from_filename(file_name)  # You’ll define this logic
+blueprint = get_user_blueprint(user_name)
+
+if blueprint:
+    print(f"🔮 Soul Blueprint found for {user_name}: {blueprint}")
+    guidance = generate_guidance(blueprint, matched_archetype, matched_ritual_type)
+    deliver_guidance(guidance)
+else:
+    print(f"⚠️ No Soul Blueprint found for {user_name}. Using default resonance.")
 
 	# 📝 Log to Notion
 log_to_notion(
@@ -103,6 +114,42 @@ log_to_notion(
 
 # 🧬 Create Ritual Page
 create_ritual_page(matched_archetype, "Visibility")
+{ "object": "block", "type": "paragraph", "paragraph": {
+    "text": [{ "type": "text", "text": { "content": guidance } }]
+} }
+def create_ritual_page(archetype, ritual_type, guidance_text):
+    payload = {
+        "parent": { "page_id": dashboard_id },
+        "properties": {
+            "title": {
+                "title": [ { "text": { "content": f"{archetype} – {ritual_type} Ritual Tracker" } } ]
+            }
+        },
+        "children": [
+            {
+                "object": "block",
+                "type": "heading_2",
+                "heading_2": {
+                    "text": [ { "type": "text", "text": { "content": f"{ritual_type} Ritual for {archetype}" } } ]
+                }
+            },
+            {
+                "object": "block",
+                "type": "paragraph",
+                "paragraph": {
+                    "text": [ { "type": "text", "text": { "content": "Auto-created by Agent TARS based on your activation." } } ]
+                }
+            },
+            {
+                "object": "block",
+                "type": "paragraph",
+                "paragraph": {
+                    "text": [ { "type": "text", "text": { "content": guidance_text } } ]
+                }
+            }
+        ]
+    }
+    # Send to Notion API...
 
 		# ✅ Mark as processed
 		mark_as_processed(file_name)
@@ -153,6 +200,7 @@ def create_ritual_page(archetype, ritual_type):
         print(f"✅ Ritual page created: {page_title}")
     else:
         print(f"❌ Failed to create ritual page: {response.text}")
+
 
 
 
