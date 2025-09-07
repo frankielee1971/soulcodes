@@ -74,13 +74,16 @@ def activate_agent_tars():
 				matched_archetype = archetype
 				break
 
-		# 📝 Log to Notion
-		log_to_notion(
-			file_name=file_name,
-			archetype=matched_archetype,
-			element="Water",  # Optional: can be dynamic later
-			notes="Auto-logged by Agent TARS"
-		)
+	# 📝 Log to Notion
+log_to_notion(
+    file_name=file_name,
+    archetype=matched_archetype,
+    element="Water",
+    notes="Auto-logged by Agent TARS"
+)
+
+# 🧬 Create Ritual Page
+create_ritual_page(matched_archetype, "Visibility")
 
 		# ✅ Mark as processed
 		mark_as_processed(file_name)
@@ -88,4 +91,48 @@ def activate_agent_tars():
 # 🔔 Run the agent
 if __name__ == "__main__":
 	activate_agent_tars()
+# 🧬 Create Ritual Page in Notion
+def create_ritual_page(archetype, ritual_type):
+    import requests
+
+    page_title = f"{archetype} – {ritual_type} Ritual Tracker"
+    payload = {
+        "parent": { "page_id": dashboard_id },
+        "properties": {
+            "title": {
+                "title": [
+                    { "text": { "content": page_title } }
+                ]
+            }
+        },
+        "children": [
+            {
+                "object": "block",
+                "type": "heading_2",
+                "heading_2": {
+                    "text": [{ "type": "text", "text": { "content": f"{ritual_type} Ritual for {archetype}" } }]
+                }
+            },
+            {
+                "object": "block",
+                "type": "paragraph",
+                "paragraph": {
+                    "text": [{ "type": "text", "text": { "content": "This ritual page was auto-created by Agent TARS based on your archetype activation." } }]
+                }
+            }
+        ]
+    }
+
+    headers = {
+        "Authorization": f"Bearer {os.getenv('NOTION_API_KEY')}",
+        "Content-Type": "application/json"
+    }
+
+    response = requests.post("https://api.notion.com/v1/pages", json=payload, headers=headers)
+
+    if response.status_code == 200:
+        print(f"✅ Ritual page created: {page_title}")
+    else:
+        print(f"❌ Failed to create ritual page: {response.text}")
+
 
