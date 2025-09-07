@@ -4,6 +4,13 @@ from datetime import datetime
 from googleapiclient.discovery import build
 from google.oauth2 import service_account
 from notion_logger import log_to_notion
+import json
+
+with open('config/credentials.json') as f:
+    creds = json.load(f)
+
+dashboard_id = creds['soulcodes_dashboard_page_id']
+webhook_url = creds['agent_tars_webhook']
 
 # 🔐 Service account setup
 SERVICE_ACCOUNT_FILE = r"C:\\Users\\frank\\OneDrive\\Desktop\\SoulCodesSchema\\digitallydefined_ai\\soulcodedriveagent-key.json"
@@ -81,3 +88,4 @@ def activate_agent_tars():
 # 🔔 Run the agent
 if __name__ == "__main__":
 	activate_agent_tars()
+
