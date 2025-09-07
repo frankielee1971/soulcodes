@@ -30,6 +30,19 @@ keyword_map = {
 	"sovereignty": "Faceless Funnel Architect",
 	"conversion": "Affiliate Strategist"
 }
+# 🔮 Keyword-to-ritual type map
+ritual_map = {
+    "affiliate": "Conversion",
+    "faceless": "Presence",
+    "mystic": "Integration",
+    "ugc": "Visibility",
+    "confidence": "Empowerment",
+    "automation": "Flow",
+    "branding": "Resonance",
+    "spiritual": "Alignment",
+    "sovereignty": "Containment",
+    "conversion": "Magnetism"
+}
 
 # 🧬 Check if file already processed
 def already_processed(file_name, log_path="processing_log.txt"):
@@ -73,6 +86,12 @@ def activate_agent_tars():
 			if keyword.lower() in file_name.lower():
 				matched_archetype = archetype
 				break
+# 🔮 Match keyword to ritual type
+matched_ritual_type = "Visibility"  # default fallback
+for keyword in ritual_map:
+    if keyword.lower() in file_name.lower():
+        matched_ritual_type = ritual_map[keyword]
+        break
 
 	# 📝 Log to Notion
 log_to_notion(
@@ -134,5 +153,6 @@ def create_ritual_page(archetype, ritual_type):
         print(f"✅ Ritual page created: {page_title}")
     else:
         print(f"❌ Failed to create ritual page: {response.text}")
+
 
 
