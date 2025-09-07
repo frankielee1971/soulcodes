@@ -1,0 +1,17 @@
+{
+  "digital-oracle": {
+    "notion_template": "https://notion.so/soulcodes/digital-oracle-template",
+    "email_sequence": "brevo_campaign_oracle_01",
+    "facebook_prompt": "Today’s Oracle Affirmation: You already know. Trust the signal."
+  },
+  "cosmic-connector": {
+    "notion_template": "https://notion.so/soulcodes/cosmic-connector-board",
+    "email_sequence": "brevo_campaign_connector_02",
+    "facebook_prompt": "Connector Ritual: Who needs your light today? Post your intention."
+  },
+  "shadow-alchemist": {
+    "notion_template": "https://notion.so/soulcodes/shadow-alchemist-journal",
+    "email_sequence": "brevo_campaign_alchemist_03",
+    "facebook_prompt": "Alchemist Activation: What shadow are you transmuting this week?"
+  }
+}
