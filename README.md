@@ -15,6 +15,17 @@ SoulCodes is a sanctuary for Gen X women to activate digital superpowers, manife
 - GitHub Pages (frontend hosting)
 - Agent TARS (backend intelligence)
 - Brevo (email automation and onboarding)
-📘 [SoulCodes Style Guide](style-guide.md)
+🧠 Agent TARS Integration (Expanded)
+SoulCodes uses Agent TARS to orchestrate backend intelligence across platforms:
+
+Google Drive: Stores archetypes, templates, and ritual assets
+
+Notion: Generates and updates templates based on archetype resonance
+
+Brevo: Sends onboarding emails and affirmation sequences
+
+Facebook: Posts ritual prompts and community activations
+
+🔗 template_manifest.json Maps each archetype to its Notion template, Brevo email sequence, and Facebook prompt. Used by Agent TARS to automate content generation and community engagement.
 ## 🤝 Contribute
 Want to co-create rituals, archetype flows, or widgets? Fork the repo, submit a pull request, or open an issue with your soul-aligned idea.
