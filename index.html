@@ -1,0 +1,1531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SoulCodes Portal - Awaken Your Digital Sovereignty</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        .cosmic-background {
+            background: linear-gradient(135deg, #0f0f23 0%, #1a0033 15%, #2d1b69 35%, #4c1d95 55%, #581c87 75%, #0f0f23 100%);
+            background-size: 400% 400%;
+            animation: cosmicShift 20s ease-in-out infinite;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        @keyframes cosmicShift {
+            0%, 100% { background-position: 0% 50%; }
+            25% { background-position: 100% 0%; }
+            50% { background-position: 100% 100%; }
+            75% { background-position: 0% 100%; }
+        }
+        
+        .dna-strand {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            opacity: 0.1;
+            background-image: 
+                radial-gradient(circle at 20% 20%, rgba(139, 92, 246, 0.4) 3px, transparent 3px),
+                radial-gradient(circle at 80% 80%, rgba(251, 191, 36, 0.4) 3px, transparent 3px),
+                radial-gradient(circle at 40% 60%, rgba(139, 92, 246, 0.3) 2px, transparent 2px);
+            background-size: 120px 120px, 180px 180px, 100px 100px;
+            animation: dnaFloat 30s linear infinite;
+        }
+        
+        @keyframes dnaFloat {
+            0% { transform: translateY(0px) rotate(0deg); }
+            100% { transform: translateY(-200px) rotate(360deg); }
+        }
+        
+        .floating-orb {
+            position: absolute;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(139, 92, 246, 0.3), rgba(251, 191, 36, 0.1));
+            animation: floatOrb 12s ease-in-out infinite;
+        }
+        
+        @keyframes floatOrb {
+            0%, 100% { transform: translateY(0px) translateX(0px) scale(1); }
+            25% { transform: translateY(-30px) translateX(15px) scale(1.1); }
+            50% { transform: translateY(-15px) translateX(-15px) scale(0.9); }
+            75% { transform: translateY(-40px) translateX(8px) scale(1.05); }
+        }
+        
+        .page-container {
+            display: none;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.6s ease;
+        }
+        
+        .page-container.active {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .cosmic-card {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(20px);
+            border: 2px solid rgba(139, 92, 246, 0.3);
+            transition: all 0.4s ease;
+        }
+        
+        .cosmic-card:hover {
+            border-color: rgba(251, 191, 36, 0.6);
+            box-shadow: 0 20px 40px rgba(139, 92, 246, 0.3);
+            transform: translateY(-10px);
+        }
+        
+        .cosmic-button {
+            background: linear-gradient(135deg, #8b5cf6, #fbbf24);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .cosmic-button:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(139, 92, 246, 0.4);
+        }
+        
+        .cosmic-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.6s;
+        }
+        
+        .cosmic-button:hover::before {
+            left: 100%;
+        }
+        
+        .elemental-card {
+            background: rgba(139, 92, 246, 0.1);
+            border: 2px solid rgba(139, 92, 246, 0.3);
+            transition: all 0.4s ease;
+            cursor: pointer;
+        }
+        
+        .elemental-card:hover {
+            background: rgba(139, 92, 246, 0.2);
+            border-color: rgba(251, 191, 36, 0.6);
+            transform: translateY(-10px) scale(1.05);
+        }
+        
+        .elemental-card.selected {
+            background: rgba(251, 191, 36, 0.2);
+            border-color: rgba(251, 191, 36, 0.8);
+            box-shadow: 0 0 30px rgba(251, 191, 36, 0.4);
+        }
+        
+        .quiz-progress {
+            background: rgba(139, 92, 246, 0.2);
+            height: 8px;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .quiz-progress-bar {
+            background: linear-gradient(90deg, #8b5cf6, #fbbf24);
+            height: 100%;
+            transition: width 0.6s ease;
+            border-radius: 4px;
+        }
+        
+        .text-glow {
+            text-shadow: 0 0 20px rgba(139, 92, 246, 0.8), 0 0 40px rgba(251, 191, 36, 0.6);
+        }
+        
+        .nav-button {
+            background: rgba(139, 92, 246, 0.2);
+            border: 1px solid rgba(139, 92, 246, 0.4);
+            transition: all 0.3s ease;
+        }
+        
+        .nav-button:hover, .nav-button.active {
+            background: rgba(139, 92, 246, 0.4);
+            border-color: rgba(251, 191, 36, 0.6);
+        }
+        
+        .moon-phase {
+            background: radial-gradient(circle, rgba(251, 191, 36, 0.3), rgba(139, 92, 246, 0.1));
+            border: 2px solid rgba(251, 191, 36, 0.4);
+            animation: moonGlow 4s ease-in-out infinite;
+        }
+        
+        @keyframes moonGlow {
+            0%, 100% { box-shadow: 0 0 20px rgba(251, 191, 36, 0.3); }
+            50% { box-shadow: 0 0 40px rgba(251, 191, 36, 0.6); }
+        }
+        
+        .blessing-modal {
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+        }
+        
+        .evolution-tracker {
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(251, 191, 36, 0.1));
+            border: 2px solid rgba(139, 92, 246, 0.3);
+        }
+        
+        .energy-meter {
+            background: rgba(139, 92, 246, 0.2);
+            height: 12px;
+            border-radius: 6px;
+            overflow: hidden;
+        }
+        
+        .energy-fill {
+            background: linear-gradient(90deg, #8b5cf6, #fbbf24);
+            height: 100%;
+            border-radius: 6px;
+            transition: width 0.8s ease;
+        }
+        
+        @media (max-width: 768px) {
+            .cosmic-card {
+                margin: 1rem 0;
+            }
+            
+            .elemental-card {
+                margin: 0.5rem 0;
+            }
+            
+            .text-4xl { font-size: 2rem; }
+            .text-6xl { font-size: 3rem; }
+        }
+    </style>
+</head>
+<body class="font-['Inter'] text-white overflow-x-hidden cosmic-background min-h-screen">
+    
+    <div class="dna-strand"></div>
+    
+    <!-- Floating Orbs -->
+    <div class="floating-orb w-20 h-20 top-20 left-10"></div>
+    <div class="floating-orb w-16 h-16 top-40 right-20" style="animation-delay: -3s;"></div>
+    <div class="floating-orb w-12 h-12 bottom-32 left-1/4" style="animation-delay: -6s;"></div>
+    <div class="floating-orb w-24 h-24 bottom-20 right-10" style="animation-delay: -9s;"></div>
+    
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 right-0 z-50 p-6">
+        <div class="container mx-auto flex justify-between items-center">
+            <div class="text-2xl font-bold text-glow">🧬 SoulCodes</div>
+            <div class="hidden md:flex space-x-4">
+                <button onclick="showPage('home')" class="nav-button px-4 py-2 rounded-full text-sm font-medium">Home</button>
+                <button onclick="showPage('quiz')" class="nav-button px-4 py-2 rounded-full text-sm font-medium">Quiz</button>
+                <button onclick="showPage('dashboard')" class="nav-button px-4 py-2 rounded-full text-sm font-medium">Dashboard</button>
+                <button onclick="showPage('calculator')" class="nav-button px-4 py-2 rounded-full text-sm font-medium">Calculator</button>
+                <button onclick="showPage('downloads')" class="nav-button px-4 py-2 rounded-full text-sm font-medium">Downloads</button>
+                <button onclick="showPage('community')" class="nav-button px-4 py-2 rounded-full text-sm font-medium">Community</button>
+            </div>
+            <div class="md:hidden">
+                <button onclick="toggleMobileMenu()" class="nav-button p-2 rounded">☰</button>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div id="mobileMenu" class="hidden md:hidden mt-4 space-y-2">
+            <button onclick="showPage('home')" class="nav-button w-full px-4 py-2 rounded text-left">Home</button>
+            <button onclick="showPage('quiz')" class="nav-button w-full px-4 py-2 rounded text-left">Quiz</button>
+            <button onclick="showPage('dashboard')" class="nav-button w-full px-4 py-2 rounded text-left">Dashboard</button>
+            <button onclick="showPage('calculator')" class="nav-button w-full px-4 py-2 rounded text-left">Calculator</button>
+            <button onclick="showPage('downloads')" class="nav-button w-full px-4 py-2 rounded text-left">Downloads</button>
+            <button onclick="showPage('community')" class="nav-button w-full px-4 py-2 rounded text-left">Community</button>
+        </div>
+    </nav>
+
+    <!-- Moon Phase Widget (Fixed Position) -->
+    <div class="fixed bottom-6 right-6 z-40 moon-phase rounded-full p-4 text-center" id="moonWidget">
+        <div id="moonPhase" class="text-2xl mb-1">🌙</div>
+        <div id="moonName" class="text-xs text-yellow-300 font-bold">New Moon</div>
+    </div>
+
+    <!-- Schema Blessing Modal -->
+    <div id="blessingModal" class="fixed inset-0 z-50 blessing-modal hidden flex items-center justify-center p-6">
+        <div class="cosmic-card rounded-3xl p-12 max-w-md text-center">
+            <div class="text-6xl mb-6">🙏</div>
+            <h3 class="text-2xl font-bold text-yellow-300 mb-6">Sacred Schema Blessing</h3>
+            <p class="text-purple-200 mb-8">Set your intention and bless this creation with divine clarity</p>
+            
+            <div class="space-y-4 mb-8">
+                <div class="text-left">
+                    <label class="flex items-center space-x-3 cursor-pointer">
+                        <input type="checkbox" class="form-checkbox text-purple-600" checked>
+                        <span class="text-purple-200">I bless this schema with clarity and resonance</span>
+                    </label>
+                </div>
+                <div class="text-left">
+                    <label class="flex items-center space-x-3 cursor-pointer">
+                        <input type="checkbox" class="form-checkbox text-purple-600" checked>
+                        <span class="text-purple-200">May this creation serve the highest good</span>
+                    </label>
+                </div>
+                <div class="text-left">
+                    <label class="flex items-center space-x-3 cursor-pointer">
+                        <input type="checkbox" class="form-checkbox text-purple-600">
+                        <span class="text-purple-200">Align with current moon phase energy</span>
+                    </label>
+                </div>
+            </div>
+            
+            <div class="flex space-x-4">
+                <button onclick="closeBlessingModal()" class="nav-button px-6 py-3 rounded-full">Skip</button>
+                <button onclick="completeBlessingRitual()" class="cosmic-button px-6 py-3 rounded-full font-bold text-white">
+                    ✨ Complete Blessing
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- HOME PAGE -->
+    <div id="homePage" class="page-container active">
+        <div class="relative z-10 min-h-screen flex items-center justify-center py-20 pt-32">
+            <div class="container mx-auto px-6">
+                
+                <!-- Hero Section -->
+                <div class="text-center mb-20">
+                    <h1 class="text-4xl md:text-6xl font-bold mb-6 text-glow leading-tight">
+                        Awaken Your SoulCode 🧬✨
+                    </h1>
+                    <p class="text-xl md:text-2xl text-purple-200 mb-8 max-w-3xl mx-auto">
+                        Discover your archetypal blueprint and unlock the digital sovereignty that's been waiting within you.
+                    </p>
+                    <button onclick="showPage('quiz')" class="cosmic-button px-10 py-5 rounded-full text-xl font-bold text-white shadow-2xl">
+                        🔮 Awaken SoulCodes
+                    </button>
+                </div>
+                
+                <!-- Elemental Energy Cards -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-20">
+                    <div class="cosmic-card rounded-3xl p-8 text-center">
+                        <div class="text-6xl mb-4">💨</div>
+                        <h3 class="text-2xl font-bold text-yellow-300 mb-4">Air</h3>
+                        <p class="text-purple-300">Mental clarity, communication, and visionary thinking</p>
+                    </div>
+                    
+                    <div class="cosmic-card rounded-3xl p-8 text-center">
+                        <div class="text-6xl mb-4">🔥</div>
+                        <h3 class="text-2xl font-bold text-yellow-300 mb-4">Fire</h3>
+                        <p class="text-purple-300">Passion, transformation, and creative power</p>
+                    </div>
+                    
+                    <div class="cosmic-card rounded-3xl p-8 text-center">
+                        <div class="text-6xl mb-4">🌍</div>
+                        <h3 class="text-2xl font-bold text-yellow-300 mb-4">Earth</h3>
+                        <p class="text-purple-300">Grounding, manifestation, and practical wisdom</p>
+                    </div>
+                    
+                    <div class="cosmic-card rounded-3xl p-8 text-center">
+                        <div class="text-6xl mb-4">🌊</div>
+                        <h3 class="text-2xl font-bold text-yellow-300 mb-4">Water</h3>
+                        <p class="text-purple-300">Intuition, flow, and emotional intelligence</p>
+                    </div>
+                </div>
+                
+                <!-- Affiliate Portals -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-20">
+                    <div class="cosmic-card rounded-3xl p-8 text-center">
+                        <div class="text-4xl mb-4">🔮</div>
+                        <h3 class="text-xl font-bold text-yellow-300 mb-4">Mystic Toolkit</h3>
+                        <p class="text-purple-300 mb-6">Sacred tools for the digital mystic</p>
+                        <a href="https://clickbank.net/mystic-toolkit" class="cosmic-button px-6 py-3 rounded-full font-bold text-white inline-block">
+                            Explore Portal
+                        </a>
+                    </div>
+                    
+                    <div class="cosmic-card rounded-3xl p-8 text-center">
+                        <div class="text-4xl mb-4">🧠</div>
+                        <h3 class="text-xl font-bold text-yellow-300 mb-4">Brainwave Wealth</h3>
+                        <p class="text-purple-300 mb-6">Reprogram your mind for abundance</p>
+                        <a href="https://clickbank.net/brainwave-wealth" class="cosmic-button px-6 py-3 rounded-full font-bold text-white inline-block">
+                            Activate Power
+                        </a>
+                    </div>
+                    
+                    <div class="cosmic-card rounded-3xl p-8 text-center">
+                        <div class="text-4xl mb-4">✨</div>
+                        <h3 class="text-xl font-bold text-yellow-300 mb-4">Manifestation Codes</h3>
+                        <p class="text-purple-300 mb-6">Quantum keys to reality creation</p>
+                        <a href="https://clickbank.net/manifestation-codes" class="cosmic-button px-6 py-3 rounded-full font-bold text-white inline-block">
+                            Unlock Codes
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Email Signup -->
+                <div class="cosmic-card rounded-3xl p-12 max-w-2xl mx-auto text-center">
+                    <h3 class="text-3xl font-bold text-yellow-300 mb-6">Join the SoulCode Collective</h3>
+                    <p class="text-purple-300 mb-8">Receive sacred transmissions and archetypal activations</p>
+                    <form onsubmit="handleEmailSignup(event)" class="space-y-4">
+                        <input type="email" id="emailInput" placeholder="Enter your sacred email..." 
+                               class="w-full px-6 py-4 rounded-full bg-purple-900/50 border border-purple-600 text-white placeholder-purple-300 focus:outline-none focus:border-yellow-400">
+                        <button type="submit" class="cosmic-button w-full px-8 py-4 rounded-full font-bold text-white">
+                            🌟 Activate Transmission
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- QUIZ PAGE -->
+    <div id="quizPage" class="page-container">
+        <div class="relative z-10 min-h-screen py-20 pt-32">
+            <div class="container mx-auto px-6">
+                
+                <!-- Quiz Header -->
+                <div class="text-center mb-12">
+                    <h1 class="text-4xl md:text-6xl font-bold mb-6 text-glow">
+                        Discover Your SoulCode 🧬
+                    </h1>
+                    <p class="text-xl text-purple-200 mb-8">
+                        Answer these sacred questions to reveal your archetypal blueprint
+                    </p>
+                    
+                    <!-- Progress Bar -->
+                    <div class="max-w-md mx-auto mb-8">
+                        <div class="quiz-progress">
+                            <div id="progressBar" class="quiz-progress-bar" style="width: 0%"></div>
+                        </div>
+                        <p class="text-sm text-purple-300 mt-2">Question <span id="currentQuestion">1</span> of <span id="totalQuestions">12</span></p>
+                    </div>
+                </div>
+                
+                <!-- Quiz Container -->
+                <div id="quizContainer" class="max-w-4xl mx-auto">
+                    <!-- Quiz questions will be dynamically inserted here -->
+                </div>
+                
+                <!-- Quiz Results -->
+                <div id="quizResults" class="hidden max-w-4xl mx-auto text-center">
+                    <div class="cosmic-card rounded-3xl p-12">
+                        <div id="archetypeIcon" class="text-8xl mb-6">🔮</div>
+                        <h2 id="archetypeName" class="text-4xl font-bold text-yellow-300 mb-4">Your Archetype</h2>
+                        <p id="archetypeDescription" class="text-xl text-purple-200 mb-8"></p>
+                        <div id="archetypeDetails" class="text-left space-y-4 mb-8"></div>
+                        
+                        <!-- Archetype-Aligned Affiliate Suggestions -->
+                        <div id="archetypeAffiliates" class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8"></div>
+                        
+                        <div class="flex flex-col md:flex-row gap-4 justify-center">
+                            <button onclick="showPage('dashboard')" class="cosmic-button px-8 py-4 rounded-full text-lg font-bold text-white">
+                                📊 View Dashboard
+                            </button>
+                            <button onclick="showPage('downloads')" class="cosmic-button px-8 py-4 rounded-full text-lg font-bold text-white">
+                                🎁 Claim Downloads
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- DASHBOARD PAGE -->
+    <div id="dashboardPage" class="page-container">
+        <div class="relative z-10 min-h-screen py-20 pt-32">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h1 class="text-4xl md:text-6xl font-bold mb-6 text-glow">
+                        Your SoulCode Dashboard 📊
+                    </h1>
+                    <p class="text-xl text-purple-200 mb-8">
+                        Track your archetypal evolution and sacred journey
+                    </p>
+                </div>
+                
+                <div class="max-w-6xl mx-auto space-y-8">
+                    
+                    <!-- Current Archetype Status -->
+                    <div class="cosmic-card rounded-3xl p-8">
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                            <div class="text-center">
+                                <div id="dashboardIcon" class="text-6xl mb-4">🔮</div>
+                                <h3 id="dashboardArchetype" class="text-2xl font-bold text-yellow-300 mb-2">Mystic Builder</h3>
+                                <p class="text-purple-300">Current Archetype</p>
+                            </div>
+                            
+                            <div class="text-center">
+                                <div class="text-4xl mb-4">📅</div>
+                                <h4 class="text-xl font-bold text-yellow-300 mb-2" id="daysSinceQuiz">7 Days</h4>
+                                <p class="text-purple-300">Since Discovery</p>
+                            </div>
+                            
+                            <div class="text-center">
+                                <div class="text-4xl mb-4">⚡</div>
+                                <h4 class="text-xl font-bold text-yellow-300 mb-2">High</h4>
+                                <p class="text-purple-300">Current Energy</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Evolution Tracker -->
+                    <div class="evolution-tracker rounded-3xl p-8">
+                        <h3 class="text-2xl font-bold text-yellow-300 mb-6">Evolution Tracker</h3>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                            <!-- Energy Check-in -->
+                            <div>
+                                <h4 class="text-lg font-bold text-purple-200 mb-4">Daily Energy Check-in</h4>
+                                <div class="space-y-4">
+                                    <div>
+                                        <label class="block text-sm text-purple-300 mb-2">Creative Energy</label>
+                                        <div class="energy-meter">
+                                            <div class="energy-fill" style="width: 85%"></div>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm text-purple-300 mb-2">Spiritual Connection</label>
+                                        <div class="energy-meter">
+                                            <div class="energy-fill" style="width: 92%"></div>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm text-purple-300 mb-2">Business Clarity</label>
+                                        <div class="energy-meter">
+                                            <div class="energy-fill" style="width: 78%"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <button onclick="updateEnergyLevels()" class="cosmic-button px-6 py-3 rounded-full font-bold text-white mt-4">
+                                    Update Energy
+                                </button>
+                            </div>
+                            
+                            <!-- Recent Activities -->
+                            <div>
+                                <h4 class="text-lg font-bold text-purple-200 mb-4">Recent Sacred Activities</h4>
+                                <div class="space-y-3">
+                                    <div class="flex items-center space-x-3 p-3 bg-purple-900/30 rounded-lg">
+                                        <div class="text-2xl">🧬</div>
+                                        <div>
+                                            <p class="text-purple-200 font-medium">Completed SoulCode Quiz</p>
+                                            <p class="text-xs text-purple-400">7 days ago</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center space-x-3 p-3 bg-purple-900/30 rounded-lg">
+                                        <div class="text-2xl">📚</div>
+                                        <div>
+                                            <p class="text-purple-200 font-medium">Downloaded Archetype Guide</p>
+                                            <p class="text-xs text-purple-400">5 days ago</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center space-x-3 p-3 bg-purple-900/30 rounded-lg">
+                                        <div class="text-2xl">🏗️</div>
+                                        <div>
+                                            <p class="text-purple-200 font-medium">Created Schema Blueprint</p>
+                                            <p class="text-xs text-purple-400">3 days ago</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Personalized Recommendations -->
+                    <div class="cosmic-card rounded-3xl p-8">
+                        <h3 class="text-2xl font-bold text-yellow-300 mb-6">Sacred Recommendations</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6" id="personalizedRecommendations">
+                            <!-- Recommendations will be populated based on archetype -->
+                        </div>
+                    </div>
+                    
+                    <!-- Moon Phase Alignment -->
+                    <div class="cosmic-card rounded-3xl p-8">
+                        <h3 class="text-2xl font-bold text-yellow-300 mb-6">Lunar Alignment</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                            <div class="text-center">
+                                <div id="dashboardMoonPhase" class="text-6xl mb-4">🌙</div>
+                                <h4 id="dashboardMoonName" class="text-xl font-bold text-yellow-300 mb-2">New Moon</h4>
+                                <p class="text-purple-300">Current Phase</p>
+                            </div>
+                            <div>
+                                <h4 class="text-lg font-bold text-purple-200 mb-4">Phase Guidance</h4>
+                                <p id="moonGuidance" class="text-purple-300 mb-4">Perfect time for setting intentions and planting seeds for your digital empire.</p>
+                                <button onclick="alignWithMoon()" class="cosmic-button px-6 py-3 rounded-full font-bold text-white">
+                                    🌙 Align Energy
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CALCULATOR PAGE -->
+    <div id="calculatorPage" class="page-container">
+        <div class="relative z-10 min-h-screen py-20 pt-32">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h1 class="text-4xl md:text-6xl font-bold mb-6 text-glow">
+                        Schema Builder 🏗️
+                    </h1>
+                    <p class="text-xl text-purple-200 mb-8">
+                        Create custom quizzes and calculators for your digital empire
+                    </p>
+                </div>
+                
+                <div class="max-w-4xl mx-auto">
+                    <div class="cosmic-card rounded-3xl p-12">
+                        <h3 class="text-2xl font-bold text-yellow-300 mb-6">Build Your Sacred Schema</h3>
+                        
+                        <!-- Schema Type Selection -->
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                            <div onclick="selectSchemaType('quiz')" class="elemental-card rounded-2xl p-6 text-center" id="quizSchema">
+                                <div class="text-4xl mb-3">🧠</div>
+                                <h4 class="font-bold text-yellow-300 mb-2">Quiz Builder</h4>
+                                <p class="text-sm text-purple-300">Create personality assessments</p>
+                            </div>
+                            
+                            <div onclick="selectSchemaType('calculator')" class="elemental-card rounded-2xl p-6 text-center" id="calculatorSchema">
+                                <div class="text-4xl mb-3">🔢</div>
+                                <h4 class="font-bold text-yellow-300 mb-2">Calculator Builder</h4>
+                                <p class="text-sm text-purple-300">Build value calculators</p>
+                            </div>
+                            
+                            <div onclick="selectSchemaType('form')" class="elemental-card rounded-2xl p-6 text-center" id="formSchema">
+                                <div class="text-4xl mb-3">📋</div>
+                                <h4 class="font-bold text-yellow-300 mb-2">Form Builder</h4>
+                                <p class="text-sm text-purple-300">Create lead capture forms</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Schema Builder Interface -->
+                        <div id="schemaBuilder" class="hidden">
+                            <div class="space-y-6">
+                                <div>
+                                    <label class="block text-purple-200 mb-2">Schema Title</label>
+                                    <input type="text" id="schemaTitle" placeholder="Enter your schema title..." 
+                                           class="w-full px-4 py-3 rounded-lg bg-purple-900/50 border border-purple-600 text-white">
+                                </div>
+                                
+                                <div>
+                                    <label class="block text-purple-200 mb-2">Description</label>
+                                    <textarea id="schemaDescription" placeholder="Describe your schema..." 
+                                              class="w-full px-4 py-3 rounded-lg bg-purple-900/50 border border-purple-600 text-white h-24"></textarea>
+                                </div>
+                                
+                                <div id="questionsContainer">
+                                    <div class="flex justify-between items-center mb-4">
+                                        <h4 class="text-lg font-bold text-yellow-300">Questions</h4>
+                                        <button onclick="addQuestion()" class="cosmic-button px-4 py-2 rounded-lg text-sm">
+                                            + Add Question
+                                        </button>
+                                    </div>
+                                    <div id="questionsList"></div>
+                                </div>
+                                
+                                <div class="flex space-x-4">
+                                    <button onclick="showBlessingModal()" class="cosmic-button px-8 py-4 rounded-full font-bold text-white">
+                                        🙏 Bless & Generate
+                                    </button>
+                                    <button onclick="downloadSchema()" class="nav-button px-8 py-4 rounded-full font-bold">
+                                        📥 Download JSON
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Generated Schema Preview -->
+                        <div id="schemaPreview" class="hidden mt-8">
+                            <h4 class="text-lg font-bold text-yellow-300 mb-4">Generated Schema</h4>
+                            <pre id="schemaOutput" class="bg-purple-900/50 p-4 rounded-lg text-sm text-purple-200 overflow-auto max-h-96"></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- DOWNLOADS PAGE -->
+    <div id="downloadsPage" class="page-container">
+        <div class="relative z-10 min-h-screen py-20 pt-32">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h1 class="text-4xl md:text-6xl font-bold mb-6 text-glow">
+                        Sacred Downloads 📚
+                    </h1>
+                    <p class="text-xl text-purple-200 mb-8">
+                        Your archetypal resources and digital sovereignty tools
+                    </p>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+                    
+                    <!-- Archetype Guides -->
+                    <div class="cosmic-card rounded-3xl p-8">
+                        <div class="text-4xl mb-4">📖</div>
+                        <h3 class="text-xl font-bold text-yellow-300 mb-4">Archetype Guides</h3>
+                        <p class="text-purple-300 mb-6">Complete guides for each SoulCode archetype</p>
+                        <button onclick="showBlessingModal('guides')" class="cosmic-button w-full px-6 py-3 rounded-full font-bold text-white">
+                            🙏 Bless & Download
+                        </button>
+                    </div>
+                    
+                    <!-- Notion Templates -->
+                    <div class="cosmic-card rounded-3xl p-8">
+                        <div class="text-4xl mb-4">📝</div>
+                        <h3 class="text-xl font-bold text-yellow-300 mb-4">Notion Templates</h3>
+                        <p class="text-purple-300 mb-6">Sacred business planning templates</p>
+                        <button onclick="showBlessingModal('notion')" class="cosmic-button w-full px-6 py-3 rounded-full font-bold text-white">
+                            🙏 Bless & Access
+                        </button>
+                    </div>
+                    
+                    <!-- Canva Designs -->
+                    <div class="cosmic-card rounded-3xl p-8">
+                        <div class="text-4xl mb-4">🎨</div>
+                        <h3 class="text-xl font-bold text-yellow-300 mb-4">Canva Designs</h3>
+                        <p class="text-purple-300 mb-6">Archetypal branding and social media templates</p>
+                        <button onclick="showBlessingModal('canva')" class="cosmic-button w-full px-6 py-3 rounded-full font-bold text-white">
+                            🙏 Bless & Get Designs
+                        </button>
+                    </div>
+                    
+                    <!-- Meditation Audio -->
+                    <div class="cosmic-card rounded-3xl p-8">
+                        <div class="text-4xl mb-4">🎵</div>
+                        <h3 class="text-xl font-bold text-yellow-300 mb-4">Activation Audio</h3>
+                        <p class="text-purple-300 mb-6">Guided meditations for each archetype</p>
+                        <button onclick="showBlessingModal('audio')" class="cosmic-button w-full px-6 py-3 rounded-full font-bold text-white">
+                            🙏 Bless & Download
+                        </button>
+                    </div>
+                    
+                    <!-- Business Templates -->
+                    <div class="cosmic-card rounded-3xl p-8">
+                        <div class="text-4xl mb-4">💼</div>
+                        <h3 class="text-xl font-bold text-yellow-300 mb-4">Business Templates</h3>
+                        <p class="text-purple-300 mb-6">Email sequences, sales pages, and funnels</p>
+                        <button onclick="showBlessingModal('business')" class="cosmic-button w-full px-6 py-3 rounded-full font-bold text-white">
+                            🙏 Bless & Access
+                        </button>
+                    </div>
+                    
+                    <!-- Bonus Resources -->
+                    <div class="cosmic-card rounded-3xl p-8">
+                        <div class="text-4xl mb-4">🎁</div>
+                        <h3 class="text-xl font-bold text-yellow-300 mb-4">Bonus Resources</h3>
+                        <p class="text-purple-300 mb-6">Exclusive tools and sacred bonuses</p>
+                        <button onclick="showBlessingModal('bonus')" class="cosmic-button w-full px-6 py-3 rounded-full font-bold text-white">
+                            🙏 Bless & Unlock
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- COMMUNITY PAGE -->
+    <div id="communityPage" class="page-container">
+        <div class="relative z-10 min-h-screen py-20 pt-32">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h1 class="text-4xl md:text-6xl font-bold mb-6 text-glow">
+                        Sacred Community 👥
+                    </h1>
+                    <p class="text-xl text-purple-200 mb-8">
+                        Connect with fellow SoulCode entrepreneurs on their sovereignty journey
+                    </p>
+                </div>
+                
+                <div class="max-w-4xl mx-auto space-y-8">
+                    
+                    <!-- Facebook Group -->
+                    <div class="cosmic-card rounded-3xl p-12 text-center">
+                        <div class="text-6xl mb-6">👑</div>
+                        <h3 class="text-3xl font-bold text-yellow-300 mb-6">Digital Sovereignty Collective</h3>
+                        <p class="text-xl text-purple-200 mb-8">
+                            Join 10,000+ awakened entrepreneurs building their digital empires with soul-deep intention
+                        </p>
+                        <a href="https://facebook.com/groups/digitalsovereignty" target="_blank" 
+                           class="cosmic-button px-10 py-5 rounded-full text-xl font-bold text-white inline-block">
+                            🌟 Join the Collective
+                        </a>
+                    </div>
+                    
+                    <!-- Community Features -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div class="cosmic-card rounded-3xl p-8">
+                            <div class="text-4xl mb-4">💬</div>
+                            <h4 class="text-xl font-bold text-yellow-300 mb-4">Daily Activations</h4>
+                            <p class="text-purple-300">Receive daily archetypal activations and business guidance from our community leaders</p>
+                        </div>
+                        
+                        <div class="cosmic-card rounded-3xl p-8">
+                            <div class="text-4xl mb-4">🎯</div>
+                            <h4 class="text-xl font-bold text-yellow-300 mb-4">Mastermind Sessions</h4>
+                            <p class="text-purple-300">Weekly live sessions with archetypal business strategies and Q&A</p>
+                        </div>
+                        
+                        <div class="cosmic-card rounded-3xl p-8">
+                            <div class="text-4xl mb-4">🤝</div>
+                            <h4 class="text-xl font-bold text-yellow-300 mb-4">Sacred Partnerships</h4>
+                            <p class="text-purple-300">Connect with complementary archetypes for powerful business collaborations</p>
+                        </div>
+                        
+                        <div class="cosmic-card rounded-3xl p-8">
+                            <div class="text-4xl mb-4">🏆</div>
+                            <h4 class="text-xl font-bold text-yellow-300 mb-4">Success Stories</h4>
+                            <p class="text-purple-300">Celebrate wins and learn from fellow entrepreneurs' sovereignty journeys</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Page Navigation System
+        let currentPage = 'home';
+        
+        function showPage(pageId) {
+            // Hide all pages
+            document.querySelectorAll('.page-container').forEach(page => {
+                page.classList.remove('active');
+            });
+            
+            // Show selected page
+            document.getElementById(pageId + 'Page').classList.add('active');
+            
+            // Update navigation
+            document.querySelectorAll('.nav-button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // Update current page
+            currentPage = pageId;
+            
+            // Close mobile menu
+            document.getElementById('mobileMenu').classList.add('hidden');
+            
+            // Scroll to top
+            window.scrollTo(0, 0);
+            
+            // Initialize page-specific content
+            if (pageId === 'dashboard') {
+                initializeDashboard();
+            }
+        }
+        
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobileMenu');
+            menu.classList.toggle('hidden');
+        }
+        
+        // Moon Phase System
+        const moonPhases = [
+            { name: 'New Moon', icon: '🌑', guidance: 'Perfect time for setting intentions and planting seeds for your digital empire.' },
+            { name: 'Waxing Crescent', icon: '🌒', guidance: 'Focus on building momentum and taking first steps toward your goals.' },
+            { name: 'First Quarter', icon: '🌓', guidance: 'Time for decisive action and overcoming challenges in your path.' },
+            { name: 'Waxing Gibbous', icon: '🌔', guidance: 'Refine your strategies and prepare for the culmination of your efforts.' },
+            { name: 'Full Moon', icon: '🌕', guidance: 'Celebrate achievements and release what no longer serves your highest good.' },
+            { name: 'Waning Gibbous', icon: '🌖', guidance: 'Share your wisdom and give back to your community.' },
+            { name: 'Last Quarter', icon: '🌗', guidance: 'Let go of limiting beliefs and make space for new opportunities.' },
+            { name: 'Waning Crescent', icon: '🌘', guidance: 'Rest, reflect, and prepare for the next cycle of growth.' }
+        ];
+        
+        function getCurrentMoonPhase() {
+            // Simplified moon phase calculation (in real app, use lunar API)
+            const today = new Date();
+            const phaseIndex = Math.floor((today.getDate() % 28) / 3.5);
+            return moonPhases[phaseIndex] || moonPhases[0];
+        }
+        
+        function updateMoonWidget() {
+            const currentPhase = getCurrentMoonPhase();
+            document.getElementById('moonPhase').textContent = currentPhase.icon;
+            document.getElementById('moonName').textContent = currentPhase.name;
+        }
+        
+        // Quiz System
+        const quizQuestions = [
+            {
+                question: "When facing a major business decision, you:",
+                answers: [
+                    { text: "Trust your intuition completely", archetype: "mystic", element: "water" },
+                    { text: "Analyze all data and create a strategic plan", archetype: "strategist", element: "earth" },
+                    { text: "Follow your passion and take bold action", archetype: "rebel", element: "fire" },
+                    { text: "Seek divine guidance and sacred timing", archetype: "priestess", element: "air" }
+                ]
+            },
+            {
+                question: "Your ideal work environment is:",
+                answers: [
+                    { text: "A sacred space with crystals and candles", archetype: "priestess", element: "water" },
+                    { text: "A high-tech office with multiple monitors", archetype: "strategist", element: "air" },
+                    { text: "Anywhere with good energy and freedom", archetype: "creator", element: "fire" },
+                    { text: "A cozy space that feels like home", archetype: "mystic", element: "earth" }
+                ]
+            },
+            {
+                question: "When creating content, you focus on:",
+                answers: [
+                    { text: "Disrupting outdated systems", archetype: "rebel", element: "fire" },
+                    { text: "Sharing ancient wisdom", archetype: "mystic", element: "water" },
+                    { text: "Teaching strategic systems", archetype: "strategist", element: "earth" },
+                    { text: "Channeling divine inspiration", archetype: "creator", element: "air" }
+                ]
+            },
+            {
+                question: "Your biggest strength in business is:",
+                answers: [
+                    { text: "Seeing patterns others miss", archetype: "strategist", element: "air" },
+                    { text: "Authentic self-expression", archetype: "rebel", element: "fire" },
+                    { text: "Deep spiritual connection", archetype: "priestess", element: "water" },
+                    { text: "Unlimited creative vision", archetype: "creator", element: "earth" }
+                ]
+            },
+            {
+                question: "You're most motivated by:",
+                answers: [
+                    { text: "Creating systemic change", archetype: "rebel", element: "fire" },
+                    { text: "Serving a higher purpose", archetype: "priestess", element: "water" },
+                    { text: "Building sustainable wealth", archetype: "strategist", element: "earth" },
+                    { text: "Expressing your unique gifts", archetype: "creator", element: "air" }
+                ]
+            },
+            {
+                question: "Your approach to marketing is:",
+                answers: [
+                    { text: "Authentic storytelling", archetype: "mystic", element: "water" },
+                    { text: "Data-driven optimization", archetype: "strategist", element: "earth" },
+                    { text: "Bold, disruptive messaging", archetype: "rebel", element: "fire" },
+                    { text: "Inspirational and uplifting", archetype: "creator", element: "air" }
+                ]
+            },
+            {
+                question: "When you imagine your legacy, you see:",
+                answers: [
+                    { text: "A movement that changed everything", archetype: "rebel", element: "fire" },
+                    { text: "Wisdom preserved for future generations", archetype: "priestess", element: "water" },
+                    { text: "Systems that create lasting prosperity", archetype: "strategist", element: "earth" },
+                    { text: "Art that touches souls across time", archetype: "creator", element: "air" }
+                ]
+            },
+            {
+                question: "Your relationship with technology is:",
+                answers: [
+                    { text: "It's a tool for sacred work", archetype: "priestess", element: "water" },
+                    { text: "It's essential for efficiency", archetype: "strategist", element: "earth" },
+                    { text: "It's a canvas for creativity", archetype: "creator", element: "air" },
+                    { text: "It's a bridge between worlds", archetype: "mystic", element: "fire" }
+                ]
+            },
+            {
+                question: "Your ideal client transformation is:",
+                answers: [
+                    { text: "Awakening to their true power", archetype: "mystic", element: "water" },
+                    { text: "Breaking free from limitations", archetype: "rebel", element: "fire" },
+                    { text: "Achieving sustainable success", archetype: "strategist", element: "earth" },
+                    { text: "Connecting with their divine purpose", archetype: "priestess", element: "air" }
+                ]
+            },
+            {
+                question: "When facing challenges, you:",
+                answers: [
+                    { text: "Trust the process and flow", archetype: "creator", element: "water" },
+                    { text: "Fight harder and push through", archetype: "rebel", element: "fire" },
+                    { text: "Analyze and strategize solutions", archetype: "strategist", element: "earth" },
+                    { text: "Seek guidance from higher wisdom", archetype: "priestess", element: "air" }
+                ]
+            },
+            {
+                question: "Your natural leadership style is:",
+                answers: [
+                    { text: "Leading by example and authenticity", archetype: "rebel", element: "fire" },
+                    { text: "Guiding with wisdom and compassion", archetype: "mystic", element: "water" },
+                    { text: "Directing with clear strategy", archetype: "strategist", element: "earth" },
+                    { text: "Inspiring through vision and creativity", archetype: "creator", element: "air" }
+                ]
+            },
+            {
+                question: "Your ultimate business goal is:",
+                answers: [
+                    { text: "Complete sovereignty and freedom", archetype: "queen", element: "fire" },
+                    { text: "Serving the collective awakening", archetype: "priestess", element: "water" },
+                    { text: "Building generational wealth", archetype: "strategist", element: "earth" },
+                    { text: "Expressing unlimited creativity", archetype: "creator", element: "air" }
+                ]
+            }
+        ];
+        
+        const archetypes = {
+            mystic: {
+                name: "Mystic Builder",
+                icon: "🔮",
+                description: "You are the bridge between ancient wisdom and cutting-edge innovation.",
+                details: [
+                    "🏗️ You build digital foundations that honor both profit and purpose",
+                    "🌙 You align your business with natural cycles and cosmic timing",
+                    "💎 You transform spiritual gifts into sustainable income streams",
+                    "🔮 You trust your intuition as your greatest business asset"
+                ],
+                affiliates: [
+                    { name: "Moon Reading", url: "https://clickbank.net/moon-reading", description: "Unlock your lunar destiny" },
+                    { name: "Chakra Balance", url: "https://clickbank.net/chakra-balance", description: "Align your energy centers" }
+                ]
+            },
+            rebel: {
+                name: "Radiant Rebel",
+                icon: "⚡",
+                description: "You are the disruptor who lights up the digital landscape with authentic fire.",
+                details: [
+                    "🔥 You create content that breaks patterns and builds movements",
+                    "⚡ You're not afraid to challenge the status quo",
+                    "🚀 You turn your rebellious spirit into profitable disruption",
+                    "💥 You inspire others to break free from limitations"
+                ],
+                affiliates: [
+                    { name: "Genius Wave", url: "https://clickbank.net/genius-wave", description: "Activate your breakthrough thinking" },
+                    { name: "Wealth Signal", url: "https://clickbank.net/wealth-signal", description: "Disrupt your money mindset" }
+                ]
+            },
+            strategist: {
+                name: "Sacred Strategist",
+                icon: "🧠",
+                description: "You are the mastermind who turns intuitive insights into profitable systems.",
+                details: [
+                    "📊 You see patterns and opportunities others miss",
+                    "🎯 You create systems that serve both soul and success",
+                    "🧭 You guide others with strategic wisdom",
+                    "💰 You build sustainable wealth through conscious planning"
+                ],
+                affiliates: [
+                    { name: "Business Blueprint", url: "https://clickbank.net/business-blueprint", description: "Strategic success systems" },
+                    { name: "Profit Patterns", url: "https://clickbank.net/profit-patterns", description: "Decode wealth creation" }
+                ]
+            },
+            priestess: {
+                name: "Digital Priestess",
+                icon: "👑",
+                description: "You are the keeper of sacred knowledge in the digital realm.",
+                details: [
+                    "🏛️ You build digital sanctuaries that honor the sacred",
+                    "👑 You lead with divine feminine wisdom",
+                    "🕯️ You create rituals and practices for modern life",
+                    "✨ You help others connect with their spiritual power"
+                ],
+                affiliates: [
+                    { name: "Divine Feminine", url: "https://clickbank.net/divine-feminine", description: "Awaken your goddess power" },
+                    { name: "Sacred Rituals", url: "https://clickbank.net/sacred-rituals", description: "Modern spiritual practices" }
+                ]
+            },
+            creator: {
+                name: "Cosmic Creator",
+                icon: "🌟",
+                description: "You are the artist who channels universal energy into digital masterpieces.",
+                details: [
+                    "🎨 You turn cosmic inspiration into profitable digital art",
+                    "🌟 You see beauty and possibility everywhere",
+                    "🌙 You create from a place of divine flow",
+                    "💫 You inspire others through your creative expression"
+                ],
+                affiliates: [
+                    { name: "Creative Flow", url: "https://clickbank.net/creative-flow", description: "Unlock unlimited creativity" },
+                    { name: "Art of Manifestation", url: "https://clickbank.net/art-manifestation", description: "Create your reality" }
+                ]
+            },
+            queen: {
+                name: "Quantum Queen",
+                icon: "💎",
+                description: "You are the sovereign who bends reality to match your highest vision.",
+                details: [
+                    "⚛️ You understand that reality is malleable",
+                    "💎 You command respect through authentic power",
+                    "🔮 You manifest your desires with quantum precision",
+                    "👑 You lead others into their own sovereignty"
+                ],
+                affiliates: [
+                    { name: "Quantum Leap", url: "https://clickbank.net/quantum-leap", description: "Master reality creation" },
+                    { name: "Sovereign Self", url: "https://clickbank.net/sovereign-self", description: "Claim your power" }
+                ]
+            }
+        };
+        
+        let currentQuestionIndex = 0;
+        let quizAnswers = [];
+        
+        function startQuiz() {
+            currentQuestionIndex = 0;
+            quizAnswers = [];
+            showQuizQuestion();
+        }
+        
+        function showQuizQuestion() {
+            const container = document.getElementById('quizContainer');
+            const question = quizQuestions[currentQuestionIndex];
+            
+            container.innerHTML = `
+                <div class="cosmic-card rounded-3xl p-12">
+                    <h3 class="text-2xl font-bold text-yellow-300 mb-8 text-center">${question.question}</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        ${question.answers.map((answer, index) => `
+                            <div onclick="selectAnswer(${index})" class="elemental-card rounded-2xl p-6 cursor-pointer hover:scale-105 transition-all">
+                                <p class="text-purple-200">${answer.text}</p>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+            
+            updateProgress();
+        }
+        
+        function selectAnswer(answerIndex) {
+            const question = quizQuestions[currentQuestionIndex];
+            const answer = question.answers[answerIndex];
+            
+            quizAnswers.push(answer);
+            
+            if (currentQuestionIndex < quizQuestions.length - 1) {
+                currentQuestionIndex++;
+                setTimeout(showQuizQuestion, 300);
+            } else {
+                setTimeout(showQuizResults, 300);
+            }
+        }
+        
+        function updateProgress() {
+            const progress = ((currentQuestionIndex + 1) / quizQuestions.length) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+            document.getElementById('currentQuestion').textContent = currentQuestionIndex + 1;
+            document.getElementById('totalQuestions').textContent = quizQuestions.length;
+        }
+        
+        function showQuizResults() {
+            // Calculate archetype scores
+            const scores = {};
+            quizAnswers.forEach(answer => {
+                scores[answer.archetype] = (scores[answer.archetype] || 0) + 1;
+            });
+            
+            // Find dominant archetype
+            const dominantArchetype = Object.keys(scores).reduce((a, b) => 
+                scores[a] > scores[b] ? a : b
+            );
+            
+            const result = archetypes[dominantArchetype];
+            
+            // Hide quiz container and show results
+            document.getElementById('quizContainer').classList.add('hidden');
+            document.getElementById('quizResults').classList.remove('hidden');
+            
+            // Update results display
+            document.getElementById('archetypeIcon').textContent = result.icon;
+            document.getElementById('archetypeName').textContent = result.name;
+            document.getElementById('archetypeDescription').textContent = result.description;
+            
+            const detailsContainer = document.getElementById('archetypeDetails');
+            detailsContainer.innerHTML = result.details.map(detail => 
+                `<p class="text-purple-200">${detail}</p>`
+            ).join('');
+            
+            // Show archetype-aligned affiliates
+            const affiliatesContainer = document.getElementById('archetypeAffiliates');
+            affiliatesContainer.innerHTML = result.affiliates.map(affiliate => `
+                <div class="cosmic-card rounded-2xl p-6 text-center">
+                    <h4 class="text-lg font-bold text-yellow-300 mb-2">${affiliate.name}</h4>
+                    <p class="text-purple-300 mb-4">${affiliate.description}</p>
+                    <a href="${affiliate.url}" target="_blank" class="cosmic-button px-4 py-2 rounded-full text-sm font-bold text-white inline-block">
+                        Explore Now
+                    </a>
+                </div>
+            `).join('');
+            
+            // Store result for later use
+            localStorage.setItem('userArchetype', dominantArchetype);
+            localStorage.setItem('quizCompletedDate', new Date().toISOString());
+            
+            // Store in Airtable (simulated)
+            storeQuizResult(dominantArchetype, scores);
+        }
+        
+        // Dashboard System
+        function initializeDashboard() {
+            const userArchetype = localStorage.getItem('userArchetype') || 'mystic';
+            const quizDate = localStorage.getItem('quizCompletedDate');
+            const archetype = archetypes[userArchetype];
+            
+            // Update dashboard display
+            document.getElementById('dashboardIcon').textContent = archetype.icon;
+            document.getElementById('dashboardArchetype').textContent = archetype.name;
+            
+            // Calculate days since quiz
+            if (quizDate) {
+                const daysSince = Math.floor((new Date() - new Date(quizDate)) / (1000 * 60 * 60 * 24));
+                document.getElementById('daysSinceQuiz').textContent = `${daysSince} Days`;
+            }
+            
+            // Update moon phase in dashboard
+            const currentPhase = getCurrentMoonPhase();
+            document.getElementById('dashboardMoonPhase').textContent = currentPhase.icon;
+            document.getElementById('dashboardMoonName').textContent = currentPhase.name;
+            document.getElementById('moonGuidance').textContent = currentPhase.guidance;
+            
+            // Load personalized recommendations
+            loadPersonalizedRecommendations(userArchetype);
+        }
+        
+        function loadPersonalizedRecommendations(archetype) {
+            const recommendations = {
+                mystic: [
+                    { icon: "🔮", title: "Moon Cycle Planning", description: "Align your business with lunar energy" },
+                    { icon: "📚", title: "Ancient Wisdom Course", description: "Deepen your spiritual knowledge" },
+                    { icon: "🧘", title: "Daily Meditation", description: "Strengthen your intuitive connection" }
+                ],
+                rebel: [
+                    { icon: "⚡", title: "Disruptor Toolkit", description: "Tools for breaking industry patterns" },
+                    { icon: "🎯", title: "Bold Content Strategy", description: "Create movement-building content" },
+                    { icon: "🚀", title: "Innovation Workshop", description: "Turn rebellion into profit" }
+                ],
+                strategist: [
+                    { icon: "📊", title: "Analytics Mastery", description: "Advanced business intelligence" },
+                    { icon: "🎯", title: "Strategic Planning", description: "Long-term success blueprints" },
+                    { icon: "💰", title: "Wealth Systems", description: "Automated income streams" }
+                ]
+            };
+            
+            const userRecs = recommendations[archetype] || recommendations.mystic;
+            const container = document.getElementById('personalizedRecommendations');
+            
+            container.innerHTML = userRecs.map(rec => `
+                <div class="cosmic-card rounded-2xl p-6 text-center">
+                    <div class="text-4xl mb-3">${rec.icon}</div>
+                    <h4 class="text-lg font-bold text-yellow-300 mb-2">${rec.title}</h4>
+                    <p class="text-purple-300 mb-4">${rec.description}</p>
+                    <button onclick="accessRecommendation('${rec.title}')" class="cosmic-button px-4 py-2 rounded-full text-sm font-bold text-white">
+                        Access Now
+                    </button>
+                </div>
+            `).join('');
+        }
+        
+        function updateEnergyLevels() {
+            // Simulate energy level update
+            const levels = ['Creative Energy', 'Spiritual Connection', 'Business Clarity'];
+            levels.forEach((level, index) => {
+                const newLevel = Math.floor(Math.random() * 40) + 60; // 60-100%
+                const energyFill = document.querySelectorAll('.energy-fill')[index];
+                if (energyFill) {
+                    energyFill.style.width = newLevel + '%';
+                }
+            });
+            
+            alert('🌟 Energy levels updated! Your cosmic alignment is strengthening.');
+        }
+        
+        function alignWithMoon() {
+            const currentPhase = getCurrentMoonPhase();
+            alert(`🌙 You are now aligned with the ${currentPhase.name} energy!\n\n${currentPhase.guidance}\n\nYour next actions will be cosmically supported.`);
+        }
+        
+        function accessRecommendation(title) {
+            alert(`✨ Accessing ${title}...\n\nThis sacred resource is being prepared for your archetypal journey!`);
+        }
+        
+        // Schema Builder System
+        let selectedSchemaType = null;
+        let schemaQuestions = [];
+        let pendingBlessingAction = null;
+        
+        function selectSchemaType(type) {
+            selectedSchemaType = type;
+            
+            // Update UI
+            document.querySelectorAll('.elemental-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+            document.getElementById(type + 'Schema').classList.add('selected');
+            
+            // Show builder
+            document.getElementById('schemaBuilder').classList.remove('hidden');
+        }
+        
+        function addQuestion() {
+            const questionId = 'question_' + Date.now();
+            const questionHtml = `
+                <div class="cosmic-card rounded-2xl p-6 mb-4" id="${questionId}">
+                    <div class="flex justify-between items-start mb-4">
+                        <h5 class="text-yellow-300 font-bold">Question ${schemaQuestions.length + 1}</h5>
+                        <button onclick="removeQuestion('${questionId}')" class="text-red-400 hover:text-red-300">✕</button>
+                    </div>
+                    <div class="space-y-4">
+                        <input type="text" placeholder="Enter your question..." 
+                               class="w-full px-4 py-2 rounded bg-purple-900/50 border border-purple-600 text-white">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <input type="text" placeholder="Option 1..." 
+                                   class="px-4 py-2 rounded bg-purple-900/50 border border-purple-600 text-white">
+                            <input type="text" placeholder="Option 2..." 
+                                   class="px-4 py-2 rounded bg-purple-900/50 border border-purple-600 text-white">
+                            <input type="text" placeholder="Option 3..." 
+                                   class="px-4 py-2 rounded bg-purple-900/50 border border-purple-600 text-white">
+                            <input type="text" placeholder="Option 4..." 
+                                   class="px-4 py-2 rounded bg-purple-900/50 border border-purple-600 text-white">
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            document.getElementById('questionsList').insertAdjacentHTML('beforeend', questionHtml);
+            schemaQuestions.push(questionId);
+        }
+        
+        function removeQuestion(questionId) {
+            document.getElementById(questionId).remove();
+            schemaQuestions = schemaQuestions.filter(id => id !== questionId);
+        }
+        
+        function showBlessingModal(action = 'schema') {
+            pendingBlessingAction = action;
+            document.getElementById('blessingModal').classList.remove('hidden');
+        }
+        
+        function closeBlessingModal() {
+            document.getElementById('blessingModal').classList.add('hidden');
+            
+            // If it was for schema generation, proceed without blessing
+            if (pendingBlessingAction === 'schema') {
+                generateSchema();
+            } else if (pendingBlessingAction) {
+                downloadResource(pendingBlessingAction);
+            }
+            
+            pendingBlessingAction = null;
+        }
+        
+        function completeBlessingRitual() {
+            const checkboxes = document.querySelectorAll('#blessingModal input[type="checkbox"]:checked');
+            const blessings = Array.from(checkboxes).map(cb => cb.nextElementSibling.textContent);
+            
+            alert(`🙏 Sacred blessing complete!\n\nYour intentions:\n${blessings.map(b => '• ' + b).join('\n')}\n\nYour creation is now blessed with divine energy.`);
+            
+            document.getElementById('blessingModal').classList.add('hidden');
+            
+            // Proceed with the blessed action
+            if (pendingBlessingAction === 'schema') {
+                generateSchema();
+            } else if (pendingBlessingAction) {
+                downloadResource(pendingBlessingAction);
+            }
+            
+            pendingBlessingAction = null;
+        }
+        
+        function generateSchema() {
+            const title = document.getElementById('schemaTitle').value;
+            const description = document.getElementById('schemaDescription').value;
+            
+            const schema = {
+                type: selectedSchemaType,
+                title: title,
+                description: description,
+                questions: [],
+                created: new Date().toISOString(),
+                blessed: true,
+                moonPhase: getCurrentMoonPhase().name
+            };
+            
+            // Collect questions
+            schemaQuestions.forEach((questionId, index) => {
+                const questionElement = document.getElementById(questionId);
+                const inputs = questionElement.querySelectorAll('input');
+                
+                const question = {
+                    id: index + 1,
+                    question: inputs[0].value,
+                    options: [
+                        inputs[1].value,
+                        inputs[2].value,
+                        inputs[3].value,
+                        inputs[4].value
+                    ].filter(option => option.trim() !== '')
+                };
+                
+                schema.questions.push(question);
+            });
+            
+            // Display schema
+            document.getElementById('schemaPreview').classList.remove('hidden');
+            document.getElementById('schemaOutput').textContent = JSON.stringify(schema, null, 2);
+            
+            // Store for download
+            window.generatedSchema = schema;
+            
+            // Store in Airtable (simulated)
+            storeSchemaData(schema);
+        }
+        
+        function downloadSchema() {
+            if (!window.generatedSchema) {
+                alert('Please generate a schema first!');
+                return;
+            }
+            
+            const dataStr = JSON.stringify(window.generatedSchema, null, 2);
+            const dataBlob = new Blob([dataStr], {type: 'application/json'});
+            
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(dataBlob);
+            link.download = `${window.generatedSchema.title.replace(/\s+/g, '_')}_schema.json`;
+            link.click();
+        }
+        
+        // Email Signup System
+        function handleEmailSignup(event) {
+            event.preventDefault();
+            const email = document.getElementById('emailInput').value;
+            
+            if (!email) {
+                alert('Please enter your email address');
+                return;
+            }
+            
+            // Store in Airtable (simulated)
+            storeEmailSignup(email);
+            
+            // Simulate email signup (replace with actual integration)
+            alert(`🌟 Sacred transmission activated for ${email}!\n\nCheck your inbox for your first archetypal activation.`);
+            
+            // Clear form
+            document.getElementById('emailInput').value = '';
+        }
+        
+        // Download Resources System
+        function downloadResource(type) {
+            const resources = {
+                guides: 'Archetype Guides Bundle',
+                notion: 'Sacred Business Templates',
+                canva: 'Archetypal Branding Kit',
+                audio: 'Activation Meditation Series',
+                business: 'Digital Sovereignty Templates',
+                bonus: 'Exclusive Sacred Bonuses'
+            };
+            
+            alert(`🎁 Downloading ${resources[type]}...\n\nYour blessed resources are being prepared!\n\nCheck your downloads folder in a moment.`);
+            
+            // Store download activity (simulated)
+            storeDownloadActivity(type);
+        }
+        
+        // Airtable Integration (Simulated)
+        function storeQuizResult(archetype, scores) {
+            const data = {
+                archetype: archetype,
+                scores: scores,
+                completedAt: new Date().toISOString(),
+                moonPhase: getCurrentMoonPhase().name,
+                userAgent: navigator.userAgent
+            };
+            
+            console.log('Storing quiz result in Airtable:', data);
+            // In real implementation: send to Airtable API
+        }
+        
+        function storeEmailSignup(email) {
+            const data = {
+                email: email,
+                signupDate: new Date().toISOString(),
+                source: 'homepage',
+                archetype: localStorage.getItem('userArchetype') || 'unknown',
+                moonPhase: getCurrentMoonPhase().name
+            };
+            
+            console.log('Storing email signup in Airtable:', data);
+            // In real implementation: send to Airtable API
+        }
+        
+        function storeSchemaData(schema) {
+            const data = {
+                ...schema,
+                userArchetype: localStorage.getItem('userArchetype') || 'unknown',
+                userAgent: navigator.userAgent
+            };
+            
+            console.log('Storing schema data in Airtable:', data);
+            // In real implementation: send to Airtable API
+        }
+        
+        function storeDownloadActivity(type) {
+            const data = {
+                resourceType: type,
+                downloadDate: new Date().toISOString(),
+                userArchetype: localStorage.getItem('userArchetype') || 'unknown',
+                moonPhase: getCurrentMoonPhase().name
+            };
+            
+            console.log('Storing download activity in Airtable:', data);
+            // In real implementation: send to Airtable API
+        }
+        
+        // Initialize Quiz when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            // Update moon widget
+            updateMoonWidget();
+            
+            // Auto-start quiz if on quiz page
+            if (window.location.hash === '#quiz') {
+                showPage('quiz');
+                setTimeout(startQuiz, 500);
+            }
+            
+            // Start quiz when quiz page is shown
+            const originalShowPage = showPage;
+            showPage = function(pageId) {
+                originalShowPage(pageId);
+                if (pageId === 'quiz') {
+                    setTimeout(startQuiz, 500);
+                }
+            };
+        });
+        
+        // Add cosmic sparkles
+        function createSparkle() {
+            const sparkles = ['✨', '🌟', '💫', '⭐', '🔮', '💎', '⚡'];
+            const sparkle = document.createElement('div');
+            sparkle.innerHTML = sparkles[Math.floor(Math.random() * sparkles.length)];
+            sparkle.style.position = 'fixed';
+            sparkle.style.left = Math.random() * window.innerWidth + 'px';
+            sparkle.style.top = Math.random() * window.innerHeight + 'px';
+            sparkle.style.pointerEvents = 'none';
+            sparkle.style.fontSize = Math.random() * 20 + 20 + 'px';
+            sparkle.style.zIndex = '1000';
+            sparkle.style.animation = 'sparkleFloat 8s ease-out forwards';
+            sparkle.style.color = Math.random() > 0.5 ? '#8b5cf6' : '#fbbf24';
+            document.body.appendChild(sparkle);
+            
+            setTimeout(() => sparkle.remove(), 8000);
+        }
+        
+        // Add sparkle animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes sparkleFloat {
+                0% { opacity: 1; transform: translateY(0px) rotate(0deg) scale(1); }
+                100% { opacity: 0; transform: translateY(-200px) rotate(360deg) scale(0.5); }
+            }
+        `;
+        document.head.appendChild(style);
+        
+        // Create sparkles periodically
+        setInterval(createSparkle, 3000);
+        
+        // Initial sparkles
+        for (let i = 0; i < 3; i++) {
+            setTimeout(createSparkle, i * 1000);
+        }
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97b2f9c17433e5c1',t:'MTc1NzIxNDIzMy4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
