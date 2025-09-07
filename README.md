@@ -2,7 +2,7 @@
 # 🌌 SoulCodes Frequency Portal
 Escape the matrix. Reclaim your mind. Rewrite your destiny.
 SoulCodes is a sanctuary for Gen X women to activate digital superpowers, manifest clarity, and ritualize rebirth. This portal blends comic-style storytelling, manifestation tools, and archetype-driven widgets to raise vibration and sovereignty.
-🔗 [Visit the SoulCodes Portal](https://soulcodes.com)
+🔗 [Visit the SoulCodes Portal](https://soulcodes.site)
 ## 🔮 Features
 - Manifestation Tracker
 - Soul Purpose Calculator
