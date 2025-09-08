@@ -7,11 +7,13 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
         .cosmic-background {
             background: linear-gradient(135deg, #0f0f23 0%, #1a0033 15%, #2d1b69 35%, #4c1d95 55%, #581c87 75%, #0f0f23 100%);
             background-size: 400% 400%;
             animation: cosmicShift 20s ease-in-out infinite;
             position: relative;
+            /* overflow: hidden; <-- REMOVED TO ALLOW SCROLLING */
         }
         @keyframes cosmicShift {
             0%, 100% { background-position: 0% 50%; }
@@ -19,85 +21,49 @@
             50% { background-position: 100% 100%; }
             75% { background-position: 0% 100%; }
         }
-        .dna-strand {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            opacity: 0.1;
-            pointer-events: none;
-        }
-        .floating-orb, .moon-phase {
-            position: absolute;
-            pointer-events: none;
-        }
-        /* Other archetype-aligned styles unchanged */
+        /* ...rest of your style remains unchanged... */
     </style>
-</head>
-<body class="font-['Inter'] text-white overflow-x-hidden overflow-y-auto cosmic-background min-h-screen">
-    <!-- Navigation bar, not fixed, only sticky if needed -->
-    <nav class="w-full py-4 cosmic-card sticky top-0 z-10">
-        <!-- Navigation links go here -->
-    </nav>
+</head></nav>
 
-    <!-- Main content wrapper (scrollable) -->
-    <main class="relative z-0 max-w-4xl mx-auto min-h-screen py-8">
-        <!-- Hero Section -->
-        <section class="mb-16">
-            <h1 class="text-4xl md:text-6xl font-bold text-center text-purple-300 mb-4">
-  SoulCodes Portal
-</h1>
-<p class="text-lg md:text-xl text-center text-purple-200 max-w-2xl mx-auto">
-  Awaken Your Digital Sovereignty
-</p>
-<!-- Your hero content here -->
-        </section>
-        <!-- Test content for scroll -->
-<div style="height: 2000px; background: rgba(139, 92, 246, 0.06); border-radius: 1rem; margin-bottom: 2rem;">
-            <p class="text-center text-purple-400 pt-8">Scroll Test Content (2000px)</p>
-        </div>
-        <!-- More sections ... -->
-    </main>
+<body class="font-['Inter'] text-white overflow-x-hidden cosmic-background min-h-screen">
+    <!-- ...your complete site content, navigation, page containers, floating orbs, etc... -->
+<body class="font-['Inter'] text-white overflow-x-hidden cosmic-background min-h-screen">
 
-    <!-- Floating visuals (do NOT block scroll) -->
-    <div class="dna-strand"></div>
-    <div class="floating-orb"></div>
-    <div class="moon-phase"></div>
+  <nav class="flex flex-wrap justify-center gap-6 py-6 text-purple-300 text-sm font-semibold">
+    <a href="archetype_quiz.html" class="hover:text-white">🧬 Archetype Quiz</a>
+    <a href="soul_blueprint.html" class="hover:text-white">🌌 Soul Blueprint</a>
+    <a href="dashboard.html" class="hover:text-white">📊 Dashboard</a>
+    <a href="affiliates.html" class="hover:text-white">💸 Affiliates</a>
+    <a href="downloads.html" class="hover:text-white">📥 Downloads</a>
+    <a href="community.html" class="hover:text-white">👥 Community</a>
+  </nav>
 
-    <!-- Cosmic Footer -->
+    <!-- Cosmic Footer (add before </body>) -->
     <footer class="cosmic-card rounded-3xl max-w-4xl mx-auto my-12 p-6 text-center bg-white/10 backdrop-blur-md border border-purple-400/50 shadow-xl">
-        <div class="flex flex-col md:flex-row items-center justify-between gap-6">
-            <div class="flex gap-4 justify-center md:justify-start flex-wrap">
-                <a href="https://facebook.com/groups/digitalsovereignty" target="_blank" rel="noopener" aria-label="SoulCodes Facebook Group" class="cosmic-button px-4 py-2 rounded-full text-sm font-bold text-white inline-flex items-center gap-2">
-                    <span>🌟</span> Facebook Group
-                </a>
-                <a href="https://pinterest.com/soulcodesportal" target="_blank" rel="noopener" aria-label="SoulCodes Pinterest" class="cosmic-button px-4 py-2 rounded-full text-sm font-bold text-white inline-flex items-center gap-2">
-                    <span>📌</span> Pinterest
-                </a>
-                <a href="https://github.com/frankielee1971/soulcodes" target="_blank" rel="noopener" aria-label="SoulCodes GitHub" class="cosmic-button px-4 py-2 rounded-full text-sm font-bold text-white inline-flex items-center gap-2">
-                    <span>🐙</span> GitHub
-                </a>
-                <a href="https://manifestationcircle.com" target="_blank" rel="noopener" aria-label="Manifestation Circle" class="cosmic-button px-4 py-2 rounded-full text-sm font-bold text-white inline-flex items-center gap-2">
-                    <span>🔮</span> Manifestation Circle
-                </a>
-            </div>
-            <div class="text-purple-200 text-xs md:text-sm font-medium mt-4 md:mt-0">
-                SoulCodes © 2025 — Anchoring Digital Sovereignty
-            </div>
-            <div class="mt-4 md:mt-0">
-                <a href="#" onclick="window.scrollTo({ top: 0, behavior: 'smooth' });" class="nav-button px-4 py-2 rounded-full text-sm font-bold text-white inline-flex items-center gap-2" aria-label="Back to Top">
-                    <span>⬆️</span> Back to Top
-                </a>
-            </div>
+      <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+        <div class="flex gap-4 justify-center md:justify-start flex-wrap">
+          <a href="https://facebook.com/groups/digitalsovereignty" target="_blank" rel="noopener" aria-label="SoulCodes Facebook Group" class="cosmic-button px-4 py-2 rounded-full text-sm font-bold text-white inline-flex items-center gap-2">
+            <span>🌟</span> Facebook Group
+          </a>
+          <a href="https://pinterest.com/soulcodesportal" target="_blank" rel="noopener" aria-label="SoulCodes Pinterest" class="cosmic-button px-4 py-2 rounded-full text-sm font-bold text-white inline-flex items-center gap-2">
+            <span>📌</span> Pinterest
+          </a>
+          <a href="https://github.com/frankielee1971/soulcodes" target="_blank" rel="noopener" aria-label="SoulCodes GitHub" class="cosmic-button px-4 py-2 rounded-full text-sm font-bold text-white inline-flex items-center gap-2">
+            <span>🐙</span> GitHub
+          </a>
+          <a href="https://manifestationcircle.com" target="_blank" rel="noopener" aria-label="Manifestation Circle" class="cosmic-button px-4 py-2 rounded-full text-sm font-bold text-white inline-flex items-center gap-2">
+            <span>🔮</span> Manifestation Circle
+          </a>
         </div>
+        <div class="text-purple-200 text-xs md:text-sm font-medium mt-4 md:mt-0">
+          SoulCodes © 2025 — Anchoring Digital Sovereignty
+        </div>
+        <div class="mt-4 md:mt-0">
+          <a href="#" onclick="window.scrollTo({ top: 0, behavior: 'smooth' });" class="nav-button px-4 py-2 rounded-full text-sm font-bold text-white inline-flex items-center gap-2" aria-label="Back to Top">
+            <span>⬆️</span> Back to Top
+          </a>
+        </div>
+      </div>
     </footer>
-<footer class="cosmic-footer">
-  <div class="text-center py-6 text-sm text-gray-400">
-    © 2025 SoulCodes · 
-    <a href="https://github.com/frankielee1971/soulcodes" class="hover:text-white">GitHub</a> · 
-    <a href="https://www.pinterest.com/soulcodesportal/" class="hover:text-white">Pinterest</a> · 
-    <a href="https://www.facebook.com/groups/soulcodescircle" class="hover:text-white">Facebook</a> · 
-    <a href="https://soulcodes.site/manifestation-circle" class="hover:text-white">Manifestation Circle</a>
-  </div>
-</footer>
 </body>
 </html>

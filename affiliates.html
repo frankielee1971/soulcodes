@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Affiliates – SoulCodes</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap');
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+    .cosmic-background {
+      background: linear-gradient(135deg, #0f0f23 0%, #1a0033 15%, #2d1b69 35%, #4c1d95 55%, #581c87 75%, #0f0f23 100%);
+      background-size: 400% 400%;
+      animation: cosmicShift 20s ease-in-out infinite;
+    }
+    @keyframes cosmicShift {
+      0%, 100% { background-position: 0% 50%; }
+      25% { background-position: 100% 0%; }
+      50% { background-position: 100% 100%; }
+      75% { background-position: 0% 100%; }
+    }
+  </style>
+</head>
+<body class="cosmic-background text-white min-h-screen overflow-x-hidden">
+  <header class="text-center py-8">
+    <h1 class="text-4xl font-bold text-purple-300">Affiliate Products by Archetype</h1>
+    <p class="text-lg text-purple-200 mt-2">Curated tools to amplify your soul frequency</p>
+  </header>
+
+  <main class="max-w-5xl mx-auto px-6 py-8 space-y-12">
+    <!-- Archetype: Rebel -->
+    <section>
+      <h2 class="text-2xl font-bold text-purple-300 mb-4">🧨 Rebel</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="bg-white/10 p-4 rounded border border-purple-400">
+          <h3 class="text-lg font-semibold text-purple-200">Brainwave Headphones</h3>
+          <p class="text-sm text-purple-300">Boost focus and break mental patterns</p>
+          <a href="https://example.com/rebel-headphones?utm_source=soulcodes" target="_blank" class="text-purple-400 underline">🔗 View Product</a>
+        </div>
+        <div class="bg-white/10 p-4 rounded border border-purple-400">
+          <h3 class="text-lg font-semibold text-purple-200">Manifestation Journal</h3>
+          <p class="text-sm text-purple-300">Channel rebellious visions into reality</p>
+          <a href="https://example.com/rebel-journal?utm_source=soulcodes" target="_blank" class="text-purple-400 underline">🔗 View Product</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Archetype: Oracle -->
+    <section>
+      <h2 class="text-2xl font-bold text-purple-300 mb-4">🔮 Oracle</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="bg-white/10 p-4 rounded border border-purple-400">
+          <h3 class="text-lg font-semibold text-purple-200">Crystal Grid Kit</h3>
+          <p class="text-sm text-purple-300">Amplify intuitive downloads</p>
+          <a href="https://example.com/oracle-crystals?utm_source=soulcodes" target="_blank" class="text-purple-400 underline">🔗 View Product</a>
+        </div>
+        <div class="bg-white/10 p-4 rounded border border-purple-400">
+          <h3 class="text-lg font-semibold text-purple-200">Moon Phase Planner</h3>
+          <p class="text-sm text-purple-300">Align rituals with lunar cycles</p>
+          <a href="https://example.com/oracle-planner?utm_source=soulcodes" target="_blank" class="text-purple-400 underline">🔗 View Product</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Add more archetypes here -->
+
+  </main>
+
+  <footer class="text-center py-6 text-purple-400 text-sm">
+    SoulCodes © 2025 — Anchoring Digital Sovereignty
+  </footer>
+</body>
+</html>

@@ -4,6 +4,13 @@ from datetime import datetime
 from googleapiclient.discovery import build
 from google.oauth2 import service_account
 from notion_logger import log_to_notion
+import json
+
+with open('config/credentials.json') as f:
+    creds = json.load(f)
+
+dashboard_id = creds['soulcodes_dashboard_page_id']
+webhook_url = creds['agent_tars_webhook']
 
 # 🔐 Service account setup
 SERVICE_ACCOUNT_FILE = r"C:\\Users\\frank\\OneDrive\\Desktop\\SoulCodesSchema\\digitallydefined_ai\\soulcodedriveagent-key.json"
@@ -22,6 +29,19 @@ keyword_map = {
 	"spiritual": "Mystic Builder",
 	"sovereignty": "Faceless Funnel Architect",
 	"conversion": "Affiliate Strategist"
+}
+# 🔮 Keyword-to-ritual type map
+ritual_map = {
+    "affiliate": "Conversion",
+    "faceless": "Presence",
+    "mystic": "Integration",
+    "ugc": "Visibility",
+    "confidence": "Empowerment",
+    "automation": "Flow",
+    "branding": "Resonance",
+    "spiritual": "Alignment",
+    "sovereignty": "Containment",
+    "conversion": "Magnetism"
 }
 
 # 🧬 Check if file already processed
@@ -66,14 +86,70 @@ def activate_agent_tars():
 			if keyword.lower() in file_name.lower():
 				matched_archetype = archetype
 				break
+				
+# 🔮 Match keyword to ritual type
+matched_ritual_type = "Visibility"  # default fallback
+for keyword in ritual_map:
+    if keyword.lower() in file_name.lower():
+        matched_ritual_type = ritual_map[keyword]
+        break
+# 🧬 Pull Soul Blueprint for user
+user_name = extract_user_from_filename(file_name)  # You’ll define this logic
+blueprint = get_user_blueprint(user_name)
 
-		# 📝 Log to Notion
-		log_to_notion(
-			file_name=file_name,
-			archetype=matched_archetype,
-			element="Water",  # Optional: can be dynamic later
-			notes="Auto-logged by Agent TARS"
-		)
+if blueprint:
+    print(f"🔮 Soul Blueprint found for {user_name}: {blueprint}")
+    guidance = generate_guidance(blueprint, matched_archetype, matched_ritual_type)
+    deliver_guidance(guidance)
+else:
+    print(f"⚠️ No Soul Blueprint found for {user_name}. Using default resonance.")
+
+	# 📝 Log to Notion
+log_to_notion(
+    file_name=file_name,
+    archetype=matched_archetype,
+    element="Water",
+    notes="Auto-logged by Agent TARS"
+)
+
+# 🧬 Create Ritual Page
+create_ritual_page(matched_archetype, "Visibility")
+{ "object": "block", "type": "paragraph", "paragraph": {
+    "text": [{ "type": "text", "text": { "content": guidance } }]
+} }
+def create_ritual_page(archetype, ritual_type, guidance_text):
+    payload = {
+        "parent": { "page_id": dashboard_id },
+        "properties": {
+            "title": {
+                "title": [ { "text": { "content": f"{archetype} – {ritual_type} Ritual Tracker" } } ]
+            }
+        },
+        "children": [
+            {
+                "object": "block",
+                "type": "heading_2",
+                "heading_2": {
+                    "text": [ { "type": "text", "text": { "content": f"{ritual_type} Ritual for {archetype}" } } ]
+                }
+            },
+            {
+                "object": "block",
+                "type": "paragraph",
+                "paragraph": {
+                    "text": [ { "type": "text", "text": { "content": "Auto-created by Agent TARS based on your activation." } } ]
+                }
+            },
+            {
+                "object": "block",
+                "type": "paragraph",
+                "paragraph": {
+                    "text": [ { "type": "text", "text": { "content": guidance_text } } ]
+                }
+            }
+        ]
+    }
+    # Send to Notion API...
 
 		# ✅ Mark as processed
 		mark_as_processed(file_name)
@@ -81,3 +157,50 @@ def activate_agent_tars():
 # 🔔 Run the agent
 if __name__ == "__main__":
 	activate_agent_tars()
+# 🧬 Create Ritual Page in Notion
+def create_ritual_page(archetype, ritual_type):
+    import requests
+
+    page_title = f"{archetype} – {ritual_type} Ritual Tracker"
+    payload = {
+        "parent": { "page_id": dashboard_id },
+        "properties": {
+            "title": {
+                "title": [
+                    { "text": { "content": page_title } }
+                ]
+            }
+        },
+        "children": [
+            {
+                "object": "block",
+                "type": "heading_2",
+                "heading_2": {
+                    "text": [{ "type": "text", "text": { "content": f"{ritual_type} Ritual for {archetype}" } }]
+                }
+            },
+            {
+                "object": "block",
+                "type": "paragraph",
+                "paragraph": {
+                    "text": [{ "type": "text", "text": { "content": "This ritual page was auto-created by Agent TARS based on your archetype activation." } }]
+                }
+            }
+        ]
+    }
+
+    headers = {
+        "Authorization": f"Bearer {os.getenv('NOTION_API_KEY')}",
+        "Content-Type": "application/json"
+    }
+
+    response = requests.post("https://api.notion.com/v1/pages", json=payload, headers=headers)
+
+    if response.status_code == 200:
+        print(f"✅ Ritual page created: {page_title}")
+    else:
+        print(f"❌ Failed to create ritual page: {response.text}")
+
+
+
+
