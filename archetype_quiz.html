@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Archetype Quiz – SoulCodes</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap');
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+    .cosmic-background {
+      background: linear-gradient(135deg, #0f0f23 0%, #1a0033 15%, #2d1b69 35%, #4c1d95 55%, #581c87 75%, #0f0f23 100%);
+      background-size: 400% 400%;
+      animation: cosmicShift 20s ease-in-out infinite;
+    }
+    @keyframes cosmicShift {
+      0%, 100% { background-position: 0% 50%; }
+      25% { background-position: 100% 0%; }
+      50% { background-position: 100% 100%; }
+      75% { background-position: 0% 100%; }
+    }
+  </style>
+</head>
+<body class="text-white cosmic-background min-h-screen overflow-x-hidden">
+  <main class="max-w-3xl mx-auto py-12 px-4">
+    <h1 class="text-4xl font-bold text-center text-purple-300 mb-8">Discover Your SoulCodes Archetype</h1>
+    
+    <form id="quizForm" class="space-y-6">
+      <div>
+        <p class="text-lg font-semibold text-purple-200">1. How do you approach challenges?</p>
+        <div class="mt-2 space-y-2">
+          <label><input type="radio" name="q1" value="rebel" /> Break the rules to find new paths</label><br />
+          <label><input type="radio" name="q1" value="oracle" /> Trust intuition and inner knowing</label><br />
+          <label><input type="radio" name="q1" value="architect" /> Build systems to solve them</label>
+        </div>
+      </div>
+
+      <!-- Add more questions here -->
+
+      <button type="submit" class="mt-6 bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded">
+        Reveal My Archetype
+      </button>
+    </form>
+
+    <div id="result" class="mt-10 hidden">
+      <h2 class="text-2xl font-bold text-purple-300 mb-4">Your Archetype:</h2>
+      <p id="archetypeDescription" class="text-lg text-purple-200"></p>
+      <div id="affiliateProducts" class="mt-6"></div>
+    </div>
+  </main>
+
+  <script src="assets/quiz.js"></script>
+</body>
+</html>
