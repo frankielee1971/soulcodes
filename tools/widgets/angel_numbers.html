@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Angel Numbers - SoulCodes</title>
+    <style>
+        .angel-widget {
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(251, 191, 36, 0.1));
+            border: 2px solid rgba(139, 92, 246, 0.3);
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 800px;
+            margin: 0 auto;
+            color: white;
+            font-family: 'Inter', sans-serif;
+            backdrop-filter: blur(15px);
+        }
+        
+        .angel-title {
+            text-align: center;
+            font-size: 2.5rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, #8B5CF6, #FBB936);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+        }
+        
+        .angel-subtitle {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 30px;
+            font-size: 1.1rem;
+        }
+        
+        .search-section {
+            background: rgba(0, 0, 0, 0.4);
+            border: 2px solid rgba(139, 92, 246, 0.3);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+        }
+        
+        .search-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #FBB936;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .number-input-group {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            align-items: center;
+        }
+        
+        .number-input {
+            flex: 1;
+            padding: 15px 20px;
+            border: 2px solid rgba(139, 92, 246, 0.3);
+            border-radius: 12px;
+            background: rgba(0, 0, 0, 0.3);
+            color: white;
+            font-size: 18px;
+            text-align: center;
+            font-weight: 600;
+            transition: border-color 0.3s ease;
+        }
+        
+        .number-input:focus {
+            outline: none;
+            border-color: #8B5CF6;
+            box-shadow: 0 0 20px rgba(139, 92, 246, 0.3);
+        }
+        
+        .lookup-btn {
+            padding: 15px 25px;
+            background: linear-gradient(135deg, #8B5CF6, #FBB936);
+            border: none;
+            border-radius: 12px;
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            white-space: nowrap;
+        }
+        
+        .lookup-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(139, 92, 246, 0.4);
+        }
+        
+        .popular-numbers {
+            margin-top: 20px;
+        }
+        
+        .popular-title {
+            font-size: 1rem;
+            color: #FBB936;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        .number-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+            gap: 10px;
+        }
+        
+        .number-btn {
+            padding: 12px 8px;
+            background: rgba(139, 92, 246, 0.2);
+            border: 1px solid rgba(139, 92, 246, 0.4);
+            border-radius: 8px;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+        
+        .number-btn:hover {
+            background: rgba(139, 92, 246, 0.4);
+            transform: translateY(-2px);
+        }
+        
+        .result-container {
+            background: rgba(0, 0, 0, 0.4);
+            border: 2px solid rgba(139, 92, 246, 0.3);
+            border-radius: 15px;
+            padding: 30px;
+            margin-top: 30px;
+            display: none;
+        }
+        
+        .result-number {
+            text-align: center;
+            font-size: 4rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, #8B5CF6, #FBB936);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 20px;
+            filter: drop-shadow(0 0 20px rgba(251, 191, 36, 0.3));
+        }
+        
+        .result-section {
+            margin-bottom: 25px;
+            padding: 20px;
+            background: rgba(139, 92, 246, 0.1);
+            border-radius: 12px;
+            border-left: 4px solid #FBB936;
+        }
+        
+        .section-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #FBB936;
+            margin-bottom: 12px;
+        }
+        
+        .section-content {
+            color: rgba(255, 255, 255, 0.9);
+            line-height: 1.7;
+            font-size: 1rem;
+        }
+        
+        .affirmation-box {
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.2), rgba(251, 191, 36, 0.2));
+            border: 2px solid rgba(251, 191, 36, 0.4);
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            margin-top: 25px;
+        }
+        
+        .affirmation-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #FBB936;
+            margin-bottom: 15px;
+        }
+        
+        .affirmation-text {
+            font-size: 1.1rem;
+            font-style: italic;
+            color: white;
+            line-height: 1.6;
+        }
+        
+        .angel-guidance {
+            background: rgba(251, 191, 36, 0.1);
+            border: 1px solid rgba(251, 191, 36, 0.3);
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+        
+        .guidance-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #FBB936;
+            margin-bottom: 10px;
+        }
+        
+        .guidance-text {
+            color: rgba(255, 255, 255, 0.9);
+            line-height: 1.6;
+        }
+        
+        @media (max-width: 768px) {
+            .number-input-group {
+                flex-direction: column;
+            }
+            
+            .number-grid {
+                grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));
+            }
+            
+            .result-number {
+                font-size: 3rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="angel-widget">
+        <h1 class="angel-title">👼 Angel Numbers</h1>
+        <p class="angel-subtitle">Decode divine messages from your guardian angels</p>
+        
+        <div class="search-section">
+            <h3 class="search-title">Look Up Your Angel Number</h3>
+            <div class="number-input-group">
+                <input type="text" id="numberInput" class="number-input" placeholder="Enter number sequence (e.g., 111, 222, 333)" maxlength="10">
+                <button onclick="lookupNumber()" class="lookup-btn">✨ Decode Message</button>
+            </div>
+            
+            <div class="popular-numbers">
+                <div class="popular-title">Popular Angel Numbers</div>
+                <div class="number-grid">
+                    <div class="number-btn" onclick="quickLookup('111')">111</div>
+                    <div class="number-btn" onclick="quickLookup('222')">222</div>
+                    <div class="number-btn" onclick="quickLookup('333')">333</div>
+                    <div class="number-btn" onclick="quickLookup('444')">444</div>
+                    <div class="number-btn" onclick="quickLookup('555')">555</div>
+                    <div class="number-btn" onclick="quickLookup('666')">666</div>
+                    <div class="number-btn" onclick="quickLookup('777')">777</div>
+                    <div class="number-btn" onclick="quickLookup('888')">888</div>
+                    <div class="number-btn" onclick="quickLookup('999')">999</div>
+                    <div class="number-btn" onclick="quickLookup('1010')">1010</div>
+                    <div class="number-btn" onclick="quickLookup('1111')">1111</div>
+                    <div class="number-btn" onclick="quickLookup('1212')">1212</div>
+                </div>
+            </div>
+        </div>
+        
+        <div id="resultContainer" class="result-container">
+            <div id="resultNumber" class="result-number"></div>
+            
+            <div class="result-section">
+                <div class="section-title">Core Meaning</div>
+                <div id="coreMeaning" class="section-content"></div>
+            </div>
+            
+            <div class="result-section">
+                <div class="section-title">Spiritual Significance</div>
+                <div id="spiritualSignificance" class="section-content"></div>
+            </div>
+            
+            <div class="result-section">
+                <div class="section-title">Divine Guidance</div>
+                <div id="divineGuidance" class="section-content"></div>
+            </div>
+            
+            <div class="affirmation-box">
+                <div class="affirmation-title">Your Angel Number Affirmation</div>
+                <div id="affirmationText" class="affirmation-text"></div>
+            </div>
+            
+            <div class="angel-guidance">
+                <div class="guidance-title">💫 When You See This Number</div>
+                <div id="guidanceText" class="guidance-text"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const angelNumbers = {
+            "111": {
+                meaning: "New beginnings and manifestation portal",
+                significance: "A powerful portal for manifestation has opened. Your thoughts are rapidly manifesting into reality, so it's crucial to maintain positive thinking and focus on what you want to create, not what you fear.",
+                guidance: "Pay close attention to your thoughts and emotions right now. The universe is responding to your mental energy with incredible speed. Focus on your desires, set clear intentions, and trust that your angels are supporting your manifestation process.",
+                affirmation: "I am a powerful manifestor and my thoughts create my reality with divine support.",
+                whenYouSee: "Take a moment to check your thoughts and redirect them toward positivity. Make a wish or set an intention, as this is a powerful time for manifestation."
+            },
+            "222": {
+                meaning: "Balance, cooperation, and divine timing",
+                significance: "This number appears when you need to find balance in your life and trust in divine timing. Your angels are reminding you that everything is working out according to a higher plan, even if you can't see it yet.",
+                guidance: "Trust the process and maintain faith in your journey. Cooperation and diplomacy will serve you well right now. Look for ways to create harmony in your relationships and remain patient as things unfold.",
+                affirmation: "I trust in divine timing and maintain perfect balance in all areas of my life.",
+                whenYouSee: "Take a deep breath and trust that everything is unfolding perfectly. Focus on creating balance and harmony in your current situation."
+            },
+            "333": {
+                meaning: "Spiritual growth and ascended master guidance",
+                significance: "The ascended masters are near, offering their guidance and support for your spiritual journey. This number indicates rapid spiritual growth and the activation of your creative and communicative abilities.",
+                guidance: "You are being encouraged to express your creativity and communicate your truth. The ascended masters are supporting your spiritual development and urging you to step into your power as a lightworker.",
+                affirmation: "I am supported by divine beings and express my authentic self with confidence and creativity.",
+                whenYouSee: "Express yourself creatively or share your truth with others. The ascended masters are guiding you to use your voice and talents for the highest good."
+            },
+            "444": {
+                meaning: "Protection and angelic presence",
+                significance: "Your angels are surrounding you with love, protection, and support. This number confirms that you are on the right path and that your hard work and determination are being recognized by the divine realm.",
+                guidance: "Continue with your current efforts and maintain your determination. Your angels are working behind the scenes to support your goals. You are safe, protected, and guided in everything you do.",
+                affirmation: "I am protected and guided by my angels in everything I do, and I trust in their divine support.",
+                whenYouSee: "Feel the loving presence of your angels around you. Continue working toward your goals with confidence, knowing you are divinely supported and protected."
+            },
+            "555": {
+                meaning: "Major life changes and transformation",
+                significance: "Significant changes are coming that will align you with your highest good and life purpose. These changes may feel challenging, but they are divinely guided and necessary for your growth and evolution.",
+                guidance: "Embrace change with an open heart and mind. These transitions are bringing you closer to your true purpose and authentic self. Release resistance and trust that these changes are for your highest good.",
+                affirmation: "I welcome positive changes and trust they lead me to my highest good and greatest joy.",
+                whenYouSee: "Prepare for positive changes in your life. Stay flexible and open to new opportunities that are coming your way."
+            },
+            "666": {
+                meaning: "Refocus on spiritual matters and inner wisdom",
+                significance: "This number appears when you've become too focused on material concerns and need to realign with your spiritual path. It's a gentle reminder to balance your material and spiritual worlds.",
+                guidance: "Take time to reconnect with your spiritual practice and inner wisdom. Focus on service to others and trust that your material needs will be met as you align with your higher purpose.",
+                affirmation: "I balance my material and spiritual worlds with grace, trusting in divine provision.",
+                whenYouSee: "Spend time in meditation, prayer, or spiritual practice. Refocus your energy on what truly matters and trust in divine provision."
+            },
+            "777": {
+                meaning: "Spiritual awakening and divine wisdom",
+                significance: "You are experiencing a spiritual awakening and receiving divine wisdom. This number indicates that you are on the right spiritual path and your psychic abilities are developing.",
+                guidance: "Trust your intuition and inner wisdom. You are receiving divine downloads and spiritual insights that will guide you forward. Pay attention to your dreams, synchronicities, and intuitive feelings.",
+                affirmation: "I trust my divine wisdom and follow my spiritual path with confidence and clarity.",
+                whenYouSee: "Pay attention to your intuitive insights and spiritual experiences. You are receiving important guidance from the divine realm."
+            },
+            "888": {
+                meaning: "Abundance and financial prosperity",
+                significance: "Financial abundance and material prosperity are flowing into your life. This number indicates that your hard work is paying off and you are entering a phase of material success and recognition.",
+                guidance: "Receive the abundance that is flowing to you with gratitude. Use your prosperity wisely and remember to share your blessings with others. Your financial situation is improving significantly.",
+                affirmation: "I am open to receiving abundant prosperity and use my wealth wisely for the highest good.",
+                whenYouSee: "Be open to receiving money, opportunities, or resources. Express gratitude for the abundance flowing into your life."
+            },
+            "999": {
+                meaning: "Completion and humanitarian service",
+                significance: "A major life phase is coming to completion, and you are being called to serve humanity with your gifts and wisdom. This number indicates spiritual maturity and readiness for your soul mission.",
+                guidance: "Prepare for a new chapter in your life by completing current projects and releasing what no longer serves you. You are ready to step into your role as a lightworker and serve others with your unique gifts.",
+                affirmation: "I complete this life chapter with grace and step into my soul mission with courage and wisdom.",
+                whenYouSee: "Reflect on what needs to be completed or released in your life. Prepare for a new beginning by finishing what you've started."
+            },
+            "1010": {
+                meaning: "Spiritual awakening and new beginnings",
+                significance: "You are experiencing a spiritual awakening and entering a new phase of personal growth. This number combines the energy of new beginnings (1) with spiritual completion (0).",
+                guidance: "Trust your spiritual journey and the new insights you're receiving. You are being guided to step into your personal power and create positive changes in your life and the world around you.",
+                affirmation: "I embrace my spiritual awakening and step into my personal power with divine guidance.",
+                whenYouSee: "Pay attention to new spiritual insights and opportunities for growth. You are being called to awaken to your true potential."
+            },
+            "1111": {
+                meaning: "Master manifestation portal and awakening",
+                significance: "This is the most powerful manifestation number, indicating that a major spiritual portal has opened. Your thoughts and intentions have extraordinary creative power right now.",
+                guidance: "This is a wake-up call from the universe. Pay careful attention to your thoughts, as they are manifesting rapidly. Make a wish, set clear intentions, and trust in your ability to create your reality.",
+                affirmation: "I am a master manifestor and co-creator with the universe, manifesting my highest good with ease.",
+                whenYouSee: "Stop what you're doing and make a wish or set a clear intention. This is one of the most powerful times for manifestation."
+            },
+            "1212": {
+                meaning: "Spiritual growth and positive energy",
+                significance: "You are on the right path and making excellent spiritual progress. This number encourages you to stay positive and continue your personal development journey with confidence.",
+                guidance: "Keep up the excellent work on your spiritual path. Your positive attitude and spiritual practices are creating wonderful changes in your life. Continue to grow and evolve with confidence.",
+                affirmation: "I am growing spiritually every day and maintaining positive energy that attracts my highest good.",
+                whenYouSee: "Acknowledge your spiritual progress and continue with your positive practices. You are on the right path and making excellent progress."
+            }
+        };
+
+        function lookupNumber() {
+            const input = document.getElementById('numberInput').value.trim();
+            if (input) {
+                displayAngelNumber(input);
+            } else {
+                alert('Please enter a number sequence');
+            }
+        }
+
+        function quickLookup(number) {
+            document.getElementById('numberInput').value = number;
+            displayAngelNumber(number);
+        }
+
+        function displayAngelNumber(number) {
+            const angelNumber = angelNumbers[number];
+            
+            if (angelNumber) {
+                // Show result container
+                document.getElementById('resultContainer').style.display = 'block';
+                
+                // Update content
+                document.getElementById('resultNumber').textContent = number;
+                document.getElementById('coreMeaning').textContent = angelNumber.meaning;
+                document.getElementById('spiritualSignificance').textContent = angelNumber.significance;
+                document.getElementById('divineGuidance').textContent = angelNumber.guidance;
+                document.getElementById('affirmationText').textContent = angelNumber.affirmation;
+                document.getElementById('guidanceText').textContent = angelNumber.whenYouSee;
+                
+                // Scroll to results
+                document.getElementById('resultContainer').scrollIntoView({ behavior: 'smooth' });
+            } else {
+                // Create generic reading for unknown numbers
+                displayGenericReading(number);
+            }
+        }
+
+        function displayGenericReading(number) {
+            document.getElementById('resultContainer').style.display = 'block';
+            
+            document.getElementById('resultNumber').textContent = number;
+            document.getElementById('coreMeaning').textContent = "Divine guidance and synchronicity";
+            document.getElementById('spiritualSignificance').textContent = "This number sequence is a sign that you are in alignment with your spiritual path and receiving divine guidance. The universe is communicating with you through this synchronistic number pattern.";
+            document.getElementById('divineGuidance').textContent = "Pay attention to the circumstances and thoughts you have when you see this number. Your angels are trying to communicate specific guidance related to your current situation. Trust your intuition to understand the personal message.";
+            document.getElementById('affirmationText').textContent = "I am open to receiving divine messages and guidance in all forms, and I trust my intuition to understand their meaning.";
+            document.getElementById('guidanceText').textContent = "Notice what you were thinking about or what situation you were in when you saw this number. The context will help you understand the specific message your angels are sending you.";
+            
+            document.getElementById('resultContainer').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Allow Enter key to trigger lookup
+        document.getElementById('numberInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                lookupNumber();
+            }
+        });
+
+        // Auto-format input to remove non-numeric characters
+        document.getElementById('numberInput').addEventListener('input', function(e) {
+            e.target.value = e.target.value.replace(/[^0-9]/g, '');
+        });
+    </script>
+</body>
+</html>
+
