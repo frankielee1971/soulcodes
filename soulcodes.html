@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en" class="dark"> <!-- Locked to dark mode -->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Soulcodes | Cosmic Tools to Escape the Matrix</title>
+    
+    <!-- Tailwind CSS CDN (with Typography plugin) -->
+    <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+    
+    <!-- Lucide Icons CDN (kept for potential future use, though theme icons are removed) -->
+    <script src="https://unpkg.com/lucide-react@0.294.0/dist/lucide-react.js"></script>
+
+    <!-- Custom Tailwind Configuration -->
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'serif': ['Playfair Display', 'serif'],
+                        'sans': ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        cosmic: {
+                            purple: '#8e44ad',
+                            pink: '#ff69b4',
+                            gold: '#f1c40f',
+                            midnight: '#0c0a1a',
+                        }
+                    },
+                    textShadow: {
+                        'glow-white': '0 0 10px rgba(255, 255, 255, 0.7)',
+                        'glow-gold': '0 0 12px rgba(241, 196, 15, 0.8)',
+                    },
+                    animation: {
+                        'gradient-bg': 'gradient-bg 15s ease infinite',
+                        'star-blink': 'star-blink 2s infinite ease-in-out alternate',
+                        'subtle-pulse': 'subtle-pulse 3s infinite ease-in-out',
+                    },
+                    keyframes: {
+                        'gradient-bg': {
+                            '0%, 100%': { 'background-position': '0% 50%' },
+                            '50%': { 'background-position': '100% 50%' },
+                        },
+                        'star-blink': {
+                            '0%': { opacity: 0.2 },
+                            '100%': { opacity: 1 },
+                        }
+                    }
+                }
+            },
+            plugins: [
+                function({ addUtilities }) {
+                  const newUtilities = {
+                    '.text-shadow-glow-white': {
+                      textShadow: '0 0 10px rgba(255, 255, 255, 0.7)',
+                    },
+                    '.text-shadow-glow-gold': {
+                      textShadow: '0 0 12px rgba(241, 196, 15, 0.8)',
+                    },
+                    '.text-shadow-glow-pink': {
+                      textShadow: '0 0 12px rgba(255, 105, 180, 0.7)',
+                    },
+                    '.perspective-1000': {
+                        perspective: '1000px',
+                    },
+                    '.transform-style-3d': {
+                        transformStyle: 'preserve-3d',
+                    },
+                    '.backface-hidden': {
+                        backfaceVisibility: 'hidden',
+                    },
+                    '.transform-rotate-y-180': {
+                        transform: 'rotateY(180deg)',
+                    },
+                  }
+                  addUtilities(newUtilities, ['responsive', 'hover'])
+                }
+            ]
+        }
+    </script>
+
+    <!-- Custom CSS for Card Flip and Starfield (Simplified for Dark Mode only) -->
+    <style>
+        /* Card Flip */
+        .card-container.is-flipped {
+            transform: rotateY(180deg);
+        }
+
+        /* Starfield background */
+        .star {
+            position: absolute;
+            background-color: white;
+            border-radius: 50%;
+            animation: star-blink 2s infinite ease-in-out alternate;
+            will-change: opacity; /* Performance optimization */
+        }
+        
+        /* Custom scrollbar for a more thematic feel (Dark mode) */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0c0a1a; /* cosmic-midnight */
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #8e44ad; /* cosmic-purple */
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #ff69b4; /* cosmic-pink */
+        }
+    </style>
+</head>
+<body class="font-sans text-gray-100 bg-cosmic-midnight transition-colors duration-500">
+
+    <!-- Starfield Container (always visible) -->
+    <div id="stars-container" class="fixed top-0 left-0 w-full h-full -z-10 opacity-100"></div>
+
+    <!-- ===== Header (Theme Toggle Removed) ===== -->
+    <header class="fixed top-0 left-0 w-full p-4 flex justify-between items-center z-50 mix-blend-difference">
+        <h1 class="font-serif text-2xl font-bold text-white">
+            <a href="#">Soulcodes</a>
+        </h1>
+        <!-- Theme Toggle removed for permanent dark mode -->
+    </header>
+
+    <main>
+        <!-- ===== Hero Section ===== -->
+        <section id="hero" class="min-h-screen flex flex-col items-center justify-center text-center p-6 relative overflow-hidden">
+            <div class="z-10">
+                <h1 class="font-serif text-5xl md:text-7xl font-bold text-shadow-glow-white animate-subtle-pulse">
+                    Soulcodes
+                </h1>
+                <p class="font-serif text-3xl md:text-5xl text-gray-200 mt-4 mb-8 text-shadow-glow-pink">
+                    Cosmic Tools to Escape the Matrix
+                </p>
+                <button id="hero-cta" class="font-sans font-bold text-lg px-8 py-4 bg-gradient-to-r from-cosmic-gold to-yellow-300 text-cosmic-midnight rounded-full shadow-lg transition-all duration-300 ease-in-out
+                                            hover:scale-105 hover:shadow-2xl hover:shadow-cosmic-gold/50
+                                            dark:text-black">
+                    Draw Your Soulcode
+                </button>
+            </div>
+        </section>
+
+        <!-- ===== Interactive Card Deck Section ===== -->
+        <section id="card-deck" class="min-h-screen flex flex-col items-center justify-center p-6 bg-black/30 backdrop-blur-sm">
+            <h2 class="font-serif text-4xl text-center mb-10 text-shadow-glow-white">Connect With Your Higher Self</h2>
+            
+            <div class="perspective-1000 w-80 h-[480px] md:w-96 md:h-[560px]">
+                <div id="card-container" class="card-container relative w-full h-full transition-transform duration-1000 transform-style-3d cursor-pointer rounded-2xl">
+                    
+                    <!-- Card Front -->
+                    <div id="card-front" class="absolute w-full h-full backface-hidden rounded-2xl overflow-hidden
+                                                border-2 border-cosmic-gold/50 shadow-2xl shadow-cosmic-purple/30
+                                                bg-gradient-to-br from-cosmic-midnight via-cosmic-purple to-cosmic-pink
+                                                flex flex-col items-center justify-center p-6 text-center">
+                        
+                        <!-- Sacred Geometry Icon -->
+                        <svg class="w-32 h-32 text-cosmic-gold opacity-50 absolute" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="1">
+                           <path d="M50 2.5 L93.3 26.25 V73.75 L50 97.5 L6.7 73.75 V26.25 Z"></path>
+                           <path d="M50 2.5 L6.7 26.25 L6.7 73.75 L50 97.5 L93.3 73.75 L93.3 26.25 Z" transform="rotate(30 50 50)"></path>
+                           <circle cx="50" cy="50" r="23.75"></circle>
+                           <circle cx="50" cy="50" r="47.5"></circle>
+                        </svg>
+
+                        <h3 class="font-serif text-3xl font-bold text-shadow-glow-gold z-10">Draw Your Soulcode</h3>
+                        <p class="text-lg text-white/80 mt-4 z-10">Click to reveal your message</p>
+                    </div>
+
+                    <!-- Card Back -->
+                    <div id="card-back" class="absolute w-full h-full backface-hidden rounded-2xl overflow-hidden
+                                                border-2 border-cosmic-pink/50 shadow-2xl shadow-cosmic-gold/30
+                                                bg-gradient-to-br from-gray-900 via-cosmic-midnight to-black
+                                                flex flex-col items-center justify-center p-10 text-center
+                                                transform-rotate-y-180">
+                        <p id="affirmation-text" class="font-serif text-3xl md:text-4xl text-white text-shadow-glow-white">
+                            Your divine message is loading...
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <button id="draw-new-card-button" class="mt-10 font-sans font-bold text-lg px-8 py-3 bg-cosmic-purple text-white rounded-full shadow-lg transition-all duration-300 ease-in-out
+                                                      hover:scale-105 hover:bg-cosmic-pink hover:shadow-cosmic-pink/50">
+                Draw a New Card
+            </button>
+        </section>
+        
+        <!-- ===== Daily Ritual Dashboard Section ===== -->
+        <section id="ritual-dashboard" class="py-20 px-6 bg-cosmic-midnight/50">
+            <h2 class="font-serif text-4xl text-center mb-12 text-shadow-glow-white">Your Daily Ritual</h2>
+            
+            <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
+                
+                <!-- Moon Phase -->
+                <div class="bg-black/30 backdrop-blur-md rounded-2xl p-6 border border-cosmic-purple/50 shadow-xl shadow-cosmic-purple/20 text-center">
+                    <h3 class="font-serif text-2xl text-cosmic-gold mb-4">Today's Moon Phase</h3>
+                    <div id="moon-phase-icon" class="text-7xl mb-4"></div>
+                    <p id="moon-phase-name" class="text-xl font-semibold"></p>
+                </div>
+                
+                <!-- Angel Number -->
+                <div class="bg-black/30 backdrop-blur-md rounded-2xl p-6 border border-cosmic-pink/50 shadow-xl shadow-cosmic-pink/20 text-center">
+                    <h3 class="font-serif text-2xl text-cosmic-gold mb-4">Angel Number</h3>
+                    <p id="angel-number" class="font-serif text-7xl mb-4 text-shadow-glow-white">444</p>
+                    <p class="text-lg">A sign of protection & encouragement.</p>
+                </div>
+
+                <!-- Journal Prompt -->
+                <div class="bg-black/30 backdrop-blur-md rounded-2xl p-6 border border-cosmic-gold/50 shadow-xl shadow-cosmic-gold/20 md:col-span-3">
+                    <h3 class="font-serif text-2xl text-cosmic-gold mb-4 text-center">Soul Journal</h3>
+                    <p id="journal-prompt" class="text-lg text-center mb-4 italic">What limiting belief am I ready to release today?</p>
+                    <textarea id="journal-input" rows="8" class="w-full p-4 rounded-lg bg-white/10 text-white placeholder-gray-500 border-0 focus:ring-2 focus:ring-cosmic-pink" placeholder="Write your reflections..."></textarea>
+                    <div class="flex justify-center mt-4">
+                        <button id="save-journal-button" class="font-sans font-bold text-md px-6 py-2 bg-cosmic-gold text-cosmic-midnight rounded-full shadow-lg transition-all duration-300 ease-in-out
+                                                            hover:scale-105 hover:shadow-cosmic-gold/50">
+                            Save My Ritual
+                        </button>
+                    </div>
+                    <p id="save-status" class="text-center mt-3 text-cosmic-pink h-4"></p>
+                </div>
+
+            </div>
+        </section>
+        
+        <!-- ===== About Section ===== -->
+        <section id="about" class="py-20 px-6 text-center max-w-3xl mx-auto">
+            <h2 class="font-serif text-4xl mb-6 text-shadow-glow-white">This is Your Sanctuary</h2>
+            <div class="prose prose-lg text-gray-300 mx-auto font-sans">
+                <p>
+                    Soulcodes was born from a desire to create a sacred, digital space for women on their spiritual journey. We are here to remind you of your power, your divinity, and your infinite connection to the cosmos.
+                </p>
+                <p>
+                    These tools are not a distraction; they are a focal point. A way to anchor your intentions, connect with your higher self, and receive the wisdom that is already within you. Use this space as a daily ritual to raise your vibration and consciously create your reality.
+                </p>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ===== Footer ===== -->
+    <footer class="text-center p-10 bg-black/50 backdrop-blur-lg border-t border-cosmic-purple/30">
+        <p class="font-sans text-gray-400">
+            © <span id="footer-year">2025</span> Soulcodes - Connect With Your Higher Self.
+        </p>
+    </footer>
+
+    <!-- ===== JavaScript Logic (now using Firebase Firestore) ===== -->
+    <script type="module">
+        // Import Firebase modules
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, doc, setDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        document.addEventListener('DOMContentLoaded', async () => {
+
+            // --- Element References ---
+            const saveStatus = document.getElementById('save-status');
+            const journalInput = document.getElementById('journal-input');
+            const saveButton = document.getElementById('save-journal-button');
+            const journalPromptEl = document.getElementById('journal-prompt');
+            const starsContainer = document.getElementById('stars-container');
+
+            // --- Firebase Initialization and Auth ---
+            // Global variables provided by the Canvas environment
+            const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+            const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : null;
+            const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
+
+            let db = null;
+            let userId = null;
+            let journalDocRef = null;
+
+            if (firebaseConfig) {
+                try {
+                    const app = initializeApp(firebaseConfig);
+                    const auth = getAuth(app);
+                    db = getFirestore(app);
+                    
+                    // 1. Authenticate
+                    if (initialAuthToken) {
+                        await signInWithCustomToken(auth, initialAuthToken);
+                    } else {
+                        await signInAnonymously(auth);
+                    }
+                    userId = auth.currentUser?.uid || 'anonymous';
+                    
+                    // 2. Define document path for private journal data
+                    // Path: /artifacts/{appId}/users/{userId}/journal_entries/daily_ritual
+                    journalDocRef = doc(db, 'artifacts', appId, 'users', userId, 'journal_entries', 'daily_ritual');
+                    
+                    // 3. Load: Set up real-time listener (onSnapshot)
+                    onSnapshot(journalDocRef, (docSnap) => {
+                        if (docSnap.exists()) {
+                            const data = docSnap.data();
+                            // Only update the input field if the retrieved data is valid
+                            if (data && data.entry) {
+                                journalInput.value = data.entry;
+                            }
+                        } else {
+                            // Document does not exist yet (first time use)
+                            journalInput.value = ''; 
+                        }
+                    }, (error) => {
+                        console.error("Firestore Load Error:", error);
+                        saveStatus.textContent = "Error loading ritual. Check console.";
+                    });
+
+                    // 4. Save: Use setDoc on button click
+                    saveButton.addEventListener('click', async () => {
+                        const entryData = {
+                            entry: journalInput.value,
+                            timestamp: Date.now(),
+                            prompt: journalPromptEl.textContent 
+                        };
+                        
+                        try {
+                            // setDoc with merge: true creates the document if it doesn't exist or updates fields if it does.
+                            await setDoc(journalDocRef, entryData, { merge: true }); 
+                            
+                            saveStatus.textContent = 'Ritual saved successfully to the cosmos.';
+                            setTimeout(() => {
+                                saveStatus.textContent = '';
+                            }, 3000);
+                        } catch (e) {
+                            console.error("Error saving ritual: ", e);
+                            saveStatus.textContent = 'Error saving ritual. Check console.';
+                        }
+                    });
+
+                } catch (error) {
+                    console.error("Critical Firebase Setup Error:", error);
+                    saveStatus.textContent = "A critical error occurred connecting to the database.";
+                }
+
+            } else {
+                 // Fallback to local storage if Firebase config is unavailable (not persistent/collaborative)
+                 console.warn("Firebase configuration missing. Journal data is currently NOT persistent.");
+                 journalInput.value = localStorage.getItem('soulcodeJournal') || '';
+                 saveButton.addEventListener('click', () => {
+                     localStorage.setItem('soulcodeJournal', journalInput.value);
+                     saveStatus.textContent = 'Ritual saved locally (not to database).';
+                     setTimeout(() => { saveStatus.textContent = ''; }, 3000);
+                 });
+            }
+            
+            // --- Dynamic Starfield (Permanent Dark Mode) ---
+            function createStars() {
+                if (!starsContainer) return;
+                
+                starsContainer.innerHTML = ''; // Clear existing stars
+                for (let i = 0; i < 150; i++) {
+                    const star = document.createElement('div');
+                    star.className = 'star';
+                    const size = Math.random() * 2 + 0.5;
+                    star.style.width = `${size}px`;
+                    star.style.height = `${size}px`;
+                    star.style.left = `${Math.random() * 100}%`;
+                    star.style.top = `${Math.random() * 100}%`;
+                    star.style.animationDelay = `${Math.random() * 3}s`;
+                    star.style.animationDuration = `${Math.random() * 2 + 1.5}s`;
+                    starsContainer.appendChild(star);
+                }
+            }
+            
+            // Generate stars immediately since we are always in dark mode
+            createStars(); 
+            
+            // --- Hero CTA Scroll ---
+            const heroCta = document.getElementById('hero-cta');
+            const cardDeckSection = document.getElementById('card-deck');
+            heroCta.addEventListener('click', () => {
+                cardDeckSection.scrollIntoView({ behavior: 'smooth' });
+            });
+
+            // --- Card Deck Logic ---
+            const affirmations = [
+                "I am a radiant being of light, love, and infinite potential.",
+                "I release all that no longer serves my highest good.",
+                "My intuition is my most trusted guide, and I follow it fearlessly.",
+                "I am worthy of all the abundance and joy the universe has to offer.",
+                "I am aligned with my soul's purpose and divine mission.",
+                "I choose love over fear in every thought, word, and action.",
+                "I am a powerful creator, and I consciously shape my reality.",
+                "My body is a sacred temple, and I honor it with love and care.",
+                "I see the divine in all beings, including myself.",
+                "I am grounded, centered, and connected to the earth and the cosmos.",
+                "I forgive myself and others, freeing my energy for creation.",
+                "Every challenge is an opportunity for me to grow and expand my consciousness.",
+            ];
+
+            const cardContainer = document.getElementById('card-container');
+            const affirmationText = document.getElementById('affirmation-text');
+            const drawNewCardButton = document.getElementById('draw-new-card-button');
+            let isFlipped = false;
+            let currentAffirmation = "";
+
+            function drawNewAffirmation() {
+                const newAffirmation = affirmations[Math.floor(Math.random() * affirmations.length)];
+                currentAffirmation = newAffirmation;
+                affirmationText.textContent = currentAffirmation;
+            }
+
+            function flipCard() {
+                if (!isFlipped) {
+                    // Flipping to back
+                    if (affirmationText.textContent === "Your divine message is loading...") {
+                        drawNewAffirmation();
+                    }
+                    cardContainer.classList.add('is-flipped');
+                } else {
+                    // Flipping to front
+                    cardContainer.classList.remove('is-flipped');
+                    // Pre-load next affirmation after flip animation
+                    setTimeout(drawNewAffirmation, 500);
+                }
+                isFlipped = !isFlipped;
+            }
+            
+            cardContainer.addEventListener('click', flipCard);
+            
+            drawNewCardButton.addEventListener('click', () => {
+                if (isFlipped) {
+                    // If card is showing back, flip to front
+                    cardContainer.classList.remove('is-flipped');
+                    isFlipped = false;
+                    // Wait for flip, then draw and flip back
+                    setTimeout(() => {
+                        drawNewAffirmation();
+                        cardContainer.classList.add('is-flipped');
+                        isFlipped = true;
+                    }, 1000); // 1s for flip-back + 0.5s pause
+                } else {
+                    // If card is showing front, draw and flip
+                    drawNewAffirmation();
+                    cardContainer.classList.add('is-flipped');
+                    isFlipped = true;
+                }
+            });
+
+            // --- Daily Ritual Dashboard (Non-DB Logic) ---
+
+            // 1. Moon Phase
+            const moonPhaseIconEl = document.getElementById('moon-phase-icon');
+            const moonPhaseNameEl = document.getElementById('moon-phase-name');
+            const moonIcons = ['🌑', '🌒', '🌓', '🌔', '🌕', '🌖', '🌗', '🌘'];
+            const moonNames = ['New Moon', 'Waxing Crescent', 'First Quarter', 'Waxing Gibbous', 'Full Moon', 'Waning Gibbous', 'Third Quarter', 'Waning Crescent'];
+            
+            // Simple moon calculation (based on day of month, not perfect but thematic)
+            const dayOfMonth = new Date().getDate();
+            const phaseIndex = Math.floor((dayOfMonth / 29.5) * 8) % 8;
+            
+            moonPhaseIconEl.textContent = moonIcons[phaseIndex];
+            moonPhaseNameEl.textContent = moonNames[phaseIndex];
+
+            // 2. Angel Number
+            const angelNumberEl = document.getElementById('angel-number');
+            const angelNumbers = ['111', '222', '333', '444', '555', '777', '888', '999'];
+            angelNumberEl.textContent = angelNumbers[Math.floor(Math.random() * angelNumbers.length)];
+            
+            // 3. Journal Prompt
+            const prompts = [
+                "What limiting belief am I ready to release today?",
+                "How can I show myself unconditional love in this moment?",
+                "What is my soul whispering to me?",
+                "Where in my life am I being called to be more authentic?",
+                "What am I most grateful for in my spiritual journey right now?",
+                "How can I raise my vibration today?",
+            ];
+            
+            journalPromptEl.textContent = prompts[Math.floor(Math.random() * prompts.length)];
+            
+            // --- Footer Year ---
+            document.getElementById('footer-year').textContent = new Date().getFullYear();
+
+            // Initial call for first-time card load
+            drawNewAffirmation();
+        });
+    </script>
+</body>
+</html>
