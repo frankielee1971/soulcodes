@@ -239,6 +239,84 @@
 
             </div>
         </section>
+
+                <!-- ===== Angel Number Calculator Section ===== -->
+    <section id="angel-calculator" class="py-20 px-6 bg-black/50">
+        <h2 class="font-serif text-4xl text-center mb-12 text-shadow-glow-white">Discover Your Angel Number</h2>
+        
+        <div class="max-w-2xl mx-auto bg-black/30 backdrop-blur-md rounded-2xl p-8 border border-cosmic-pink/50 shadow-xl shadow-cosmic-pink/20">
+            <div class="space-y-6">
+                <div>
+                    <label class="block text-lg mb-2 text-cosmic-gold">Your Full Name</label>
+                    <input type="text" id="calc-name" placeholder="Enter your full name" 
+                           class="w-full p-4 rounded-lg bg-white/10 text-white placeholder-gray-500 border border-cosmic-pink/30 focus:ring-2 focus:ring-cosmic-gold focus:border-transparent">
+                </div>
+                
+                <div>
+                    <label class="block text-lg mb-2 text-cosmic-gold">Your Birthdate</label>
+                    <input type="date" id="calc-birthdate" 
+                           class="w-full p-4 rounded-lg bg-white/10 text-white border border-cosmic-pink/30 focus:ring-2 focus:ring-cosmic-gold focus:border-transparent">
+                </div>
+                
+                <button id="calculate-angel-number" class="w-full font-sans font-bold text-lg px-8 py-4 bg-gradient-to-r from-cosmic-gold to-yellow-300 text-cosmic-midnight rounded-full shadow-lg transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-2xl hover:shadow-cosmic-gold/50">
+                    Calculate My Angel Number
+                </button>
+                
+                <div id="angel-result" class="hidden mt-8 p-6 rounded-xl bg-gradient-to-br from-cosmic-purple/30 to-cosmic-pink/30 border-2 border-cosmic-gold">
+                    <div class="text-center">
+                        <p class="text-lg text-gray-300 mb-2">Your Personal Angel Number</p>
+                        <p id="angel-number-display" class="font-serif text-7xl text-cosmic-gold text-shadow-glow-gold mb-4"></p>
+                        <p id="angel-meaning" class="text-gray-200 text-lg"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== Angel Number Tracker Section ===== -->
+    <section id="angel-tracker" class="py-20 px-6 bg-cosmic-midnight/50">
+        <h2 class="font-serif text-4xl text-center mb-12 text-shadow-glow-white">Track Your Angel Number Sightings</h2>
+        
+        <div class="max-w-4xl mx-auto">
+            <!-- Add New Sighting Form -->
+            <div class="bg-black/30 backdrop-blur-md rounded-2xl p-8 border border-cosmic-purple/50 shadow-xl shadow-cosmic-purple/20 mb-8">
+                <h3 class="font-serif text-2xl text-cosmic-gold mb-6">Log a New Sighting</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                    <div>
+                        <label class="block text-sm mb-2">Angel Number</label>
+                        <input type="text" id="sighting-number" placeholder="e.g., 111, 222, 333" 
+                               class="w-full p-3 rounded-lg bg-white/10 text-white placeholder-gray-500 border border-cosmic-purple/30 focus:ring-2 focus:ring-cosmic-pink">
+                    </div>
+                    <div>
+                        <label class="block text-sm mb-2">Date & Time</label>
+                        <input type="datetime-local" id="sighting-datetime" 
+                               class="w-full p-3 rounded-lg bg-white/10 text-white border border-cosmic-purple/30 focus:ring-2 focus:ring-cosmic-pink">
+                    </div>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-sm mb-2">Where did you see it?</label>
+                    <input type="text" id="sighting-location" placeholder="Clock, license plate, receipt, etc." 
+                           class="w-full p-3 rounded-lg bg-white/10 text-white placeholder-gray-500 border border-cosmic-purple/30 focus:ring-2 focus:ring-cosmic-pink">
+                </div>
+                <div class="mb-4">
+                    <label class="block text-sm mb-2">Your thoughts or feelings</label>
+                    <textarea id="sighting-notes" rows="3" placeholder="What were you thinking about when you saw this number?" 
+                              class="w-full p-3 rounded-lg bg-white/10 text-white placeholder-gray-500 border border-cosmic-purple/30 focus:ring-2 focus:ring-cosmic-pink"></textarea>
+                </div>
+                <button id="log-sighting" class="w-full font-sans font-bold text-md px-6 py-3 bg-cosmic-purple text-white rounded-full shadow-lg transition-all duration-300 ease-in-out hover:scale-105 hover:bg-cosmic-pink hover:shadow-cosmic-pink/50">
+                    Save Sighting
+                </button>
+            </div>
+            
+            <!-- Sightings List -->
+            <div class="bg-black/30 backdrop-blur-md rounded-2xl p-8 border border-cosmic-gold/50 shadow-xl shadow-cosmic-gold/20">
+                <h3 class="font-serif text-2xl text-cosmic-gold mb-6">Your Angel Number Journal</h3>
+                <div id="sightings-list" class="space-y-4">
+                    <p class="text-gray-400 text-center italic">No sightings recorded yet. Start tracking your divine messages!</p>
+                </div>
+            </div>
+        </div>
+    </section>
         
         <!-- ===== About Section ===== -->
         <section id="about" class="py-20 px-6 text-center max-w-3xl mx-auto">
@@ -491,11 +569,152 @@
             document.getElementById('footer-year').textContent = new Date().getFullYear();
 
             // Initial call for first-time card load
+
+                    // ===== Angel Number Calculator =====
+    const angelMeanings = {
+        1: "New beginnings, independence, and manifesting your desires. The universe is supporting your new path.",
+        2: "Balance, harmony, and partnerships. Trust in divine timing and maintain faith.",
+        3: "Creativity, self-expression, and growth. The ascended masters are guiding you.",
+        4: "Stability, hard work paying off, and angelic protection. You're on the right path.",
+        5: "Change, freedom, and adventure. Major life transformations are coming.",
+        6: "Love, family, and domestic harmony. Focus on balance between material and spiritual.",
+        7: "Spiritual awakening, inner wisdom, and good fortune. You're aligned with your soul's purpose.",
+        8: "Abundance, success, and infinite possibilities. Financial and personal power are manifesting.",
+        9: "Completion, humanitarian service, and spiritual enlightenment. A chapter is ending to make way for new beginnings.",
+        11: "Master number of intuition, spiritual insight, and enlightenment. Your thoughts are rapidly manifesting.",
+        22: "Master number of the master builder. You have the power to turn dreams into reality.",
+        33: "Master number of compassion and blessings. You're being called to uplift others through your gifts."
+    };
+
+    function calculateAngelNumber(name, birthdate) {
+        // Calculate from name (Pythagorean numerology)
+        const letterValues = {
+            'a': 1, 'b': 2, 'c': 3, 'd': 4, 'e': 5, 'f': 6, 'g': 7, 'h': 8, 'i': 9,
+            'j': 1, 'k': 2, 'l': 3, 'm': 4, 'n': 5, 'o': 6, 'p': 7, 'q': 8, 'r': 9,
+            's': 1, 't': 2, 'u': 3, 'v': 4, 'w': 5, 'x': 6, 'y': 7, 'z': 8
+        };
+        
+        let nameSum = 0;
+        name.toLowerCase().split('').forEach(char => {
+            if (letterValues[char]) {
+                nameSum += letterValues[char];
+            }
+        });
+        
+        // Calculate from birthdate
+        const dateSum = birthdate.split('-').join('').split('').reduce((sum, digit) => sum + parseInt(digit), 0);
+        
+        // Combine and reduce
+        let total = nameSum + dateSum;
+        
+        // Reduce to single digit or master number (11, 22, 33)
+        while (total > 33 && total !== 11 && total !== 22 && total !== 33) {
+            total = total.toString().split('').reduce((sum, digit) => sum + parseInt(digit), 0);
+        }
+        
+        // If still not a master number, reduce to single digit
+        if (total > 9 && total !== 11 && total !== 22 && total !== 33) {
+            total = total.toString().split('').reduce((sum, digit) => sum + parseInt(digit), 0);
+        }
+        
+        return total;
+    }
+
+    const calculateButton = document.getElementById('calculate-angel-number');
+    const angelResult = document.getElementById('angel-result');
+    const angelNumberDisplay = document.getElementById('angel-number-display');
+    const angelMeaningText = document.getElementById('angel-meaning');
+
+    calculateButton.addEventListener('click', () => {
+        const name = document.getElementById('calc-name').value.trim();
+        const birthdate = document.getElementById('calc-birthdate').value;
+        
+        if (!name || !birthdate) {
+            alert('Please enter both your name and birthdate');
+            return;
+        }
+        
+        const angelNumber = calculateAngelNumber(name, birthdate);
+        angelNumberDisplay.textContent = angelNumber;
+        angelMeaningText.textContent = angelMeanings[angelNumber] || angelMeanings[angelNumber % 10];
+        angelResult.classList.remove('hidden');
+    });
+
+    // ===== Angel Number Tracker =====
+    const sightingsList = document.getElementById('sightings-list');
+    const logSightingButton = document.getElementById('log-sighting');
+
+    function loadSightings() {
+        const sightings = JSON.parse(localStorage.getItem('angelSightings') || '[]');
+        
+        if (sightings.length === 0) {
+            sightingsList.innerHTML = '<p class="text-gray-400 text-center italic">No sightings recorded yet. Start tracking your divine messages!</p>';
+            return;
+        }
+        
+        sightingsList.innerHTML = sightings.map((sighting, index) => `
+            <div class="bg-white/5 rounded-xl p-4 border border-cosmic-purple/30 hover:border-cosmic-gold/50 transition-all">
+                <div class="flex justify-between items-start mb-2">
+                    <div class="flex-1">
+                        <span class="font-serif text-3xl text-cosmic-gold text-shadow-glow-gold">${sighting.number}</span>
+                        <span class="text-gray-400 text-sm ml-3">${new Date(sighting.datetime).toLocaleString()}</span>
+                    </div>
+                    <button onclick="deleteSighting(${index})" class="text-red-400 hover:text-red-300 text-sm">
+                        Delete
+                    </button>
+                </div>
+                ${sighting.location ? `<p class="text-gray-300 text-sm mb-1"><span class="text-cosmic-pink">📍</span> ${sighting.location}</p>` : ''}
+                ${sighting.notes ? `<p class="text-gray-400 text-sm italic mt-2">${sighting.notes}</p>` : ''}
+            </div>
+        `).reverse().join('');
+    }
+
+    window.deleteSighting = function(index) {
+        if (confirm('Are you sure you want to delete this sighting?')) {
+            const sightings = JSON.parse(localStorage.getItem('angelSightings') || '[]');
+            sightings.splice(index, 1);
+            localStorage.setItem('angelSightings', JSON.stringify(sightings));
+            loadSightings();
+        }
+    };
+
+    logSightingButton.addEventListener('click', () => {
+        const number = document.getElementById('sighting-number').value.trim();
+        const datetime = document.getElementById('sighting-datetime').value;
+        const location = document.getElementById('sighting-location').value.trim();
+        const notes = document.getElementById('sighting-notes').value.trim();
+        
+        if (!number || !datetime) {
+            alert('Please enter at least the angel number and date/time');
+            return;
+        }
+        
+        const sightings = JSON.parse(localStorage.getItem('angelSightings') || '[]');
+        sightings.push({ number, datetime, location, notes, timestamp: Date.now() });
+        localStorage.setItem('angelSightings', JSON.stringify(sightings));
+        
+        // Clear form
+        document.getElementById('sighting-number').value = '';
+        document.getElementById('sighting-datetime').value = '';
+        document.getElementById('sighting-location').value = '';
+        document.getElementById('sighting-notes').value = '';
+        
+        loadSightings();
+    });
+
+    // Set current datetime as default
+    const now = new Date();
+    now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+    document.getElementById('sighting-datetime').value = now.toISOString().slice(0, 16);
+    
+    // Load existing sightings
+    loadSightings();
             drawNewAffirmation();
         });
     </script>
 </body>
 
 </html>
+
 
 
