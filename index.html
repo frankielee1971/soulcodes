@@ -14,6 +14,32 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Soulcodes | Cosmic Tools to Escape the Matrix</title>
+            
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Discover your angel number, track spiritual synchronicities, and draw daily affirmations with Soulcodes - free cosmic tools for spiritual awakening and manifestation. Calculate your personal angel number based on numerology.">
+    <meta name="keywords" content="angel number calculator, angel number meaning, track angel numbers, numerology calculator, spiritual awakening tools, daily affirmations, moon phases, soul journal, manifestation tools, spiritual growth, divine synchronicity, angel number tracker">
+    <meta name="author" content="Soulcodes">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://www.soulcodes.site/">
+    
+    <!-- Open Graph Meta Tags for Social Sharing -->
+    <meta property="og:title" content="Soulcodes | Angel Number Calculator & Spiritual Awakening Tools">
+    <meta property="og:description" content="Free angel number calculator, tracker, and cosmic tools for spiritual awakening. Discover your personal angel number through numerology and track divine synchronicities.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.soulcodes.site/">
+    <meta property="og:site_name" content="Soulcodes">
+    <meta property="og:locale" content="en_US">
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Soulcodes | Angel Number Calculator & Spiritual Tools">
+    <meta name="twitter:description" content="Calculate your angel number, track synchronicities, and access free spiritual awakening tools for manifestation and growth.">
+    
+    <!-- Additional SEO -->
+    <meta name="theme-color" content="#0c0a1a">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     
     <!-- Tailwind CSS CDN (with Typography plugin) -->
     <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
@@ -131,7 +157,81 @@
 <body class="font-sans text-gray-100 bg-cosmic-midnight transition-colors duration-500">
 
     <!-- Starfield Container (always visible) -->
-    <div id="stars-container" class="fixed top-0 left-0 w-full h-full -z-10 opacity-100"></div>
+        
+    <!-- Structur role="main" aria-label="Soulcodes spiritual tools and angel number calculator"ed Data (JSON-LD) for SEO -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Soulcodes",
+      "alternateName": "Angel Number Calculator & Tracker",
+      "url": "https://www.soulcodes.site/",
+      "description": "Free angel number calculator and tracker. Discover your personal angel number through numerology, track synchronicities, and access daily spiritual tools for awakening and manifestation.",
+      "applicationCategory": "LifestyleApplication",
+      "operatingSystem": "Any",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "featureList": [
+        "Angel Number Calculator based on name and birthdate",
+        "Angel Number Tracker for logging synchronicities",
+        "Daily Affirmation Cards",
+        "Moon Phase Tracker",
+        "Soul Journal with prompts"
+      ],
+      "keywords": "angel numbers, numerology, spiritual awakening, manifestation, synchronicity, angel number calculator, angel number meanings",
+      "inLanguage": "en-US",
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "5.0",
+        "reviewCount": "1"
+      }
+    }
+    </script>
+    
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is an angel number calculator?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "An angel number calculator uses numerology to determine your personal angel number based on your name and birthdate. It applies Pythagorean numerology principles to reveal divine messages and spiritual guidance unique to you."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I calculate my angel number?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Enter your full name and birthdate into our free angel number calculator. The tool uses numerology to convert your name letters and birth date into numbers, then reduces them to a single digit or master number (11, 22, 33) that represents your angel number."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What do angel numbers mean?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Angel numbers are repeating number sequences (like 111, 222, 444) that carry spiritual messages from the universe or your angels. Each number has a unique meaning related to guidance, manifestation, spiritual growth, and life purpose."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How can I track angel number sightings?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Use our angel number tracker to log when and where you see angel numbers (on clocks, license plates, receipts). Record the date, time, location, and your thoughts or feelings to identify patterns and understand the divine messages being sent to you."
+          }
+        }
+      ]
+    }
+    </script>
+        <div id="stars-container" class="fixed top-0 left-0 w-full h-full -z-10 opacity-100"></div>
 
     <!-- ===== Header (Theme Toggle Removed) ===== -->
     <header class="fixed top-0 left-0 w-full p-4 flex justify-between items-center z-50 mix-blend-difference">
@@ -246,8 +346,7 @@
         
         <div class="max-w-2xl mx-auto bg-black/30 backdrop-blur-md rounded-2xl p-8 border border-cosmic-pink/50 shadow-xl shadow-cosmic-pink/20">
             <div class="space-y-6">
-                <div>
-                    <label class="block text-lg mb-2 text-cosmic-gold">Your Full Name</label>
+        <h2 class="font-serif text-4xl text-center mb-12 text-shadow-glow-white">Free Angel Number Calculator</h2>                    <label class="block text-lg mb-2 text-cosmic-gold">Your Full Name</label>
                     <input type="text" id="calc-name" placeholder="Enter your full name" 
                            class="w-full p-4 rounded-lg bg-white/10 text-white placeholder-gray-500 border border-cosmic-pink/30 focus:ring-2 focus:ring-cosmic-gold focus:border-transparent">
                 </div>
@@ -279,8 +378,7 @@
         
         <div class="max-w-4xl mx-auto">
             <!-- Add New Sighting Form -->
-            <div class="bg-black/30 backdrop-blur-md rounded-2xl p-8 border border-cosmic-purple/50 shadow-xl shadow-cosmic-purple/20 mb-8">
-                <h3 class="font-serif text-2xl text-cosmic-gold mb-6">Log a New Sighting</h3>
+        <h2 class="font-serif text-4xl text-center mb-12 text-shadow-glow-white">Angel Number Tracker - Log Your Divine Messages</h2>                <h3 class="font-serif text-2xl text-cosmic-gold mb-6">Log a New Sighting</h3>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                     <div>
                         <label class="block text-sm mb-2">Angel Number</label>
@@ -323,7 +421,47 @@
             <h2 class="font-serif text-4xl mb-6 text-shadow-glow-white">This is Your Sanctuary</h2>
             <div class="prose prose-lg text-gray-300 mx-auto font-sans">
                 <p>
-                    Soulcodes was born from a desire to create a sacred, digital space for women on their spiritual journey. We are here to remind you of your power, your divinity, and your infinite connection to the cosmos.
+    <!-- ===== SEO Content Section - Understanding Angel Numbers ===== -->
+    <section id="angel-numbers-guide" class="py-20 px-6 bg-cosmic-midnight/70">
+        <div class="max-w-4xl mx-auto">
+            <h2 class="font-serif text-4xl text-center mb-12 text-shadow-glow-white">Understanding Angel Numbers and Their Meanings</h2>
+            
+            <div class="space-y-6 text-gray-200 leading-relaxed">
+                <p class="text-lg">
+                    Angel numbers are powerful sequences of numbers that carry divine guidance and spiritual messages from the universe. When you repeatedly see numbers like 111, 222, 333, or 444, it's not a coincidence—it's a form of synchronicity that holds deep meaning for your spiritual journey.
+                </p>
+                
+                <h3 class="font-serif text-2xl text-cosmic-gold mt-8 mb-4">How to Use Our Free Angel Number Calculator</h3>
+                <p>
+                    Our angel number calculator uses the ancient art of numerology to determine your personal angel number based on your full name and birthdate. By applying Pythagorean numerology principles, we convert the letters in your name and the digits in your birthdate into numbers, then reduce them to reveal your unique angel number—including powerful master numbers like 11, 22, and 33.
+                </p>
+                
+                <h3 class="font-serif text-2xl text-cosmic-gold mt-8 mb-4">Common Angel Number Meanings</h3>
+                <ul class="list-disc list-inside space-y-2 ml-4">
+                    <li><strong class="text-cosmic-pink">111:</strong> New beginnings and manifestation - Your thoughts are rapidly becoming reality</li>
+                    <li><strong class="text-cosmic-pink">222:</strong> Balance and harmony - Trust in divine timing and maintain faith</li>
+                    <li><strong class="text-cosmic-pink">333:</strong> Spiritual growth - The ascended masters are supporting your journey</li>
+                    <li><strong class="text-cosmic-pink">444:</strong> Protection and encouragement - Your angels are surrounding you with love</li>
+                    <li><strong class="text-cosmic-pink">555:</strong> Major life changes - Transformation and freedom are coming</li>
+                    <li><strong class="text-cosmic-pink">777:</strong> Spiritual awakening - You're on the right path to enlightenment</li>
+                    <li><strong class="text-cosmic-pink">888:</strong> Abundance and success - Financial prosperity is manifesting</li>
+                    <li><strong class="text-cosmic-pink">999:</strong> Completion and new chapters - One door closes, another opens</li>
+                </ul>
+                
+                <h3 class="font-serif text-2xl text-cosmic-gold mt-8 mb-4">Why Track Your Angel Number Sightings?</h3>
+                <p>
+                    Using our angel number tracker helps you identify patterns in the divine messages you're receiving. By logging when and where you see specific angel numbers, along with your thoughts and feelings in those moments, you can better understand what the universe is trying to communicate to you. This practice deepens your spiritual awareness and helps you recognize synchronicities in your daily life.
+                </p>
+                
+                <p class="text-lg font-semibold text-cosmic-gold mt-8">
+                    Start your spiritual journey today with our free angel number calculator and tracker—no signup required!
+                </p>
+            </div>
+        </div>
+    </section>
+
+                    
+                        Soulcodes was born from a desire to create a sacred, digital space for women on their spiritual journey. We are here to remind you of your power, your divinity, and your infinite connection to the cosmos.
                 </p>
                 <p>
                     These tools are not a distraction; they are a focal point. A way to anchor your intentions, connect with your higher self, and receive the wisdom that is already within you. Use this space as a daily ritual to raise your vibration and consciously create your reality.
@@ -715,6 +853,7 @@
 </body>
 
 </html>
+
 
 
 
