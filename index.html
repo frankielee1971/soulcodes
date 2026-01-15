@@ -238,12 +238,37 @@
         <h1 class="font-serif text-2xl font-bold text-white">
             <a href="#">Soulcodes</a>
         </h1>
-        <!-- Theme Toggle removed for permanent dark mode -->
-    </header>
+    <header class="fixed top-0 left-0 w-full p-4 flex justify-between items-center z-50 bg-cosmic-midnight/90 backdrop-blur-md border-b border-cosmic-purple/20 transition-all duration-300" id="main-header">    </header>
 
     <main>
+                    <!-- Navigation Menu -->
+        <nav class="hidden md:flex items-center gap-6">
+            <a href="#card-deck" class="text-gray-200 hover:text-cosmic-gold transition-colors duration-300">Daily Cards</a>
+            <a href="#angel-calculator" class="text-gray-200 hover:text-cosmic-gold transition-colors duration-300">Calculator</a>
+            <a href="#angel-tracker" class="text-gray-200 hover:text-cosmic-gold transition-colors duration-300">Tracker</a>
+            <a href="#angel-numbers-guide" class="text-gray-200 hover:text-cosmic-gold transition-colors duration-300">Learn</a>
+            <a href="#about" class="text-gray-200 hover:text-cosmic-gold transition-colors duration-300">About</a>
+        </nav>
+        
+        <!-- Mobile Menu Button -->
+        <button id="mobile-menu-btn" class="md:hidden text-cosmic-gold hover:text-cosmic-pink transition-colors">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+        </button>
         <!-- ===== Hero Section ===== -->
         <section id="hero" class="min-h-screen flex flex-col items-center justify-center text-center p-6 relative overflow-hidden">
+                    
+    <!-- Mobile Menu Overlay -->
+    <div id="mobile-menu" class="md:hidden fixed top-16 left-0 w-full bg-cosmic-midnight/95 backdrop-blur-lg border-b border-cosmic-purple/20 transform -translate-y-full transition-transform duration-300 z-40">
+        <nav class="flex flex-col p-6 space-y-4">
+            <a href="#card-deck" class="mobile-nav-link text-gray-200 hover:text-cosmic-gold transition-colors duration-300 text-lg">🎴 Daily Cards</a>
+            <a href="#angel-calculator" class="mobile-nav-link text-gray-200 hover:text-cosmic-gold transition-colors duration-300 text-lg">🔢 Calculator</a>
+            <a href="#angel-tracker" class="mobile-nav-link text-gray-200 hover:text-cosmic-gold transition-colors duration-300 text-lg">📊 Tracker</a>
+            <a href="#angel-numbers-guide" class="mobile-nav-link text-gray-200 hover:text-cosmic-gold transition-colors duration-300 text-lg">📖 Learn</a>
+            <a href="#about" class="mobile-nav-link text-gray-200 hover:text-cosmic-gold transition-colors duration-300 text-lg">✨ About</a>
+        </nav>
+    </div>
             <div class="z-10">
                 <h1 class="font-serif text-5xl md:text-7xl font-bold text-shadow-glow-white animate-subtle-pulse">
                     Soulcodes
@@ -255,6 +280,27 @@
                                             hover:scale-105 hover:shadow-2xl hover:shadow-cosmic-gold/50
                                             dark:text-black">
                     Draw Your Soulcode
+                                    
+            <!-- Email CTA Above the Fold -->
+            <div class="mb-8 max-w-lg mx-auto">
+                <p class="text-lg text-gray-200 mb-4 text-center">Get weekly cosmic insights & spiritual guidance delivered to your inbox ✨</p>
+                <form id="email-signup-form" class="flex flex-col sm:flex-row gap-3">
+                    <input 
+                        type="email" 
+                        id="email-input" 
+                        placeholder="Enter your email" 
+                        required
+                        class="flex-1 px-6 py-3 rounded-full bg-white/10 border border-cosmic-pink/30 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-cosmic-gold focus:border-transparent"
+                    />
+                    <button 
+                        type="submit" 
+                        class="px-8 py-3 bg-gradient-to-r from-cosmic-pink to-cosmic-purple text-white font-bold rounded-full hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-cosmic-pink/50"
+                    >
+                        Join Free
+                    </button>
+                </form>
+                <p id="email-status" class="text-sm text-center mt-2 text-cosmic-gold"></p>
+            </div>
                 </button>
             </div>
         </section>
@@ -643,6 +689,143 @@
                     cardContainer.classList.add('is-flipped');
                 } else {
                     // Flipping to front
+
+                            // --- Navigation Smooth Scroll ---
+    const navLinks = document.querySelectorAll('a[href^="#"]');
+    const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+    
+    // Smooth scroll for all nav links
+    [...navLinks, ...mobileNavLinks].forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            const targetId = link.getAttribute('href');
+            const targetSection = document.querySelector(targetId);
+            
+            if (targetSection) {
+                targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                
+                // Close mobile menu if open
+                if (mobileMenu.classList.contains('translate-y-0')) {
+                    mobileMenu.classList.remove('translate-y-0');
+                    mobileMenu.classList.add('-translate-y-full');
+                }
+            }
+        });
+    });
+    
+    // Mobile menu toggle
+    mobileMenuBtn.addEventListener('click', () => {
+        if (mobileMenu.classList.contains('-translate-y-full')) {
+            mobileMenu.classList.remove('-translate-y-full');
+            mobileMenu.classList.add('translate-y-0');
+        } else {
+            mobileMenu.classList.remove('translate-y-0');
+            mobileMenu.classList.add('-translate-y-full');
+        }
+    });
+
+                            // --- Brevo Email API Integration ---
+    const emailForm = document.getElementById('email-signup-form');
+    const emailInput = document.getElementById('email-input');
+    const emailStatus = document.getElementById('email-status');
+    
+    // Get Brevo API key from environment variable (set in your hosting platform)
+    const BREVO_API_KEY = typeof __brevo_api_key !== 'undefined' ? __brevo_api_key : null;
+    const BREVO_LIST_ID = 2; // Replace with your Brevo list ID
+    
+    emailForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        const email = emailInput.value.trim();
+        
+        if (!email) {
+            emailStatus.textContent = 'Please enter a valid email address.';
+            emailStatus.className = 'text-sm text-center mt-2 text-red-400';
+            return;
+        }
+        
+        emailStatus.textContent = 'Subscribing...';
+        emailStatus.className = 'text-sm text-center mt-2 text-cosmic-gold';
+        
+        // If Brevo API key is available, use it
+        if (BREVO_API_KEY) {
+            try {
+                const response = await fetch('https://api.brevo.com/v3/contacts', {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json',
+                        'api-key': BREVO_API_KEY
+                    },
+                    body: JSON.stringify({
+                        email: email,
+                        listIds: [BREVO_LIST_ID],
+                        updateEnabled: true
+                    })
+                });
+                
+                if (response.ok || response.status === 201) {
+                    emailStatus.textContent = '✨ Welcome! Check your inbox for confirmation.';
+                    emailStatus.className = 'text-sm text-center mt-2 text-cosmic-gold';
+                    emailInput.value = '';
+                    
+                    // Track in Firebase if available
+                    if (db && journalDocRef) {
+                        await setDoc(doc(db, 'artifacts', appId, 'subscribers', email.replace('@', '_at_')), {
+                            email: email,
+                            subscribedAt: Date.now(),
+                            source: 'homepage'
+                        });
+                    }
+                } else {
+                    throw new Error('Subscription failed');
+                }
+            } catch (error) {
+                console.error('Brevo API Error:', error);
+                emailStatus.textContent = 'Something went wrong. Please try again.';
+                emailStatus.className = 'text-sm text-center mt-2 text-red-400';
+            }
+        } else {
+            // Fallback: Store in Firebase or localStorage
+            console.warn('Brevo API key not configured. Storing email locally.');
+            
+            if (db) {
+                try {
+                    await setDoc(doc(db, 'artifacts', appId, 'subscribers', email.replace('@', '_at_')), {
+                        email: email,
+                        subscribedAt: Date.now(),
+                        source: 'homepage'
+                    });
+                    emailStatus.textContent = '✨ Thanks for your interest! We\'ll be in touch soon.';
+                    emailStatus.className = 'text-sm text-center mt-2 text-cosmic-gold';
+                    emailInput.value = '';
+                } catch (error) {
+                    console.error('Firebase Error:', error);
+                    // Fallback to localStorage
+                    const emails = JSON.parse(localStorage.getItem('emailSubscribers') || '[]');
+                    if (!emails.includes(email)) {
+                        emails.push(email);
+                        localStorage.setItem('emailSubscribers', JSON.stringify(emails));
+                    }
+                    emailStatus.textContent = '✨ Thanks! We\'ll be in touch soon.';
+                    emailStatus.className = 'text-sm text-center mt-2 text-cosmic-gold';
+                    emailInput.value = '';
+                }
+            } else {
+                // Last fallback: localStorage only
+                const emails = JSON.parse(localStorage.getItem('emailSubscribers') || '[]');
+                if (!emails.includes(email)) {
+                    emails.push(email);
+                    localStorage.setItem('emailSubscribers', JSON.stringify(emails));
+                }
+                emailStatus.textContent = '✨ Thanks! We\'ll be in touch soon.';
+                emailStatus.className = 'text-sm text-center mt-2 text-cosmic-gold';
+                emailInput.value = '';
+            }
+        }
+    });
                     cardContainer.classList.remove('is-flipped');
                     // Pre-load next affirmation after flip animation
                     setTimeout(drawNewAffirmation, 500);
@@ -853,6 +1036,7 @@
 </body>
 
 </html>
+
 
 
 
