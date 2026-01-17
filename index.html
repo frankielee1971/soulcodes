@@ -156,7 +156,23 @@
 </head>
 <body class="font-sans text-gray-100 bg-cosmic-midnight transition-colors duration-500">
 
-    <!-- Starfield Container (always visible) -->
+    
+        
+                        /* Fix for hero centering and page scrolling */
+                body, html {
+                        overflow-y: auto !important;
+                        overflow-x: hidden;
+                        scroll-behavior: smooth;
+                }
+                
+                #hero {
+                        width: 100%;
+                        display: flex;
+                        flex-direction: column;
+                        align-items: center;
+                        justify-content: center;
+                        text-align: center;
+                }<!-- Starfield Container (always visible) -->
         
     <!-- Structur role="main" aria-label="Soulcodes spiritual tools and angel number calculator"ed Data (JSON-LD) for SEO -->
     <script type="application/ld+json">
@@ -1042,6 +1058,7 @@
 </body>
 
 </html>
+
 
 
 
