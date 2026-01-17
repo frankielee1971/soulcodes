@@ -741,9 +741,10 @@
         e.preventDefault();
         
         const email = emailInput.value.trim();
+                    const name = document.getElementById('name-input').value.trim();
         
-        if (!email) {
-            emailStatus.textContent = 'Please enter a valid email address.';
+                if (!email || !name) {
+                        emailStatus.textContent = 'Please fill in all fields.';
             emailStatus.className = 'text-sm text-center mt-2 text-red-400';
             return;
         }
@@ -763,10 +764,13 @@
                     },
                     body: JSON.stringify({
                         email: email,
+                                                attributes: {
+                                                                                FIRSTNAME: name
                         listIds: [BREVO_LIST_ID],
                         updateEnabled: true
                     })
                 });
+                    
                 
                 if (response.ok || response.status === 201) {
                     emailStatus.textContent = '✨ Welcome! Check your inbox for confirmation.';
@@ -1038,6 +1042,7 @@
 </body>
 
 </html>
+
 
 
 
