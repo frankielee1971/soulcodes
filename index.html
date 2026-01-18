@@ -249,14 +249,12 @@
         <div id="stars-container" class="fixed top-0 left-0 w-full h-full -z-10 opacity-100"></div>
 
     <!-- ===== Header (Theme Toggle Removed) ===== -->
-    <header class="fixed top-0 left-0 w-full p-4 flex justify-between items-center z-50 mix-blend-difference">
+    <header class="fixed top-0 left-0 w-full p-4 flex justify-between items-center z-50 bg-cosmic-midnight/90 backdrop-blur-md border-b border-cosmic-purple/20 transition-all duration-300" id="main-header">
         <h1 class="font-serif text-2xl font-bold text-white">
             <a href="#">Soulcodes</a>
         </h1>
-    <header class="fixed top-0 left-0 w-full p-4 flex justify-between items-center z-50 bg-cosmic-midnight/90 backdrop-blur-md border-b border-cosmic-purple/20 transition-all duration-300" id="main-header">    </header>
-
-    <main>
-                    <!-- Navigation Menu -->
+        
+        <!-- Navigation Menu -->
         <nav class="hidden md:flex items-center gap-6">
             <a href="#card-deck" class="text-gray-200 hover:text-cosmic-gold transition-colors duration-300">Daily Cards</a>
             <a href="#angel-calculator" class="text-gray-200 hover:text-cosmic-gold transition-colors duration-300">Calculator</a>
@@ -271,9 +269,8 @@
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
             </svg>
         </button>
-        <!-- ===== Hero Section ===== -->
-        <section id="hero" class="min-h-screen flex flex-col items-center justify-center text-center p-6 relative ">
-                    
+    </header>
+
     <!-- Mobile Menu Overlay -->
     <div id="mobile-menu" class="md:hidden fixed top-16 left-0 w-full bg-cosmic-midnight/95 backdrop-blur-lg border-b border-cosmic-purple/20 transform -translate-y-full transition-transform duration-300 z-40">
         <nav class="flex flex-col p-6 space-y-4">
@@ -284,25 +281,29 @@
             <a href="#about" class="mobile-nav-link text-gray-200 hover:text-cosmic-gold transition-colors duration-300 text-lg">✨ About</a>
         </nav>
     </div>
-            <div class="z-10 max-w-4xl mx-auto">
+
+    <main>
+        <!-- ===== Hero Section ===== -->
+        <section id="hero" class="min-h-screen flex flex-col items-center justify-center text-center p-6 relative">
+            <div class="z-10 max-w-4xl mx-auto w-full">
                 <h1 class="font-serif text-5xl md:text-7xl font-bold text-shadow-glow-white animate-subtle-pulse">
                     Soulcodes
                 </h1>
                 <p class="font-serif text-3xl md:text-5xl text-gray-200 mt-4 mb-8 text-shadow-glow-pink">
                     Cosmic Tools to Escape the Matrix
                 </p>
-            <h2 class="font-serif text-3xl md:text-4xl font-bold text-cosmic-gold mb-6">Draw Your Soulcode</h2>
-            
-            <!-- Email CTA Above the Fold -->
-            <p class="text-lg text-                                     gray-200 mb-4 text-center">Get weekly cosmic insights & spiritual guidance delivered to your inbox ✨</p></p>
+                <h2 class="font-serif text-3xl md:text-4xl font-bold text-cosmic-gold mb-6">Draw Your Soulcode</h2>
+                
+                <!-- Email CTA Above the Fold -->
+                <p class="text-lg text-gray-200 mb-4 text-center">Get weekly cosmic insights & spiritual guidance delivered to your inbox ✨</p>
                 <form id="email-signup-form" class="flex flex-col gap-4 items-center w-full">
-                                        <input 
-                    type="text" 
-                    id="name-input" 
-                    placeholder="Enter your name" 
-                    required
-                    class="w-full max-w-md px-6 py-3 rounded-full bg-white/10 border border-cosmic-pink/30 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-cosmic-gold focus:border-transparent"
-                />
+                    <input 
+                        type="text" 
+                        id="name-input" 
+                        placeholder="Enter your name" 
+                        required
+                        class="w-full max-w-md px-6 py-3 rounded-full bg-white/10 border border-cosmic-pink/30 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-cosmic-gold focus:border-transparent"
+                    />
                     <input 
                         type="email" 
                         id="email-input" 
@@ -319,7 +320,6 @@
                 </form>
                 <p id="email-status" class="text-sm text-center mt-2 text-cosmic-gold"></p>
             </div>
-                
         </section>
 
         <!-- ===== Interactive Card Deck Section ===== -->
@@ -662,13 +662,6 @@
             // Generate stars immediately since we are always in dark mode
             createStars(); 
             
-            // --- Hero CTA Scroll ---
-            const heroCta = document.getElementById('hero-cta');
-            const cardDeckSection = document.getElementById('card-deck');
-            heroCta.addEventListener('click', () => {
-                cardDeckSection.scrollIntoView({ behavior: 'smooth' });
-            });
-
             // --- Card Deck Logic ---
             const affirmations = [
                 "I am a radiant being of light, love, and infinite potential.",
