@@ -883,10 +883,31 @@
             const moonIcons = ['🌑', '🌒', '🌓', '🌔', '🌕', '🌖', '🌗', '🌘'];
             const moonNames = ['New Moon', 'Waxing Crescent', 'First Quarter', 'Waxing Gibbous', 'Full Moon', 'Waning Gibbous', 'Third Quarter', 'Waning Crescent'];
             
-            // Simple moon calculation (based on day of month, not perfect but thematic)
-            const dayOfMonth = new Date().getDate();
-            const phaseIndex = Math.floor((dayOfMonth / 29.5) * 8) % 8;
-            
+        // Calculate moon phase using astronomical algorithm
+        function getMoonPhase() {
+          const today = new Date();
+          const year = today.getFullYear();
+          const month = today.getMonth() + 1;
+          const day = today.getDate();
+          
+          // Julian day calculation
+          let jd = 367 * year - Math.floor(7 * (year + Math.floor((month + 9) / 12)) / 4) + 
+                   Math.floor(275 * month / 9) + day + 1721013.5;
+          
+          // Days since known new moon (Jan 6, 2000)
+          const daysSinceNew = jd - 2451549.5;
+          
+          // Moon phase calculation
+          const newMoons = daysSinceNew / 29.53058867;
+          const phase = (newMoons - Math.floor(newMoons));
+          
+          // Convert to 0-7 index
+          const phaseIndex = Math.floor(phase * 8) % 8;
+          
+          return phaseIndex;
+        }
+        
+        const phaseIndex = getMoonPhase();            
             moonPhaseIconEl.textContent = moonIcons[phaseIndex];
             moonPhaseNameEl.textContent = moonNames[phaseIndex];
 
@@ -1057,6 +1078,7 @@
 </body>
 
 </html>
+
 
 
 
