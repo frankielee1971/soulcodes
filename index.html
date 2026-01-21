@@ -54,49 +54,50 @@
 
     <!-- Custom Tailwind Configuration -->
     <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    fontFamily: {
-                        'serif': ['Playfair Display', 'serif'],
-                        'sans': ['Inter', 'sans-serif'],
-                    },
-                    colors: {
-                        cosmic: {
-                            purple: '#8e44ad',
-                            pink: '#ff69b4',
-                            gold: '#f1c40f',
-                            midnight: '#0c0a1a',
-                        }
-                    },
-                    textShadow: {
-                        'glow-white': '0 0 10px rgba(255, 255, 255, 0.7)',
-                        'glow-gold': '0 0 12px rgba(241, 196, 15, 0.8)',
-                    },
-                    animation: {
-                        'gradient-bg': 'gradient-bg 15s ease infinite',
-                        'star-blink': 'star-blink 2s infinite ease-in-out alternate',
-                        'subtle-pulse': 'subtle-pulse 3s infinite ease-in-out',
-                    },
-                    keyframes: {
-                        'gradient-bg': {
-                            '0%, 100%': { 'background-position': '0% 50%' },
-                            '50%': { 'background-position': '100% 50%' },
+        if (typeof tailwind !== 'undefined') {
+            tailwind.config = {
+                darkMode: 'class',
+                theme: {
+                    extend: {
+                        fontFamily: {
+                            'serif': ['Playfair Display', 'serif'],
+                            'sans': ['Inter', 'sans-serif'],
                         },
-                        'star-blink': {
-                            '0%': { opacity: 0.2 },
-                            '100%': { opacity: 1 },
+                        colors: {
+                            cosmic: {
+                                purple: '#8e44ad',
+                                pink: '#ff69b4',
+                                gold: '#f1c40f',
+                                midnight: '#0c0a1a',
+                            }
+                        },
+                        textShadow: {
+                            'glow-white': '0 0 10px rgba(255, 255, 255, 0.7)',
+                            'glow-gold': '0 0 12px rgba(241, 196, 15, 0.8)',
+                        },
+                        animation: {
+                            'gradient-bg': 'gradient-bg 15s ease infinite',
+                            'star-blink': 'star-blink 2s infinite ease-in-out alternate',
+                            'subtle-pulse': 'subtle-pulse 3s infinite ease-in-out',
+                        },
+                        keyframes: {
+                            'gradient-bg': {
+                                '0%, 100%': { 'background-position': '0% 50%' },
+                                '50%': { 'background-position': '100% 50%' },
+                            },
+                            'star-blink': {
+                                '0%': { opacity: 0.2 },
+                                '100%': { opacity: 1 },
+                            }
                         }
                     }
-                }
-            },
-            plugins: [
-                function({ addUtilities }) {
-                  const newUtilities = {
-                    '.text-shadow-glow-white': {
-                      textShadow: '0 0 10px rgba(255, 255, 255, 0.7)',
-                    },
+                },
+                plugins: [
+                    function({ addUtilities}) {
+                      const newUtilities = {
+                        '.text-shadow-glow-white': {
+                          textShadow: '0 0 10px rgba(255, 255, 255, 0.7)',
+                        },
                     '.text-shadow-glow-gold': {
                       textShadow: '0 0 12px rgba(241, 196, 15, 0.8)',
                     },
@@ -119,6 +120,7 @@
                   addUtilities(newUtilities, ['responsive', 'hover'])
                 }
             ]
+        }
         }
     </script>
 
@@ -542,13 +544,36 @@
     </footer>
 
     <!-- ===== JavaScript Logic (now using Firebase Firestore) ===== -->
-    <script type="module">
-        // Import Firebase modules
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, doc, setDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+    <script>
+        // Dynamic Firebase imports - will fail gracefully if CDN is blocked
+        let initializeApp, getAuth, signInAnonymously, signInWithCustomToken, getFirestore, doc, setDoc, onSnapshot;
+        
+        async function loadFirebase() {
+            try {
+                const firebaseApp = await import("https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js");
+                const firebaseAuth = await import("https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js");
+                const firebaseFirestore = await import("https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js");
+                
+                initializeApp = firebaseApp.initializeApp;
+                getAuth = firebaseAuth.getAuth;
+                signInAnonymously = firebaseAuth.signInAnonymously;
+                signInWithCustomToken = firebaseAuth.signInWithCustomToken;
+                getFirestore = firebaseFirestore.getFirestore;
+                doc = firebaseFirestore.doc;
+                setDoc = firebaseFirestore.setDoc;
+                onSnapshot = firebaseFirestore.onSnapshot;
+                
+                return true;
+            } catch (error) {
+                console.warn('Firebase modules failed to load:', error);
+                return false;
+            }
+        }
 
         document.addEventListener('DOMContentLoaded', async () => {
+            
+            // Try to load Firebase
+            const firebaseLoaded = await loadFirebase();
 
             // --- Element References ---
             const saveStatus = document.getElementById('save-status');
@@ -567,7 +592,7 @@
             let userId = null;
             let journalDocRef = null;
 
-            if (firebaseConfig) {
+            if (firebaseLoaded && firebaseConfig && typeof initializeApp !== 'undefined') {
                 try {
                     const app = initializeApp(firebaseConfig);
                     const auth = getAuth(app);
@@ -665,9 +690,11 @@
             // --- Hero CTA Scroll ---
             const heroCta = document.getElementById('hero-cta');
             const cardDeckSection = document.getElementById('card-deck');
-            heroCta.addEventListener('click', () => {
-                cardDeckSection.scrollIntoView({ behavior: 'smooth' });
-            });
+            if (heroCta && cardDeckSection) {
+                heroCta.addEventListener('click', () => {
+                    cardDeckSection.scrollIntoView({ behavior: 'smooth' });
+                });
+            }
 
             // --- Card Deck Logic ---
             const affirmations = [
