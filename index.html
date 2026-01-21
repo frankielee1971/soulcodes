@@ -887,7 +887,8 @@
                             emailStatus.textContent = '✨ Thanks! We\'ll be in touch soon.';
                             emailStatus.className = 'text-sm text-center mt-2 text-cosmic-gold';
                             emailInput.value = '';
-                            document.getElementById('name-input').value = '';
+                            const nameInput = document.getElementById('name-input');
+                            if (nameInput) nameInput.value = '';
                         }
                     } else {
                         // Last fallback: localStorage only
@@ -899,7 +900,8 @@
                         emailStatus.textContent = '✨ Thanks! We\'ll be in touch soon.';
                         emailStatus.className = 'text-sm text-center mt-2 text-cosmic-gold';
                         emailInput.value = '';
-                        document.getElementById('name-input').value = '';
+                        const nameInput = document.getElementById('name-input');
+                        if (nameInput) nameInput.value = '';
                     }
                 }
             });
