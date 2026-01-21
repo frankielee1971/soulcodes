@@ -173,7 +173,7 @@
 <body class="font-sans text-gray-100 bg-cosmic-midnight transition-colors duration-500">
 
     
-    <!-- Structur role="main" aria-label="Soulcodes spiritual tools and angel number calculator"ed Data (JSON-LD) for SEO -->
+    <!-- Structured Data (JSON-LD) for SEO -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -294,7 +294,7 @@
             <h2 class="font-serif text-3xl md:text-4xl font-bold text-cosmic-gold mb-6">Draw Your Soulcode</h2>
             
             <!-- Email CTA Above the Fold -->
-            <p class="text-lg text-                                     gray-200 mb-4 text-center">Get weekly cosmic insights & spiritual guidance delivered to your inbox ✨</p></p>
+            <p class="text-lg text-gray-200 mb-4 text-center">Get weekly cosmic insights & spiritual guidance delivered to your inbox ✨</p>
                 <form id="email-signup-form" class="flex flex-col gap-4 items-center w-full">
                                         <input 
                     type="text" 
@@ -706,147 +706,6 @@
                     cardContainer.classList.add('is-flipped');
                 } else {
                     // Flipping to front
-
-                            // --- Navigation Smooth Scroll ---
-    const navLinks = document.querySelectorAll('a[href^="#"]');
-    const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
-    const mobileMenu = document.getElementById('mobile-menu');
-    const mobileMenuBtn = document.getElementById('mobile-menu-btn');
-    
-    // Smooth scroll for all nav links
-    [...navLinks, ...mobileNavLinks].forEach(link => {
-        link.addEventListener('click', (e) => {
-            e.preventDefault();
-            const targetId = link.getAttribute('href');
-            const targetSection = document.querySelector(targetId);
-            
-            if (targetSection) {
-                targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                
-                // Close mobile menu if open
-                if (mobileMenu.classList.contains('translate-y-0')) {
-                    mobileMenu.classList.remove('translate-y-0');
-                    mobileMenu.classList.add('-translate-y-full');
-                }
-            }
-        });
-    });
-    
-    // Mobile menu toggle
-    mobileMenuBtn.addEventListener('click', () => {
-        if (mobileMenu.classList.contains('-translate-y-full')) {
-            mobileMenu.classList.remove('-translate-y-full');
-            mobileMenu.classList.add('translate-y-0');
-        } else {
-            mobileMenu.classList.remove('translate-y-0');
-            mobileMenu.classList.add('-translate-y-full');
-        }
-    });
-
-                            // --- Brevo Email API Integration ---
-    const emailForm = document.getElementById('email-signup-form');
-    const emailInput = document.getElementById('email-input');
-    const emailStatus = document.getElementById('email-status');
-    
-    // Get Brevo API key from environment variable (set in your hosting platform)
-    const BREVO_API_KEY = typeof __brevo_api_key !== 'undefined' ? __brevo_api_key : null;
-    const BREVO_LIST_ID = 3; // Replace with your Brevo list ID
-    
-    emailForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        
-        const email = emailInput.value.trim();
-                    const name = document.getElementById('name-input').value.trim();
-        
-                if (!email || !name) {
-                        emailStatus.textContent = 'Please fill in all fields.';
-            emailStatus.className = 'text-sm text-center mt-2 text-red-400';
-            return;
-        }
-        
-        emailStatus.textContent = 'Subscribing...';
-        emailStatus.className = 'text-sm text-center mt-2 text-cosmic-gold';
-        
-        // If Brevo API key is available, use it
-        if (BREVO_API_KEY) {
-            try {
-                const response = await fetch('https://api.brevo.com/v3/contacts', {
-                    method: 'POST',
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json',
-                        'api-key': BREVO_API_KEY
-                    },
-                    body: JSON.stringify({
-                        email: email,
-                                                attributes: {
-                                                                                FIRSTNAME: name
-                        listIds: [BREVO_LIST_ID],
-                        updateEnabled: true
-                    })
-                });
-                    
-                
-                if (response.ok || response.status === 201) {
-                    emailStatus.textContent = '✨ Welcome! Check your inbox for confirmation.';
-                    emailStatus.className = 'text-sm text-center mt-2 text-cosmic-gold';
-                    emailInput.value = '';
-                    
-                    // Track in Firebase if available
-                    if (db && journalDocRef) {
-                        await setDoc(doc(db, 'artifacts', appId, 'subscribers', email.replace('@', '_at_')), {
-                            email: email,
-                            subscribedAt: Date.now(),
-                            source: 'homepage'
-                        });
-                    }
-                } else {
-                    throw new Error('Subscription failed');
-                }
-            } catch (error) {
-                console.error('Brevo API Error:', error);
-                emailStatus.textContent = 'Something went wrong. Please try again.';
-                emailStatus.className = 'text-sm text-center mt-2 text-red-400';
-            }
-        } else {
-            // Fallback: Store in Firebase or localStorage
-            console.warn('Brevo API key not configured. Storing email locally.');
-            
-            if (db) {
-                try {
-                    await setDoc(doc(db, 'artifacts', appId, 'subscribers', email.replace('@', '_at_')), {
-                        email: email,
-                        subscribedAt: Date.now(),
-                        source: 'homepage'
-                    });
-                    emailStatus.textContent = '✨ Thanks for your interest! We\'ll be in touch soon.';
-                    emailStatus.className = 'text-sm text-center mt-2 text-cosmic-gold';
-                    emailInput.value = '';
-                } catch (error) {
-                    console.error('Firebase Error:', error);
-                    // Fallback to localStorage
-                    const emails = JSON.parse(localStorage.getItem('emailSubscribers') || '[]');
-                    if (!emails.includes(email)) {
-                        emails.push(email);
-                        localStorage.setItem('emailSubscribers', JSON.stringify(emails));
-                    }
-                    emailStatus.textContent = '✨ Thanks! We\'ll be in touch soon.';
-                    emailStatus.className = 'text-sm text-center mt-2 text-cosmic-gold';
-                    emailInput.value = '';
-                }
-            } else {
-                // Last fallback: localStorage only
-                const emails = JSON.parse(localStorage.getItem('emailSubscribers') || '[]');
-                if (!emails.includes(email)) {
-                    emails.push(email);
-                    localStorage.setItem('emailSubscribers', JSON.stringify(emails));
-                }
-                emailStatus.textContent = '✨ Thanks! We\'ll be in touch soon.';
-                emailStatus.className = 'text-sm text-center mt-2 text-cosmic-gold';
-                emailInput.value = '';
-            }
-        }
-    });
                     cardContainer.classList.remove('is-flipped');
                     // Pre-load next affirmation after flip animation
                     setTimeout(drawNewAffirmation, 500);
@@ -872,6 +731,149 @@
                     drawNewAffirmation();
                     cardContainer.classList.add('is-flipped');
                     isFlipped = true;
+                }
+            });
+
+            // --- Navigation Smooth Scroll ---
+            const navLinks = document.querySelectorAll('a[href^="#"]');
+            const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+            
+            // Smooth scroll for all nav links
+            [...navLinks, ...mobileNavLinks].forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const targetId = link.getAttribute('href');
+                    const targetSection = document.querySelector(targetId);
+                    
+                    if (targetSection) {
+                        targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        
+                        // Close mobile menu if open
+                        if (mobileMenu.classList.contains('translate-y-0')) {
+                            mobileMenu.classList.remove('translate-y-0');
+                            mobileMenu.classList.add('-translate-y-full');
+                        }
+                    }
+                });
+            });
+            
+            // Mobile menu toggle
+            mobileMenuBtn.addEventListener('click', () => {
+                if (mobileMenu.classList.contains('-translate-y-full')) {
+                    mobileMenu.classList.remove('-translate-y-full');
+                    mobileMenu.classList.add('translate-y-0');
+                } else {
+                    mobileMenu.classList.remove('translate-y-0');
+                    mobileMenu.classList.add('-translate-y-full');
+                }
+            });
+
+            // --- Brevo Email API Integration ---
+            const emailForm = document.getElementById('email-signup-form');
+            const emailInput = document.getElementById('email-input');
+            const emailStatus = document.getElementById('email-status');
+            
+            // Get Brevo API key from environment variable (set in your hosting platform)
+            const BREVO_API_KEY = typeof __brevo_api_key !== 'undefined' ? __brevo_api_key : null;
+            const BREVO_LIST_ID = 3; // Replace with your Brevo list ID
+            
+            emailForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                
+                const email = emailInput.value.trim();
+                const name = document.getElementById('name-input').value.trim();
+                
+                if (!email || !name) {
+                    emailStatus.textContent = 'Please fill in all fields.';
+                    emailStatus.className = 'text-sm text-center mt-2 text-red-400';
+                    return;
+                }
+                
+                emailStatus.textContent = 'Subscribing...';
+                emailStatus.className = 'text-sm text-center mt-2 text-cosmic-gold';
+                
+                // If Brevo API key is available, use it
+                if (BREVO_API_KEY) {
+                    try {
+                        const response = await fetch('https://api.brevo.com/v3/contacts', {
+                            method: 'POST',
+                            headers: {
+                                'Accept': 'application/json',
+                                'Content-Type': 'application/json',
+                                'api-key': BREVO_API_KEY
+                            },
+                            body: JSON.stringify({
+                                email: email,
+                                attributes: {
+                                    FIRSTNAME: name
+                                },
+                                listIds: [BREVO_LIST_ID],
+                                updateEnabled: true
+                            })
+                        });
+                        
+                        if (response.ok || response.status === 201) {
+                            emailStatus.textContent = '✨ Welcome! Check your inbox for confirmation.';
+                            emailStatus.className = 'text-sm text-center mt-2 text-cosmic-gold';
+                            emailInput.value = '';
+                            
+                            // Track in Firebase if available
+                            if (typeof db !== 'undefined' && db && typeof journalDocRef !== 'undefined' && journalDocRef) {
+                                await setDoc(doc(db, 'artifacts', appId, 'subscribers', email.replace('@', '_at_')), {
+                                    email: email,
+                                    subscribedAt: Date.now(),
+                                    source: 'homepage'
+                                });
+                            }
+                        } else {
+                            throw new Error('Subscription failed');
+                        }
+                    } catch (error) {
+                        console.error('Brevo API Error:', error);
+                        emailStatus.textContent = 'Something went wrong. Please try again.';
+                        emailStatus.className = 'text-sm text-center mt-2 text-red-400';
+                    }
+                } else {
+                    // Fallback: Store in Firebase or localStorage
+                    console.warn('Brevo API key not configured. Storing email locally.');
+                    
+                    if (typeof db !== 'undefined' && db) {
+                        try {
+                            await setDoc(doc(db, 'artifacts', appId, 'subscribers', email.replace('@', '_at_')), {
+                                email: email,
+                                subscribedAt: Date.now(),
+                                source: 'homepage'
+                            });
+                            emailStatus.textContent = '✨ Thanks for your interest! We\'ll be in touch soon.';
+                            emailStatus.className = 'text-sm text-center mt-2 text-cosmic-gold';
+                            emailInput.value = '';
+                        } catch (error) {
+                            console.error('Firebase Error:', error);
+                            // Fallback to localStorage
+                            const emails = JSON.parse(localStorage.getItem('emailSubscribers') || '[]');
+                            if (!emails.includes(email)) {
+                                emails.push(email);
+                                localStorage.setItem('emailSubscribers', JSON.stringify(emails));
+                            }
+                            emailStatus.textContent = '✨ Thanks! We\'ll be in touch soon.';
+                            emailStatus.className = 'text-sm text-center mt-2 text-cosmic-gold';
+                            emailInput.value = '';
+                            document.getElementById('name-input').value = '';
+                        }
+                    } else {
+                        // Last fallback: localStorage only
+                        const emails = JSON.parse(localStorage.getItem('emailSubscribers') || '[]');
+                        if (!emails.includes(email)) {
+                            emails.push(email);
+                            localStorage.setItem('emailSubscribers', JSON.stringify(emails));
+                        }
+                        emailStatus.textContent = '✨ Thanks! We\'ll be in touch soon.';
+                        emailStatus.className = 'text-sm text-center mt-2 text-cosmic-gold';
+                        emailInput.value = '';
+                        document.getElementById('name-input').value = '';
+                    }
                 }
             });
 
