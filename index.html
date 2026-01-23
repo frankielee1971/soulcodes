@@ -804,8 +804,7 @@
             const emailStatus = document.getElementById('email-status');
             
             // Get Brevo API key from environment variable (set in your hosting platform)
-    const BREVO_API_KEY = 'YOUR_BREVO_API_KEY_HERE'; // Replace with your actual Brevo API key            const BREVO_LIST_ID = 3; // Replace with your Brevo list ID
-            
+    const BREVO_API_KEY = import.meta.env.BREVO_API_KEY || ''; // Netlify environment variable            
             emailForm.addEventListener('submit', async (e) => {
                 e.preventDefault();
                 
@@ -1109,6 +1108,7 @@
 </body>
 
 </html>
+
 
 
 
