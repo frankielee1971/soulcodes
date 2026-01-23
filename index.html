@@ -259,7 +259,7 @@
         <nav class="hidden md:flex items-center gap-6">
             <a href="#card-deck" class="text-gray-200 hover:text-cosmic-gold transition-colors duration-300">Daily Cards</a>
             <a href="#angel-calculator" class="text-gray-200 hover:text-cosmic-gold transition-colors duration-300">Calculator</a>
-            <a href="#angel-tracker" class="text-gray-200 hover:text-cosmic-gold transition-colors duration-300">Tracker</a>
+                  <a href="#life-path-calculator" class="text-gray-200 hover:text-cosmic-gold transition-colors duration-300">Life Path</a>mobile-nav-link class="text-gray-200 hover:text-cosmic-gold transition-colors duration-300">Tracker</a>
             <a href="#angel-numbers-guide" class="text-gray-200 hover:text-cosmic-gold transition-colors duration-300">Learn</a>
             <a href="#about" class="text-gray-200 hover:text-cosmic-gold transition-colors duration-300">About</a>
         </nav>
@@ -282,6 +282,7 @@
             <a href="#card-deck" class="mobile-nav-link text-gray-200 hover:text-cosmic-gold transition-colors duration-300 text-lg">🎴 Daily Cards</a>
             <a href="#angel-calculator" class="mobile-nav-link text-gray-200 hover:text-cosmic-gold transition-colors duration-300 text-lg">🔢 Calculator</a>
             <a href="#angel-tracker" class="mobile-nav-link text-gray-200 hover:text-cosmic-gold transition-colors duration-300 text-lg">📊 Tracker</a>
+                      <a href="#life-path-calculator" class="mobile-nav-link text-gray-200 hover:text-cosmic-gold transition-colors duration-300 text-lg">🔮 Life Path</a>
             <a href="#angel-numbers-guide" class="mobile-nav-link text-gray-200 hover:text-cosmic-gold transition-colors duration-300 text-lg">📖 Learn</a>
             <a href="#about" class="mobile-nav-link text-gray-200 hover:text-cosmic-gold transition-colors duration-300 text-lg">✨ About</a>
         </nav>
@@ -481,6 +482,64 @@
             </div>
         </div>
     </section>
+
+          <!-- ===== Life Path Calculator Section ===== -->
+  <section id="life-path-calculator" class="py-20 px-6 bg-black/30 backdrop-blur-sm">
+    <div class="max-w-4xl mx-auto text-center">
+      <h2 class="font-serif text-4xl mb-6 text-shadow-glow-white">Discover Your Life Path Number</h2>
+      <p class="text-lg text-gray-200 mb-8">Your Life Path Number reveals your life's purpose, challenges, and destiny. Calculate yours now and unlock deeper insights into your soul's journey.</p>
+
+      <!-- Life Path Calculator Form -->
+      <div class="bg-black/40 rounded-2xl p-8 border border-cosmic-purple/50 shadow-xl">
+        <h3 class="font-serif text-2xl text-cosmic-gold mb-6">Free Life Path Calculator</h3>
+        
+        <div class="space-y-4 mb-6">
+          <input 
+            type="text" 
+            id="lifepath-name" 
+            placeholder="Enter your full name" 
+            class="w-full p-4 rounded-lg bg-white/10 text-white placeholder-gray-500 border border-cosmic-pink/30 focus:ring-2 focus:ring-cosmic-gold focus:border-transparent"
+          />
+          
+          <input 
+            type="date" 
+            id="lifepath-birthdate" 
+            class="w-full p-4 rounded-lg bg-white/10 text-white border border-cosmic-pink/30 focus:ring-2 focus:ring-cosmic-gold focus:border-transparent"
+          />
+        </div>
+        
+        <button 
+          id="calculate-life-path" 
+          class="px-8 py-3 bg-gradient-to-r from-cosmic-pink to-cosmic-purple text-white font-bold rounded-full hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-cosmic-pink/50"
+        >
+          Calculate My Life Path
+        </button>
+        
+        <!-- Results -->
+        <div id="lifepath-result" class="mt-8 hidden">
+          <div class="bg-gradient-to-br from-cosmic-purple/20 to-cosmic-pink/20 rounded-xl p-6 border border-cosmic-gold/50">
+            <h4 class="font-serif text-3xl text-cosmic-gold mb-4">Your Life Path Number</h4>
+            <div class="font-serif text-7xl text-white text-shadow-glow-gold mb-4" id="lifepath-number"></div>
+            <p id="lifepath-meaning" class="text-lg text-gray-200 mb-6"></p>
+            
+            <!-- CTA with Affiliate Link -->
+            <div class="mt-6 p-6 bg-black/40 rounded-xl border border-cosmic-gold/30">
+              <h5 class="font-serif text-xl text-cosmic-gold mb-3">🌟 Want Your Complete Numerology Reading?</h5>
+              <p class="text-gray-300 mb-4">Discover your destiny, soul urge, and personality numbers with a comprehensive personalized numerology report</p>
+              <a 
+                href="https://0367064vrdocny1i0kmfqj2994.hop.clickbank.net" 
+                target="_blank"
+                rel="noopener noreferrer"
+                class="inline-block px-8 py-3 bg-gradient-to-r from-cosmic-gold to-yellow-500 text-cosmic-midnight font-bold rounded-full hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-cosmic-gold/50"
+              >
+                Get Your Full Reading →
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
         
         <!-- ===== About Section ===== -->
         <section id="about" class="py-20 px-6 text-center max-w-3xl mx-auto">
@@ -1102,12 +1161,71 @@
     
     // Load existing sightings
     loadSightings();
+
+                  // ===== Life Path Calculator =====
+  const lifePathMeanings = {
+    1: "You are a natural leader and pioneer. Your path is about independence, innovation, and being first. You're meant to forge new paths and inspire others with your courage.",
+    2: "You are the peacemaker and diplomat. Your purpose involves creating harmony, building partnerships, and bringing people together. You excel at cooperation and sensitivity.",
+    3: "You are the creative communicator. Your life path is about self-expression, joy, and inspiring others through art, words, or performance. You bring light and optimism to the world.",
+    4: "You are the builder and organizer. Your path involves creating solid foundations, bringing order to chaos, and manifesting dreams through hard work and dedication.",
+    5: "You are the freedom seeker and adventurer. Your purpose is about experiencing life fully, embracing change, and helping others break free from limitations.",
+    6: "You are the nurturer and healer. Your path centers on love, family, community service, and creating beauty and harmony in the world around you.",
+    7: "You are the seeker of truth and wisdom. Your journey involves deep spiritual understanding, analysis, and sharing knowledge with the world.",
+    8: "You are the manifestor of abundance. Your path is about material success, leadership in business, and using your power to create positive change in the world.",
+    9: "You are the humanitarian and universal lover. Your purpose is about compassion, letting go, and serving humanity on a grand scale.",
+    11: "Master Number - You are a spiritual messenger and illuminator. Your path involves inspiring others through your intuition and bringing divine light to the world.",
+    22: "Master Number - You are the master builder. Your purpose is to manifest grand visions and create lasting structures that benefit humanity.",
+    33: "Master Number - You are the master teacher. Your path involves healing through love, teaching spiritual truths, and uplifting humanity."
+  };
+
+  function calculateLifePath(name, birthdate) {
+    // Calculate from birthdate
+    const dateDigits = birthdate.split('-').join('').split('').map(d => parseInt(d));
+    let dateSum = dateDigits.reduce((sum, digit) => sum + digit, 0);
+    
+    // Reduce to single digit or master number
+    while (dateSum > 33) {
+      if (dateSum === 11 || dateSum === 22 || dateSum === 33) break;
+      dateSum = dateSum.toString().split('').reduce((sum, digit) => sum + parseInt(digit), 0);
+    }
+    
+    // Final reduction if not a master number
+    if (dateSum > 9 && dateSum !== 11 && dateSum !== 22 && dateSum !== 33) {
+      dateSum = dateSum.toString().split('').reduce((sum, digit) => sum + parseInt(digit), 0);
+    }
+    
+    return dateSum;
+  }
+
+  const calculateLifePathButton = document.getElementById('calculate-life-path');
+  const lifePathResult = document.getElementById('lifepath-result');
+  const lifePathNumberDisplay = document.getElementById('lifepath-number');
+  const lifePathMeaningText = document.getElementById('lifepath-meaning');
+
+  calculateLifePathButton.addEventListener('click', () => {
+    const name = document.getElementById('lifepath-name').value.trim();
+    const birthdate = document.getElementById('lifepath-birthdate').value;
+    
+    if (!name || !birthdate) {
+      alert('Please enter both your name and birthdate');
+      return;
+    }
+    
+    const lifePathNumber = calculateLifePath(name, birthdate);
+    lifePathNumberDisplay.textContent = lifePathNumber;
+    lifePathMeaningText.textContent = lifePathMeanings[lifePathNumber] || lifePathMeanings[lifePathNumber % 10];
+    lifePathResult.classList.remove('hidden');
+    
+    // Scroll to results
+    lifePathResult.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  });
             drawNewAffirmation();
         });
     </script>
 </body>
 
 </html>
+
 
 
 
