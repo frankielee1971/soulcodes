@@ -633,6 +633,38 @@
         document.addEventListener('DOMContentLoaded', async () => {
             
             // Try to load Firebase
+                    
+    // --- Dynamic Starfield - Initialize container reference early ---
+    const starsContainer = document.getElementById('stars-container');
+    
+    function createStars() {
+        if (!starsContainer) {
+            console.warn('Stars container not found');
+            return;
+        }
+        
+        starsContainer.innerHTML = ''; // Clear existing stars
+        for (let i = 0; i < 150; i++) {
+            const star = document.createElement('div');
+            star.className = 'star';
+            const size = Math.random() * 2 + 0.5;
+            star.style.width = `${size}px`;
+            star.style.height = `${size}px`;
+            star.style.left = `${Math.random() * 100}%`;
+            star.style.top = `${Math.random() * 100}%`;
+            star.style.animationDelay = `${Math.random() * 3}s`;
+            star.style.animationDuration = `${Math.random() * 2 + 1.5}s`;
+            starsContainer.appendChild(star);
+        }
+    }
+    
+    // Generate stars immediately or when DOM is ready
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', createStars);
+    } else {
+        createStars();
+    }
+
             const firebaseLoaded = await loadFirebase();
 
             // --- Element References ---
@@ -640,11 +672,10 @@
             const journalInput = document.getElementById('journal-input');
             const saveButton = document.getElementById('save-journal-button');
             const journalPromptEl = document.getElementById('journal-prompt');
-            const starsContainer = document.getElementById('stars-container');
 
             // --- Firebase Initialization and Auth ---
             // Global variables provided by the Canvas environment
-            const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+
             const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : null;
             const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
 
@@ -729,28 +760,6 @@
             function createStars() {
                 if (!starsContainer) return;
                 
-                starsContainer.innerHTML = ''; // Clear existing stars
-                for (let i = 0; i < 150; i++) {
-                    const star = document.createElement('div');
-                    star.className = 'star';
-                    const size = Math.random() * 2 + 0.5;
-                    star.style.width = `${size}px`;
-                    star.style.height = `${size}px`;
-                    star.style.left = `${Math.random() * 100}%`;
-                    star.style.top = `${Math.random() * 100}%`;
-                    star.style.animationDelay = `${Math.random() * 3}s`;
-                    star.style.animationDuration = `${Math.random() * 2 + 1.5}s`;
-                    starsContainer.appendChild(star);
-                }
-            }
-            
-            // Generate stars immediately since we are always in dark mode
-            createStars(); 
-            
-            // --- Hero CTA Scroll ---
-            const heroCta = document.getElementById('hero-cta');
-            const cardDeckSection = document.getElementById('card-deck');
-            if (heroCta && cardDeckSection) {
                 heroCta.addEventListener('click', () => {
                     cardDeckSection.scrollIntoView({ behavior: 'smooth' });
                 });
@@ -1225,6 +1234,7 @@
 </body>
 
 </html>
+
 
 
 
