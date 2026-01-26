@@ -413,7 +413,7 @@
         
         <div class="max-w-2xl mx-auto bg-black/30 backdrop-blur-md rounded-2xl p-8 border border-cosmic-pink/50 shadow-xl shadow-cosmic-pink/20">
             <div class="space-y-6">
-        <h2 class="font-serif text-4xl text-center mb-12 text-shadow-glow-white">Free Angel Number Calculator</h2>                    <label class="block text-lg mb-2 text-cosmic-gold">Your Full Name</label>
+                    <label class="block text-lg mb-2 text-cosmic-gold">Your Full Name</label>
                     <input type="text" id="calc-name" placeholder="Enter your full name" 
                            class="w-full p-4 rounded-lg bg-white/10 text-white placeholder-gray-500 border border-cosmic-pink/30 focus:ring-2 focus:ring-cosmic-gold focus:border-transparent">
                 </div>
@@ -445,7 +445,7 @@
         
         <div class="max-w-4xl mx-auto">
             <!-- Add New Sighting Form -->
-        <h2 class="font-serif text-4xl text-center mb-12 text-shadow-glow-white">Angel Number Tracker - Log Your Divine Messages</h2>                <h3 class="font-serif text-2xl text-cosmic-gold mb-6">Log a New Sighting</h3>
+                <h3 class="font-serif text-2xl text-cosmic-gold mb-6">Log a New Sighting</h3>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                     <div>
                         <label class="block text-sm mb-2">Angel Number</label>
@@ -871,8 +871,7 @@
             const emailInput = document.getElementById('email-input');
             const emailStatus = document.getElementById('email-status');
             
-            // Get Brevo API key from environment variable (set in your hosting platform)
-    const BREVO_API_KEY = import.meta.env.BREVO_API_KEY || ''; // Netlify environment variable            
+            // Get Brevo API key from environment variable (set in your hosting platform)            
             emailForm.addEventListener('submit', async (e) => {
                 e.preventDefault();
                 
