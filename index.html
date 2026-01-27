@@ -127,6 +127,23 @@
     <!-- Custom CSS for Card Flip and Starfield (Simplified for Dark Mode only) -->
     <style>
         /* Card Flip */
+            
+    /* FIX: Make card container clickable */
+    #card-container {
+        cursor: pointer !important;
+        position: relative;
+        z-index: 10;
+        pointer-events: auto !important;
+    }
+    
+    /* Prevent child elements from capturing clicks */
+    #card-container * {
+        pointer-events: none;
+    }
+    
+    #card-front, #card-back {
+        pointer-events: none;
+    
         .card-container.is-flipped {
             transform: rotateY(180deg);
         }
