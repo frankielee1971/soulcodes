@@ -720,7 +720,8 @@
             console.warn('Stars container not found');
             return;
         }
-        
+
+                    function createStars() {
         starsContainer.innerHTML = ''; // Clear existing stars
         for (let i = 0; i < 150; i++) {
             const star = document.createElement('div');
@@ -734,6 +735,7 @@
             star.style.animationDuration = `${Math.random() * 2 + 1.5}s`;
             starsContainer.appendChild(star);
         }
+                                    }
     }
     
     // Generate stars immediately or when DOM is ready
