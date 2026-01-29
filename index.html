@@ -682,8 +682,14 @@
         </p>
     </footer>
 
-    <!-- ===== JavaScript Logic (now using Firebase Firestore) ===== -->
+    <!-- ===== JavaScript Logic (now using Supabase) ===== -->
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
     <script>
+        // Supabase initialization
+        const SUPABASE_URL = 'YOUR_SUPABASE_URL'; // Replace with your Supabase project URL
+        const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY'; // Replace with your Supabase anon key
+        const supabaseClient = Supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        
         // Dynamic Firebase imports - will fail gracefully if CDN is blocked
         let initializeApp, getAuth, signInAnonymously, signInWithCustomToken, getFirestore, doc, setDoc, onSnapshot;
         
@@ -880,7 +886,19 @@
                 isFlipped = !isFlipped;
             }
             
-            cardContainer.addEventListener('click', flipCard);
+            // Fixed card click handler with proper error checking
+            if (cardContainer) {
+                console.log('Card container found, attaching click listener');
+                cardContainer.addEventListener('click', function(e) {
+                    console.log('Card clicked!'); // Debug log
+                    flipCard();
+                });
+                
+                // Also add cursor pointer to make it obvious it's clickable
+                cardContainer.style.cursor = 'pointer';
+            } else {
+                console.error('Card container element not found!');
+            }
             
             drawNewCardButton.addEventListener('click', () => {
                 if (isFlipped) {
@@ -1015,7 +1033,95 @@
                             emailInput.value = '';
                         } catch (error) {
                             console.error('Firebase Error:', error);
-                            // Fallback to localStorage
+                            // Fallback to Supabase or localStorage
+                            if (typeof supabaseClient !== 'undefined' && supabaseClient) {
+                                try {
+                                    // Store in Supabase
+                                    const { error } = await supabaseClient
+                                        .from('subscribers')
+                                        .insert([{
+                                            email: email,
+                                            name: name,
+                                            subscribed_at: new Date().toISOString(),
+                                            source: 'homepage'
+                                        }]);
+            
+                                    if (error) {
+                                        throw error;
+                                    }
+            
+                                    emailStatus.textContent = '✨ Thanks! We\'ll be in touch soon.';
+                                    emailStatus.className = 'text-sm text-center mt-2 text-cosmic-gold';
+                                    emailInput.value = '';
+                                    const nameInput = document.getElementById('name-input');
+                                    if (nameInput) nameInput.value = '';
+                                } catch (error) {
+                                    console.error('Supabase Error:', error);
+                                    // Fallback to localStorage
+                                    const emails = JSON.parse(localStorage.getItem('emailSubscribers') || '[]');
+                                    if (!emails.includes(email)) {
+                                        emails.push(email);
+                                        localStorage.setItem('emailSubscribers', JSON.stringify(emails));
+                                    }
+                                    emailStatus.textContent = '✨ Thanks! We\'ll be in touch soon.';
+                                    emailStatus.className = 'text-sm text-center mt-2 text-cosmic-gold';
+                                    emailInput.value = '';
+                                    const nameInput = document.getElementById('name-input');
+                                    if (nameInput) nameInput.value = '';
+                                }
+                            } else {
+                                // Fallback to localStorage
+                                const emails = JSON.parse(localStorage.getItem('emailSubscribers') || '[]');
+                                if (!emails.includes(email)) {
+                                    emails.push(email);
+                                    localStorage.setItem('emailSubscribers', JSON.stringify(emails));
+                                }
+                                emailStatus.textContent = '✨ Thanks! We\'ll be in touch soon.';
+                                emailStatus.className = 'text-sm text-center mt-2 text-cosmic-gold';
+                                emailInput.value = '';
+                                const nameInput = document.getElementById('name-input');
+                                if (nameInput) nameInput.value = '';
+                            }
+                        }
+                    } else {
+                        // Fallback to Supabase or localStorage
+                        if (typeof supabaseClient !== 'undefined' && supabaseClient) {
+                            try {
+                                // Store in Supabase
+                                const { error } = await supabaseClient
+                                    .from('subscribers')
+                                    .insert([{
+                                        email: email,
+                                        name: name,
+                                        subscribed_at: new Date().toISOString(),
+                                        source: 'homepage'
+                                    }]);
+
+                                if (error) {
+                                    throw error;
+                                }
+
+                                emailStatus.textContent = '✨ Thanks! We\'ll be in touch soon.';
+                                emailStatus.className = 'text-sm text-center mt-2 text-cosmic-gold';
+                                emailInput.value = '';
+                                const nameInput = document.getElementById('name-input');
+                                if (nameInput) nameInput.value = '';
+                            } catch (error) {
+                                console.error('Supabase Error:', error);
+                                // Fallback to localStorage
+                                const emails = JSON.parse(localStorage.getItem('emailSubscribers') || '[]');
+                                if (!emails.includes(email)) {
+                                    emails.push(email);
+                                    localStorage.setItem('emailSubscribers', JSON.stringify(emails));
+                                }
+                                emailStatus.textContent = '✨ Thanks! We\'ll be in touch soon.';
+                                emailStatus.className = 'text-sm text-center mt-2 text-cosmic-gold';
+                                emailInput.value = '';
+                                const nameInput = document.getElementById('name-input');
+                                if (nameInput) nameInput.value = '';
+                            }
+                        } else {
+                            // Last fallback: localStorage only
                             const emails = JSON.parse(localStorage.getItem('emailSubscribers') || '[]');
                             if (!emails.includes(email)) {
                                 emails.push(email);
@@ -1027,18 +1133,6 @@
                             const nameInput = document.getElementById('name-input');
                             if (nameInput) nameInput.value = '';
                         }
-                    } else {
-                        // Last fallback: localStorage only
-                        const emails = JSON.parse(localStorage.getItem('emailSubscribers') || '[]');
-                        if (!emails.includes(email)) {
-                            emails.push(email);
-                            localStorage.setItem('emailSubscribers', JSON.stringify(emails));
-                        }
-                        emailStatus.textContent = '✨ Thanks! We\'ll be in touch soon.';
-                        emailStatus.className = 'text-sm text-center mt-2 text-cosmic-gold';
-                        emailInput.value = '';
-                        const nameInput = document.getElementById('name-input');
-                        if (nameInput) nameInput.value = '';
                     }
                 }
             });
