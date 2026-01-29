@@ -127,6 +127,23 @@
     <!-- Custom CSS for Card Flip and Starfield (Simplified for Dark Mode only) -->
     <style>
         /* Card Flip */
+            
+    /* FIX: Make card container clickable */
+    #card-container {
+        cursor: pointer !important;
+        position: relative;
+        z-index: 10;
+        pointer-events: auto !important;
+    }
+    
+    /* Prevent child elements from capturing clicks */
+    #card-container * {
+        pointer-events: none;
+    }
+    
+    #card-front, #card-back {
+        pointer-events: none;
+    
         .card-container.is-flipped {
             transform: rotateY(180deg);
         }
@@ -172,6 +189,8 @@
                 }
     </style>
 </head>
+        <body>
+                    <div id="stars-container"></div>
 <body class="font-sans text-gray-100 bg-cosmic-midnight transition-colors duration-500">
 
     
@@ -271,6 +290,53 @@
             </svg>
         </button>
             </header>
+        
+<!-- User Profile Collection Modal -->
+<div id="profile-modal" class="fixed inset-0 bg-black/80 backdrop-blur-lg z-50 hidden flex items-center justify-center p-6">
+    <div class="bg-cosmic-midnight border-2 border-cosmic-gold rounded-2xl p-8 max-w-2xl w-full">
+        <h2 class="font-serif text-3xl text-cosmic-gold mb-4 text-center">Create Your Soulcodes Profile</h2>
+        <p class="text-gray-300 text-center mb-6">Personalize your spiritual journey</p>
+        
+        <form id="profile-form" class="space-y-4">
+            <div>
+                <label class="block text-cosmic-pink mb-2">Your Name</label>
+                <input type="text" id="profile-name" required
+                    class="w-full p-3 rounded-lg bg-white/10 text-white border border-cosmic-purple/30 focus:ring-2 focus:ring-cosmic-gold">
+            </div>
+            
+            <div>
+                <label class="block text-cosmic-pink mb-2">Birth Date</label>
+                <input type="date" id="profile-birthdate" required
+                    class="w-full p-3 rounded-lg bg-white/10 text-white border border-cosmic-purple/30 focus:ring-2 focus:ring-cosmic-gold">
+            </div>
+            
+            <div>
+                <label class="block text-cosmic-pink mb-2">What are you seeking guidance on?</label>
+                <select id="profile-goal" required
+                    class="w-full p-3 rounded-lg bg-white/10 text-white border border-cosmic-purple/30 focus:ring-2 focus:ring-cosmic-gold">
+                    <option value="">Select your focus...</option>
+                    <option value="career">Career & Purpose</option>
+                    <option value="love">Love & Relationships</option>
+                    <option value="spiritual">Spiritual Growth</option>
+                    <option value="abundance">Financial Abundance</option>
+                    <option value="health">Health & Wellbeing</option>
+                    <option value="transformation">Personal Transformation</option>
+                </select>
+            </div>
+            
+            <div>
+                <label class="block text-cosmic-pink mb-2">Numbers you see frequently (optional)</label>
+                <input type="text" id="profile-numbers" placeholder="e.g., 111, 444, 777"
+                    class="w-full p-3 rounded-lg bg-white/10 text-white placeholder-gray-500 border border-cosmic-purple/30 focus:ring-2 focus:ring-cosmic-gold">
+            </div>
+            
+            <button type="submit" 
+                class="w-full px-8 py-3 bg-gradient-to-r from-cosmic-pink to-cosmic-purple text-white font-bold rounded-full hover:scale-105 transition-all duration-300">
+                Start My Journey
+            </button>
+        </form>
+    </div>
+</div>
 
 <main>
         <!-- ===== Hero Section ===== -->
@@ -288,6 +354,19 @@
         </nav>
     </div>
             <div class="z-10 max-w-4xl mx-auto">
+                                <!-- Personalized Greeting (shown when user has profile) -->
+            <div id="personalized-greeting" class="hidden mb-6">
+                <h2 class="font-serif text-2xl md:text-3xl text-cosmic-gold mb-4 text-center">
+                    Welcome back, <span id="user-name-display"></span> ✨
+                </h2>
+                <p class="text-lg text-gray-300 mb-2 text-center">
+                    Your Life Path Number: <span id="user-life-path" class="text-cosmic-pink font-bold text-2xl"></span>
+                </p>
+                <p class="text-md text-gray-400 mb-6 text-center">
+                    Days on your journey: <span id="days-since-signup" class="text-cosmic-gold"></span>
+                </p>
+            </div>
+
                 <h1 class="font-serif text-5xl md:text-7xl font-bold text-shadow-glow-white animate-subtle-pulse">
                     Soulcodes
                 </h1>
@@ -656,6 +735,7 @@
             star.style.animationDuration = `${Math.random() * 2 + 1.5}s`;
             starsContainer.appendChild(star);
         }
+                                    }
     }
     
     // Generate stars immediately or when DOM is ready
@@ -1019,6 +1099,63 @@
             // --- Footer Year ---
             document.getElementById('footer-year').textContent = new Date().getFullYear();
 
+    // ===== USER PROFILE SYSTEM =====
+    const profileModal = document.getElementById('profile-modal');
+    const profileForm = document.getElementById('profile-form');
+    const personalizedGreeting = document.getElementById('personalized-greeting');
+
+    // Check if user has a profile
+    function checkUserProfile() {
+        const userProfile = JSON.parse(localStorage.getItem('soulcodesProfile'));
+        
+        if (!userProfile) {
+            // Show profile modal after 3 seconds on first visit
+            setTimeout(() => {
+                profileModal.classList.remove('hidden');
+            }, 3000);
+        } else {
+            // Show personalized greeting
+            showPersonalizedGreeting(userProfile);
+        }
+    }
+
+    // Save user profile
+    profileForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        
+        const profile = {
+            name: document.getElementById('profile-name').value,
+            birthdate: document.getElementById('profile-birthdate').value,
+            goal: document.getElementById('profile-goal').value,
+            numbers: document.getElementById('profile-numbers').value,
+            createdAt: Date.now()
+        };
+        
+        // Calculate life path number
+        profile.lifePathNumber = calculateLifePath(profile.name, profile.birthdate);
+        
+        localStorage.setItem('soulcodesProfile', JSON.stringify(profile));
+        profileModal.classList.add('hidden');
+        showPersonalizedGreeting(profile);
+    });
+
+    // Show personalized greeting
+    function showPersonalizedGreeting(profile) {
+        document.getElementById('user-name-display').textContent = profile.name.split(' ')[0];
+        document.getElementById('user-life-path').textContent = profile.lifePathNumber;
+        
+        // Calculate days since signup
+        const daysSince = Math.floor((Date.now() - profile.createdAt) / (1000 * 60 * 60 * 24));
+        document.getElementById('days-since-signup').textContent = daysSince;
+        
+        personalizedGreeting.classList.remove('hidden');
+    }
+
+    // Initialize profile check on page load
+    checkUserProfile();
+
+
+                
             // Initial call for first-time card load
 
                     // ===== Angel Number Calculator =====
