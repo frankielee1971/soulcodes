@@ -1,5 +1,75 @@
-(index.html is a source file, so no need to add anything to .gitignore)
-
-```gitignore
-
 ```
+# Dependencies
+node_modules/
+
+# Environment variables
+.env
+.env.local
+.env.*
+
+# Logs
+*.log
+
+# Coverage reports
+coverage/
+htmlcov/
+.coverage
+
+# Build outputs
+dist/
+build/
+target/
+
+# Python specific
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.so
+.eggs/
+eggs/
+pip-log.txt
+pip-delete-this-directory.txt
+.tox/
+.coverage*
+.cache/
+nosetests.xml
+coverage.xml
+*.cover
+*.log
+.git/modules/
+*.sublime-workspace
+.pytest_cache/
+.hypothesis/
+
+# Virtual environments
+venv/
+ENV/
+env.bak/
+.venv/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.temp
+*~
+```
+
+Wait, let me reconsider. The only files mentioned in the changes are `supabase_client.js`, `supabase_setup.md`, `.gitignore`, and `index.html` - these are all source/config files, not build artifacts or dependencies that should be ignored.
+
+(empty - output nothing)
