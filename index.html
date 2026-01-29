@@ -187,6 +187,16 @@
                         justify-content: center;
                         text-align: center;
                 }
+                
+                /* Keyframes for star blinking animation */
+                @keyframes star-blink {
+                    0%, 100% {
+                        opacity: 0.3;
+                    }
+                    50% {
+                        opacity: 1;
+                    }
+                }
     </style>
 </head>
         <body>
@@ -735,7 +745,6 @@
             star.style.animationDuration = `${Math.random() * 2 + 1.5}s`;
             starsContainer.appendChild(star);
         }
-                                    }
     }
     
     // Generate stars immediately or when DOM is ready
@@ -1075,9 +1084,11 @@
           return phaseIndex;
         }
         
-        const phaseIndex = getMoonPhase();            
+        const phaseIndex = getMoonPhase();
+        if (moonPhaseIconEl && moonPhaseNameEl) {
             moonPhaseIconEl.textContent = moonIcons[phaseIndex];
             moonPhaseNameEl.textContent = moonNames[phaseIndex];
+        }
 
             // 2. Angel Number
             const angelNumberEl = document.getElementById('angel-number');
