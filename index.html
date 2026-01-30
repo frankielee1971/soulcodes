@@ -419,13 +419,13 @@
       Use these divine connections to manifest your highest self.
     </p>
     <div class="flex flex-wrap justify-center gap-4">
-      <div class="bg-white/10 backdrop-blur-sm rounded-xl px-6 py-3 border border-cosmic-purple/30">
+      <div class="bg-white/10 backdrop-blur-sm rounded-xl px-6 py-3 border border-cosmic-purple/30"> id="btn-affirmation"
         <p class="text-cosmic-gold font-medium">Affirmation Cards</p>
       </div>
-      <div class="bg-white/10 backdrop-blur-sm rounded-xl px-6 py-3 border border-cosmic-pink/30">
+      <div class="bg-white/10 backdrop-blur-sm rounded-xl px-6 py-3 border border-cosmic-pink/30"> id="btn-angel-numbers"
         <p class="text-cosmic-pink font-medium">Angel Numbers</p>
       </div>
-      <div class="bg-white/10 backdrop-blur-sm rounded-xl px-6 py-3 border border-cosmic-gold/30">
+      <div class="bg-white/10 backdrop-blur-sm rounded-xl px-6 py-3 border border-cosmic-gold/30"> id="btn-life-path"
         <p class="text-cosmic-gold font-medium">Life Path Insights</p>
       </div>
     </div>
@@ -949,12 +949,11 @@
 
 
                     // --- Connect Banner Buttons ---
-    const affirmationBtn = document.querySelector('.bg-white\/10.backdrop-blur-sm.rounded-xl.px-6.py-3.border.border-cosmic-purple\/30');
-    const angelNumbersBtn = document.querySelector('.bg-white\/10.backdrop-blur-sm.rounded-xl.px-6.py-3.border.border-cosmic-pink\/30');
-    const lifePathBtn = document.querySelector('.bg-white\/10.backdrop-blur-sm.rounded-xl.px-6.py-3.border.border-cosmic-gold\/30');
     
-    if (affirmationBtn) {
-        affirmationBtn.addEventListener('click', () => {
+    const affirmationBtn = document.getElementById('btn-affirmation');
+    const angelNumbersBtn = document.getElementById('btn-angel-numbers');
+    const lifePathBtn = document.getElementById('btn-life-path');
+            affirmationBtn.addEventListener('click', () => {
             document.getElementById('card-deck')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
         });
     }
