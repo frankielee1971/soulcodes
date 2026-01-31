@@ -56,76 +56,76 @@
     <script src="https://unpkg.com/lucide-react@0.294.0/dist/lucide-react.js"></script>
 
     <!-- Custom Tailwind Configuration -->
-    <script>
-        if (typeof tailwind !== 'undefined') {
-            tailwind.config = {
-                darkMode: 'class',
-                theme: {
-                    extend: {
-                        fontFamily: {
-                            'serif': ['Playfair Display', 'serif'],
-                            'sans': ['Inter', 'sans-serif'],
-                        },
-                        colors: {
-                            cosmic: {
-                                purple: '#8e44ad',
-                                pink: '#ff69b4',
-                                gold: '#f1c40f',
-                                midnight: '#0c0a1a',
-                            }
-                        },
-                        textShadow: {
-                            'glow-white': '0 0 10px rgba(255, 255, 255, 0.7)',
-                            'glow-gold': '0 0 12px rgba(241, 196, 15, 0.8)',
-                        },
-                        animation: {
-                            'gradient-bg': 'gradient-bg 15s ease infinite',
-                            'star-blink': 'star-blink 2s infinite ease-in-out alternate',
-                            'subtle-pulse': 'subtle-pulse 3s infinite ease-in-out',
-                        },
-                        keyframes: {
-                            'gradient-bg': {
-                                '0%, 100%': { 'background-position': '0% 50%' },
-                                '50%': { 'background-position': '100% 50%' },
-                            },
-                            'star-blink': {
-                                '0%': { opacity: 0.2 },
-                                '100%': { opacity: 1 },
-                            }
-                        }
-                    }
-                },
-                plugins: [
-                    function({ addUtilities}) {
-                      const newUtilities = {
-                        '.text-shadow-glow-white': {
-                          textShadow: '0 0 10px rgba(255, 255, 255, 0.7)',
-                        },
-                    '.text-shadow-glow-gold': {
-                      textShadow: '0 0 12px rgba(241, 196, 15, 0.8)',
-                    },
-                    '.text-shadow-glow-pink': {
-                      textShadow: '0 0 12px rgba(255, 105, 180, 0.7)',
-                    },
-                    '.perspective-1000': {
-                        perspective: '1000px',
-                    },
-                    '.transform-style-3d': {
-                        transformStyle: 'preserve-3d',
-                    },
-                    '.backface-hidden': {
-                        backfaceVisibility: 'hidden',
-                    },
-                    '.transform-rotate-y-180': {
-                        transform: 'rotateY(180deg)',
-                    },
-                  }
-                  addUtilities(newUtilities, ['responsive', 'hover'])
-                }
-            ]
+ <script>
+  if (typeof tailwind !== 'undefined') {
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            'serif': ['Playfair Display', 'serif'],
+            'sans': ['Inter', 'sans-serif'],
+          },
+          colors: {
+            cosmic: {
+              purple: '#8e44ad',
+              pink: '#ff69b4',
+              gold: '#f1c40f',
+              midnight: '#0c0a1a',
+            }
+          },
+          textShadow: {
+            'glow-white': '0 0 10px rgba(255, 255, 255, 0.7)',
+            'glow-gold': '0 0 12px rgba(241, 196, 15, 0.8)',
+          },
+          animation: {
+            'gradient-bg': 'gradient-bg 15s ease infinite',
+            'star-blink': 'star-blink 2s infinite ease-in-out alternate',
+            'subtle-pulse': 'subtle-pulse 3s infinite ease-in-out',
+          },
+          keyframes: {
+            'gradient-bg': {
+              '0%, 100%': { 'background-position': '0% 50%' },
+              '50%': { 'background-position': '100% 50%' },
+            },
+            'star-blink': {
+              '0%': { opacity: 0.2 },
+              '100%': { opacity: 1 },
+            }
+          }
         }
+      },
+      plugins: [
+        function ({ addUtilities }) {
+          const newUtilities = {
+            '.text-shadow-glow-white': {
+              textShadow: '0 0 10px rgba(255, 255, 255, 0.7)',
+            },
+            '.text-shadow-glow-gold': {
+              textShadow: '0 0 12px rgba(241, 196, 15, 0.8)',
+            },
+            '.text-shadow-glow-pink': {
+              textShadow: '0 0 12px rgba(255, 105, 180, 0.7)',
+            },
+            '.perspective-1000': {
+              perspective: '1000px',
+            },
+            '.transform-style-3d': {
+              transformStyle: 'preserve-3d',
+            },
+            '.backface-hidden': {
+              backfaceVisibility: 'hidden',
+            },
+            '.transform-rotate-y-180': {
+              transform: 'rotateY(180deg)',
+            },
+          };
+          addUtilities(newUtilities, ['responsive', 'hover']);
         }
-    </script>
+      ]
+    };
+  }
+</script>
 
     <!-- Custom CSS for Card Flip and Starfield (Simplified for Dark Mode only) -->
     <style>
@@ -418,17 +418,27 @@
       A sacred space designed specifically for women to explore cosmic tools, discover your soul purpose, and raise your vibration. 
       Use these divine connections to manifest your highest self.
     </p>
-    <div class="flex flex-wrap justify-center gap-4">
-      <div class="bg-white/10 backdrop-blur-sm rounded-xl px-6 py-3 border border-cosmic-purple/30"> id="btn-affirmation"
-        <p class="text-cosmic-gold font-medium">Affirmation Cards</p>
-      </div>
-      <div class="bg-white/10 backdrop-blur-sm rounded-xl px-6 py-3 border border-cosmic-pink/30"> id="btn-angel-numbers"
-        <p class="text-cosmic-pink font-medium">Angel Numbers</p>
-      </div>
-      <div class="bg-white/10 backdrop-blur-sm rounded-xl px-6 py-3 border border-cosmic-gold/30"> id="btn-life-path"
-        <p class="text-cosmic-gold font-medium">Life Path Insights</p>
-      </div>
-    </div>
+   <div class="flex flex-wrap justify-center gap-4">
+  <button
+    id="btn-affirmation"
+    class="bg-white/10 backdrop-blur-sm rounded-xl px-6 py-3 border border-cosmic-purple/30"
+  >
+    <p class="text-cosmic-gold font-medium">Affirmation Cards</p>
+  </button>
+  <button
+    id="btn-angel-numbers"
+    class="bg-white/10 backdrop-blur-sm rounded-xl px-6 py-3 border border-cosmic-pink/30"
+  >
+    <p class="text-cosmic-pink font-medium">Angel Numbers</p>
+  </button>
+  <button
+    id="btn-life-path"
+    class="bg-white/10 backdrop-blur-sm rounded-xl px-6 py-3 border border-cosmic-gold/30"
+  >
+    <p class="text-cosmic-gold font-medium">Life Path Insights</p>
+  </button>
+</div>
+
   </div>
 </section>
 
@@ -790,12 +800,14 @@
             // --- Firebase Initialization and Auth ---
             // Global variables provided by the Canvas environment
 
-            const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : null;
-            const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
+           const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : null;
+const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
+const appId = (firebaseConfig && firebaseConfig.appId) ? firebaseConfig.appId : 'soulcodes';
 
-            let db = null;
-            let userId = null;
-            let journalDocRef = null;
+let db = null;
+let userId = null;
+let journalDocRef = null;
+
 
             if (firebaseLoaded && firebaseConfig && typeof initializeApp !== 'undefined') {
                 try {
