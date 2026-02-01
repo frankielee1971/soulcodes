@@ -230,7 +230,7 @@
     </style>
 </head>
         <body class="bg-black">
-                    <div id="stars-container"></div>
+                    <div id="stars-container" class="fixed top-0 left-0 w-full h-full -z-10 opacity-100"></div>
 
     
     <!-- Structured Data (JSON-LD) for SEO -->
@@ -306,7 +306,7 @@
       ]
     }
     </script>
-        <div id="stars-container" class="fixed top-0 left-0 w-full h-full -z-10 opacity-100"></div>
+        
 
     <!-- ===== Header (Theme Toggle Removed) ===== -->
     <header class="fixed top-0 left-0 w-full p-4 flex justify-between items-center z-50 mix-blend-difference">
@@ -795,7 +795,14 @@
     function createStars() {
         if (!starsContainer) {
             console.warn('Stars container not found');
-            return;
+            // Try to find it again
+            const possibleContainers = document.querySelectorAll('#stars-container');
+            if (possibleContainers.length > 0) {
+                starsContainer = possibleContainers[0];
+            } else {
+                console.error('No stars container found in the document');
+                return;
+            }
         }
 
         starsContainer.innerHTML = ''; // Clear existing stars
@@ -807,18 +814,18 @@
             star.style.height = `${size}px`;
             star.style.left = `${Math.random() * 100}%`;
             star.style.top = `${Math.random() * 100}%`;
+            star.style.opacity = Math.random() * 0.8 + 0.2; // Random opacity between 0.2 and 1
             star.style.animationDelay = `${Math.random() * 3}s`;
             star.style.animationDuration = `${Math.random() * 2 + 1.5}s`;
             starsContainer.appendChild(star);
         }
     }
 
-    // Generate stars immediately or when DOM is ready
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', createStars);
-    } else {
-        createStars();
-    }
+    // Generate stars after a short delay to ensure DOM is ready
+    setTimeout(createStars, 100);
+    
+    // Also regenerate stars if window is resized
+    window.addEventListener('resize', createStars);
 
             const firebaseLoaded = await loadFirebase();
 
@@ -938,14 +945,28 @@ let journalDocRef = null;
                 affirmationText.textContent = newAffirmation;
             }
 
-            // Card flip functionality
+            // Card flip functionality with improved handling
             if (cardContainer) {
+                let isFlipping = false; // Prevent rapid clicks
+                
                 cardContainer.addEventListener('click', function(e) {
+                    // Prevent flipping if animation is in progress
+                    if (isFlipping) return;
+                    
+                    isFlipping = true;
+                    
+                    // Toggle the flipped class
                     cardContainer.classList.toggle('flipped');
+                    
+                    // Reset the flipping flag after animation completes
+                    setTimeout(() => {
+                        isFlipping = false;
+                    }, 1000); // Match the CSS transition duration
                     
                     // If card is being flipped to the back and hasn't been initialized yet
                     if (cardContainer.classList.contains('flipped') && 
-                        affirmationText.textContent === "Your divine message is loading...") {
+                        (affirmationText.textContent === "Your divine message is loading..." ||
+                         affirmationText.textContent.trim() === "")) {
                         drawNewAffirmation();
                     }
                 });
@@ -958,7 +979,7 @@ let journalDocRef = null;
                 drawNewAffirmation();
                 
                 // Make sure card is flipped to back to show the new affirmation
-                if (!cardContainer.classList.contains('flipped')) {
+                if (cardContainer && !cardContainer.classList.contains('flipped')) {
                     cardContainer.classList.add('flipped');
                 }
             });
