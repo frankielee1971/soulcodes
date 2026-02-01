@@ -179,9 +179,8 @@
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: -1;
+            z-index: -2;
             overflow: hidden;
-            background-color: #000000;
         }
         
         .star {
@@ -796,8 +795,8 @@
         if (!starsContainer) {
             starsContainer = document.createElement('div');
             starsContainer.id = 'stars-container';
-            starsContainer.className = 'fixed top-0 left-0 w-full h-full -z-10 opacity-100';
-            document.body.insertBefore(starsContainer, document.body.firstChild);
+            starsContainer.className = 'fixed top-0 left-0 w-full h-full -z-10 opacity-100 pointer-events-none';
+            document.body.appendChild(starsContainer);
         }
 
         starsContainer.innerHTML = ''; // Clear existing stars
@@ -953,17 +952,18 @@ let journalDocRef = null;
                     // Toggle the flipped class
                     cardContainer.classList.toggle('flipped');
                     
+                    // If card is being flipped to the back and hasn't been initialized yet
+                    if (cardContainer.classList.contains('flipped') && 
+                        (affirmationText.textContent === "Your divine message is loading..." ||
+                         affirmationText.textContent.trim() === "" ||
+                         affirmationText.textContent.includes("loading"))) {
+                        drawNewAffirmation();
+                    }
+                    
                     // Reset the flipping flag after animation completes
                     setTimeout(() => {
                         isFlipping = false;
                     }, 1000); // Match the CSS transition duration
-                    
-                    // If card is being flipped to the back and hasn't been initialized yet
-                    if (cardContainer.classList.contains('flipped') && 
-                        (affirmationText.textContent === "Your divine message is loading..." ||
-                         affirmationText.textContent.trim() === "")) {
-                        drawNewAffirmation();
-                    }
                 });
             } else {
                 console.error('Card container element not found!');
@@ -987,7 +987,8 @@ let journalDocRef = null;
     const lifePathBtn = document.getElementById('btn-life-path');
 
     if (affirmationBtn) {
-      affirmationBtn.addEventListener('click', () => {
+      affirmationBtn.addEventListener('click', (e) => {
+        e.preventDefault();
         document.getElementById('card-deck')?.scrollIntoView({
           behavior: 'smooth',
           block: 'start',
@@ -996,7 +997,8 @@ let journalDocRef = null;
     }
 
     if (angelNumbersBtn) {
-      angelNumbersBtn.addEventListener('click', () => {
+      angelNumbersBtn.addEventListener('click', (e) => {
+        e.preventDefault();
         document.getElementById('angel-calculator')?.scrollIntoView({
           behavior: 'smooth',
           block: 'start',
@@ -1005,7 +1007,8 @@ let journalDocRef = null;
     }
 
     if (lifePathBtn) {
-      lifePathBtn.addEventListener('click', () => {
+      lifePathBtn.addEventListener('click', (e) => {
+        e.preventDefault();
         document.getElementById('life-path-calculator')?.scrollIntoView({
           behavior: 'smooth',
           block: 'start',
@@ -1245,16 +1248,21 @@ let journalDocRef = null;
           const month = today.getMonth() + 1;
           const day = today.getDate();
 
-          // Julian day calculation
+          // Corrected Julian day calculation (removed extra constant)
           let jd = 367 * year - Math.floor(7 * (year + Math.floor((month + 9) / 12)) / 4) +
-                   Math.floor(275 * month / 9) + day + 1721013.5;
+                   Math.floor(275 * month / 9) + day;
 
           // Days since known new moon (Jan 6, 2000)
           const daysSinceNew = jd - 2451549.5;
 
           // Moon phase calculation
-          const newMoons = daysSinceNew / 29.53058867;
-          const phase = (newMoons - Math.floor(newMoons));
+          const lunarCycle = 29.53058867; // Length of synodic month
+          const newMoons = daysSinceNew / lunarCycle;
+
+          let phase = (newMoons - Math.floor(newMoons));
+          
+          // Ensure phase is positive
+          if (phase < 0) phase += 1;
 
           // Convert to 0-7 index
           const phaseIndex = Math.floor(phase * 8) % 8;
@@ -1347,6 +1355,13 @@ let journalDocRef = null;
 
             // Initial call for first-time card load
             drawNewAffirmation();
+            
+            // Also make sure the card is properly initialized with an affirmation
+            if (affirmationText && (affirmationText.textContent === "Your divine message is loading..." ||
+                affirmationText.textContent.trim() === "" ||
+                !affirmationText.textContent)) {
+                drawNewAffirmation();
+            }
 
             // ===== Angel Number Calculator =====
     const angelMeanings = {
@@ -1505,45 +1520,42 @@ let journalDocRef = null;
   };
 
   function calculateLifePath(name, birthdate) {
-    // Calculate from birthdate
-    const dateDigits = birthdate.split('-').join('').split('').map(d => parseInt(d));
-    let dateSum = dateDigits.reduce((sum, digit) => sum + digit, 0);
-
-    // Reduce to single digit or master number
-    // Master numbers (11, 22, 33) should only be reduced if they appear during the calculation of day, month, and year separately
-    const originalDate = birthdate.split('-');
-    const year = originalDate[0];
-    const month = originalDate[1];
-    const day = originalDate[2];
-
-    // Calculate individual parts first
-    const daySum = reduceToSingleOrMaster(parseInt(day));
-    const monthSum = reduceToSingleOrMaster(parseInt(month));
-    const yearSum = reduceToSingleOrMaster(parseInt(year));
-
-    // Add the reduced values together
-    dateSum = daySum + monthSum + yearSum;
-
-    // Reduce the total if needed
-    dateSum = reduceToSingleOrMaster(dateSum);
-
-    return dateSum;
-}
-
-// Helper function to reduce numbers to single digits or master numbers
-function reduceToSingleOrMaster(num) {
-    while (num > 9) {
-        // If it's a master number, return it
-        if (num === 11 || num === 22 || num === 33) {
-            return num;
-        }
-        
-        // Otherwise, sum the digits
-        num = num.toString().split('').reduce((sum, digit) => sum + parseInt(digit), 0);
+    // Extract the date components
+    const dateParts = birthdate.split('-');
+    if (dateParts.length !== 3) {
+      console.error('Invalid birthdate format. Expected YYYY-MM-DD');
+      return 0;
     }
     
-    return num;
+    const year = parseInt(dateParts[0]);
+    const month = parseInt(dateParts[1]);
+    const day = parseInt(dateParts[2]);
+
+    // Calculate the life path number by adding all digits of birthdate
+    let total = 0;
+    
+    // Add all digits of the year
+    total += year.toString().split('').reduce((sum, digit) => sum + parseInt(digit), 0);
+    // Add all digits of the month
+    total += month.toString().split('').reduce((sum, digit) => sum + parseInt(digit), 0);
+    // Add all digits of the day
+    total += day.toString().split('').reduce((sum, digit) => sum + parseInt(digit), 0);
+
+    // Reduce to a single digit or master number (11, 22, 33)
+    // Don't reduce master numbers unless they appear after adding date components
+    while (total > 33 && total !== 11 && total !== 22 && total !== 33) {
+      total = total.toString().split('').reduce((sum, digit) => sum + parseInt(digit), 0);
+    }
+
+    // If the total is still greater than 9 but not a master number, reduce further
+    if (total > 9 && total !== 11 && total !== 22 && total !== 33) {
+      total = total.toString().split('').reduce((sum, digit) => sum + parseInt(digit), 0);
+    }
+
+    return total;
 }
+
+
 
   const calculateLifePathButton = document.getElementById('calculate-life-path');
   const lifePathResult = document.getElementById('lifepath-result');
