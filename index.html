@@ -230,7 +230,6 @@
     </style>
 </head>
         <body class="bg-black">
-                    <div id="stars-container" class="fixed top-0 left-0 w-full h-full -z-10 opacity-100"></div>
 
     
     <!-- Structured Data (JSON-LD) for SEO -->
@@ -790,19 +789,15 @@
             // Try to load Firebase
 
     // --- Dynamic Starfield - Initialize container reference early ---
-    const starsContainer = document.getElementById('stars-container');
-
     function createStars() {
+        let starsContainer = document.getElementById('stars-container');
+        
+        // If container doesn't exist, create it
         if (!starsContainer) {
-            console.warn('Stars container not found');
-            // Try to find it again
-            const possibleContainers = document.querySelectorAll('#stars-container');
-            if (possibleContainers.length > 0) {
-                starsContainer = possibleContainers[0];
-            } else {
-                console.error('No stars container found in the document');
-                return;
-            }
+            starsContainer = document.createElement('div');
+            starsContainer.id = 'stars-container';
+            starsContainer.className = 'fixed top-0 left-0 w-full h-full -z-10 opacity-100';
+            document.body.insertBefore(starsContainer, document.body.firstChild);
         }
 
         starsContainer.innerHTML = ''; // Clear existing stars
@@ -1515,18 +1510,40 @@ let journalDocRef = null;
     let dateSum = dateDigits.reduce((sum, digit) => sum + digit, 0);
 
     // Reduce to single digit or master number
-    while (dateSum > 33) {
-      if (dateSum === 11 || dateSum === 22 || dateSum === 33) break;
-      dateSum = dateSum.toString().split('').reduce((sum, digit) => sum + parseInt(digit), 0);
-    }
+    // Master numbers (11, 22, 33) should only be reduced if they appear during the calculation of day, month, and year separately
+    const originalDate = birthdate.split('-');
+    const year = originalDate[0];
+    const month = originalDate[1];
+    const day = originalDate[2];
 
-    // Final reduction if not a master number
-    if (dateSum > 9 && dateSum !== 11 && dateSum !== 22 && dateSum !== 33) {
-      dateSum = dateSum.toString().split('').reduce((sum, digit) => sum + parseInt(digit), 0);
-    }
+    // Calculate individual parts first
+    const daySum = reduceToSingleOrMaster(parseInt(day));
+    const monthSum = reduceToSingleOrMaster(parseInt(month));
+    const yearSum = reduceToSingleOrMaster(parseInt(year));
+
+    // Add the reduced values together
+    dateSum = daySum + monthSum + yearSum;
+
+    // Reduce the total if needed
+    dateSum = reduceToSingleOrMaster(dateSum);
 
     return dateSum;
-  }
+}
+
+// Helper function to reduce numbers to single digits or master numbers
+function reduceToSingleOrMaster(num) {
+    while (num > 9) {
+        // If it's a master number, return it
+        if (num === 11 || num === 22 || num === 33) {
+            return num;
+        }
+        
+        // Otherwise, sum the digits
+        num = num.toString().split('').reduce((sum, digit) => sum + parseInt(digit), 0);
+    }
+    
+    return num;
+}
 
   const calculateLifePathButton = document.getElementById('calculate-life-path');
   const lifePathResult = document.getElementById('lifepath-result');
@@ -1550,7 +1567,6 @@ let journalDocRef = null;
     // Scroll to results
     lifePathResult.scrollIntoView({ behavior: 'smooth', block: 'center' });
   });
-        });
 
   /* ===== Supabase Integration =====
   // Initialize Supabase client
