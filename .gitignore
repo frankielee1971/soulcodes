@@ -1,1 +1,1 @@
-(index.html is a source file, so no need to ignore it)
+Nothing needs to be added to .gitignore since the changes only include HTML files (final_index.html, index.html) which are source files, not build artifacts, dependencies, or temporary files.
