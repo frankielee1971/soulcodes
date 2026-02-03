@@ -797,7 +797,9 @@
         if (!starsContainer) {
             starsContainer = document.createElement('div');
             starsContainer.id = 'stars-container';
-            starsContainer.className = 'fixed top-0 left-0 w-full h-full -z-10 opacity-100 pointer-events-none';
+            starsContainer.className = starsContainer.className =
+  'fixed top-0 left-0 w-full h-full z-0 opacity-100 pointer-events-none';
+
             document.body.appendChild(starsContainer);
         }
 
