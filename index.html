@@ -1886,6 +1886,50 @@ let journalDocRef = null;
     });
   }
     </script>
+
+                    <!-- Profile Modal -->
+    <div id="profile-modal" class="hidden fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-4">
+        <div class="bg-gradient-to-br from-cosmic-midnight via-cosmic-purple to-cosmic-midnight p-8 rounded-2xl max-w-lg w-full border-2 border-cosmic-gold shadow-2xl">
+            <h2 class="text-3xl font-serif text-cosmic-gold mb-4 text-center">Create Your Soulcodes Profile</h2>
+            <p class="text-gray-300 mb-6 text-center">Personalize your spiritual journey</p>
+            <form id="profile-form" class="space-y-4">
+                <div>
+                    <label class="block text-cosmic-gold mb-2">Your Name</label>
+                    <input type="text" id="profile-name" required class="w-full p-3 rounded-lg bg-white/10 text-white border border-cosmic-purple/30 focus:ring-2 focus:ring-cosmic-gold">
+                </div>
+                <div>
+                    <label class="block text-cosmic-gold mb-2">Birth Date</label>
+                    <input type="date" id="profile-birthdate" required class="w-full p-3 rounded-lg bg-white/10 text-white border border-cosmic-purple/30 focus:ring-2 focus:ring-cosmic-gold">
+                </div>
+                <div>
+                    <label class="block text-cosmic-gold mb-2">What are you seeking guidance on?</label>
+                    <select id="profile-goal" required class="w-full p-3 rounded-lg bg-white/10 text-white border border-cosmic-purple/30 focus:ring-2 focus:ring-cosmic-gold">
+                        <option value="">Select your focus...</option>
+                        <option value="career">Career & Purpose</option>
+                        <option value="love">Love & Relationships</option>
+                        <option value="spiritual">Spiritual Growth</option>
+                        <option value="abundance">Financial Abundance</option>
+                        <option value="health">Health & Wellbeing</option>
+                        <option value="transformation">Personal Transformation</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-cosmic-gold mb-2">Numbers you see frequently (optional)</label>
+                    <input type="text" id="profile-numbers" placeholder="e.g., 111, 444, 777" class="w-full p-3 rounded-lg bg-white/10 text-white placeholder-gray-500 border border-cosmic-purple/30 focus:ring-2 focus:ring-cosmic-gold">
+                </div>
+                <button type="submit" class="w-full bg-gradient-to-r from-cosmic-purple to-cosmic-pink hover:from-cosmic-pink hover:to-cosmic-purple text-white font-bold py-3 px-6 rounded-full transition-all duration-300 transform hover:scale-105">
+                    Start My Journey
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Personalized Greeting -->
+    <div id="personalized-greeting" class="hidden fixed top-20 right-4 bg-gradient-to-br from-cosmic-purple/90 to-cosmic-midnight/90 backdrop-blur-sm p-6 rounded-xl border-2 border-cosmic-gold/50 shadow-2xl max-w-sm z-40">
+        <p class="text-cosmic-gold text-lg mb-2">Welcome back, <span id="user-name-display" class="font-serif text-xl">✨</span></p>
+        <p class="text-gray-300 text-sm mb-1">Your Life Path Number: <span id="user-life-path" class="text-cosmic-pink font-bold"></span></p>
+        <p class="text-gray-400 text-xs">Days on your journey: <span id="days-since-signup" class="text-cosmic-gold"></span></p>
+    </div>
 </body>
 
 </html>
