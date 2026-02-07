@@ -140,8 +140,10 @@
             height: 100%;
             transition: transform 1s;
             transform-style: preserve-3d;
+                            cursor: pointer;
+            user-select: none;
         }
-        
+
         .card-face {
             position: absolute;
             width: 100%;
@@ -965,11 +967,13 @@ let journalDocRef = null;
             if (cardContainer) {
                 let isFlipping = false; // Prevent rapid clicks
                 
-                cardContainer.addEventListener('click', function(e) {
+                137
+                        ('click', function(e) {
                     // Prevent flipping if animation is in progress
                     if (isFlipping) return;
                     
                     isFlipping = true;
+                                                console.log('Card flip initiated');
                     
                     // Toggle the flipped class
                     cardContainer.classList.toggle('flipped');
