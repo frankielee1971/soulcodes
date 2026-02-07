@@ -1082,7 +1082,8 @@ let journalDocRef = null;
             const emailStatus = document.getElementById('email-status');
 
             // Get Brevo API key from environment variable (set in your hosting platform)
-           1820('submit', async (e) => {
+          emailForm.addEventListener('submit', async (e) => {
+
     e.preventDefault();
     
     const email = emailInput.value.trim();
