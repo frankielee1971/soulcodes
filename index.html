@@ -967,8 +967,7 @@ let journalDocRef = null;
             if (cardContainer) {
                 let isFlipping = false; // Prevent rapid clicks
                 
-                137
-                        ('click', function(e) {
+                cardContainer.addEventListener('click', function(e) {
                     // Prevent flipping if animation is in progress
                     if (isFlipping) return;
                     
@@ -1819,7 +1818,6 @@ let journalDocRef = null;
     createStars();
     drawNewAffirmation();
   }
-  */
 
   // ===== Brevo Email Integration =====
   // Handle email subscription form if it exists
