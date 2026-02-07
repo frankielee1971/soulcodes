@@ -1,1 +1,27 @@
-Nothing needs to be added to .gitignore since the only change is adding a README.md file, which is a source/config file and not a build artifact, dependency, or temporary file.
+```
+# Dependencies
+node_modules/
+
+# Build artifacts
+dist/
+build/
+*.css.map
+*.js.map
+
+# Logs and temp files
+*.log
+*.tmp
+
+# Environment
+.env
+.env.local
+*.env.*
+
+# Editors
+.vscode/
+.idea/
+
+# OS generated files
+.DS_Store
+Thumbs.db
+```
