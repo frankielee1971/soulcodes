@@ -827,6 +827,9 @@
     
     // Also regenerate stars if window is resized
     window.addEventListener('resize', createStars);
+    
+    // Ensure stars are created even if DOM isn't ready initially
+    window.addEventListener('load', createStars);
 
             const firebaseLoaded = await loadFirebase();
 
@@ -951,6 +954,9 @@ let journalDocRef = null;
                 let isFlipping = false; // Prevent rapid clicks
                 
                 cardContainer.addEventListener('click', function(e) {
+                    // Only flip if clicking directly on the container, not child elements
+                    if (e.target !== this && !this.contains(e.target.closest('.card-face'))) return;
+                    
                     // Prevent flipping if animation is in progress
                     if (isFlipping) return;
                     
@@ -971,6 +977,19 @@ let journalDocRef = null;
                         drawNewAffirmation();
                     }
                 });
+                
+                // Add keyboard accessibility
+                cardContainer.addEventListener('keydown', function(e) {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        cardContainer.click();
+                    }
+                });
+                
+                // Make card focusable
+                cardContainer.setAttribute('tabindex', '0');
+                cardContainer.setAttribute('role', 'button');
+                cardContainer.setAttribute('aria-label', 'Click to flip card and reveal daily affirmation');
             } else {
                 console.error('Card container element not found!');
             }
@@ -1306,6 +1325,15 @@ let journalDocRef = null;
             moonPhaseIconEl.textContent = moonIcons[phaseIndex];
             moonPhaseNameEl.textContent = moonNames[phaseIndex];
         }
+        
+        // Update moon phase periodically (every hour)
+        setInterval(() => {
+            const phaseIndex = getMoonPhase();
+            if (moonPhaseIconEl && moonPhaseNameEl) {
+                moonPhaseIconEl.textContent = moonIcons[phaseIndex];
+                moonPhaseNameEl.textContent = moonNames[phaseIndex];
+            }
+        }, 60 * 60 * 1000); // Update every hour
 
             // 2. Angel Number
             const angelNumberEl = document.getElementById('angel-number');
@@ -1788,6 +1816,12 @@ let journalDocRef = null;
     createStars();
     drawNewAffirmation();
   }
+  
+  // Also initialize when window loads to ensure all resources are ready
+  window.addEventListener('load', () => {
+    createStars();
+    drawNewAffirmation();
+  });
   */
 
 
