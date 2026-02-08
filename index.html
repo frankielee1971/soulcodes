@@ -1061,16 +1061,49 @@ let journalDocRef = null;
 
             // Get Brevo API key from environment variable (set in your hosting platform)
             emailForm.addEventListener('submit', async (e) => {
-                e.preventDefault();
-
-                const email = emailInput.value.trim();
-                const name = document.getElementById('name-input').value.trim();
-
-                if (!email || !name) {
-                    emailStatus.textContent = 'Please fill in all fields.';
-                    emailStatus.className = 'text-sm text-center mt-2 text-red-400';
-                    return;
-                }
+    e.preventDefault();
+    
+    const email = emailInput.value.trim();
+    const name = document.getElementById('name-input').value.trim();
+    
+    if (!email || !name) {
+        emailStatus.textContent = 'Please fill in all fields.';
+        emailStatus.className = 'text-sm text-center mt-2 text-red-400';
+        return;
+    }
+    
+    emailStatus.textContent = 'Subscribing...';
+    emailStatus.className = 'text-sm text-center mt-2 text-cosmic-gold';
+    
+    try {
+        // Call your Netlify serverless function
+        const response = await fetch('/.netlify/functions/subscribe', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                email: email,
+                name: name
+            })
+        });
+        
+        const data = await response.json();
+        
+        if (response.ok) {
+            emailStatus.textContent = '✨ Welcome! Check your inbox for confirmation.';
+            emailStatus.className = 'text-sm text-center mt-2 text-cosmic-gold';
+            emailInput.value = '';
+            document.getElementById('name-input').value = '';
+        } else {
+            throw new Error(data.error || 'Subscription failed');
+        }
+    } catch (error) {
+        console.error('Subscription error:', error);
+        emailStatus.textContent = 'Something went wrong. Please try again.';
+        emailStatus.className = 'text-sm text-center mt-2 text-red-400';
+    }
+});
 
                 emailStatus.textContent = 'Subscribing...';
                 emailStatus.className = 'text-sm text-center mt-2 text-cosmic-gold';
