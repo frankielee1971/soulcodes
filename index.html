@@ -790,7 +790,8 @@
             // Try to load Firebase
 
     // --- Dynamic Starfield - Initialize container reference early ---
-    const starsContainer = document.getElementById('stars-container');
+    let starsContainer = document.getElementById('stars-container');
+
 
     function createStars() {
         if (!starsContainer) {
