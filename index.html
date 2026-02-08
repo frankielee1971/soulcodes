@@ -754,7 +754,7 @@
         // Supabase initialization
         const SUPABASE_URL = 'YOUR_SUPABASE_URL'; // Replace with your Supabase project URL
         const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY'; // Replace with your Supabase anon key
-        const supabaseClient = Supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
         // Brevo API configuration
         window.BREVO_API_KEY = window.BREVO_API_KEY || null;
