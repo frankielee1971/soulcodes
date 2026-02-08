@@ -954,7 +954,7 @@ let journalDocRef = null;
                 let isFlipping = false; // Prevent rapid clicks
                 
                 cardContainer.addEventListener('click', function(e) {
-                    // Only flip if clicking directly on the container, not child elements
+                    // Only flip if clicking directly on the container or front face
                     if (e.target !== this && !this.contains(e.target.closest('.card-face'))) return;
                     
                     // Prevent flipping if animation is in progress
