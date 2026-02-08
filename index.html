@@ -140,10 +140,8 @@
             height: 100%;
             transition: transform 1s;
             transform-style: preserve-3d;
-                            cursor: pointer;
-            user-select: none;
         }
-
+        
         .card-face {
             position: absolute;
             width: 100%;
@@ -175,23 +173,23 @@
         }
         
         /* Starfield background */
-       #stars-container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 0;               /* bring above page background */
-    overflow: hidden;
-    pointer-events: none;     /* so it doesn’t block clicks */
-}
-
+        #stars-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+            background-color: #000000;
+        }
         
         .star {
             position: absolute;
             background-color: white;
             border-radius: 50%;
             animation: star-blink 3s infinite ease-in-out;
+            box-shadow: 0 0 5px rgba(255, 255, 255, 0.8);
         }
         
         @keyframes star-blink {
@@ -229,24 +227,6 @@
             align-items: center;
             justify-content: center;
             text-align: center;
-        }
-
-                    /* Email Status Message Visibility Fix */
-        #email-status {
-            min-height: 30px;
-            padding: 8px 16px;
-            margin-top: 12px;
-            border-radius: 8px;
-            font-size: 14px;
-            font-weight: 500;
-            text-align: center;
-            transition: all 0.3s ease;
-        }
-
-        #email-status:not(:empty) {
-            display: block !important;
-            opacity: 1 !important;
-            visibility: visible !important;
         }
     </style>
 </head>
@@ -326,7 +306,7 @@
       ]
     }
     </script>
-        
+        <div id="stars-container" class="fixed top-0 left-0 w-full h-full -z-10 opacity-100"></div>
 
     <!-- ===== Header (Theme Toggle Removed) ===== -->
     <header class="fixed top-0 left-0 w-full p-4 flex justify-between items-center z-50 mix-blend-difference">
@@ -774,7 +754,7 @@
         // Supabase initialization
         const SUPABASE_URL = 'YOUR_SUPABASE_URL'; // Replace with your Supabase project URL
         const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY'; // Replace with your Supabase anon key
-        const supabaseClient = Supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
         // Brevo API configuration
         window.BREVO_API_KEY = window.BREVO_API_KEY || null;
@@ -810,17 +790,20 @@
             // Try to load Firebase
 
     // --- Dynamic Starfield - Initialize container reference early ---
-    function createStars() {
-        let starsContainer = document.getElementById('stars-container');
-        
-        // If container doesn't exist, create it
-        if (!starsContainer) {
-            starsContainer = document.createElement('div');
-            starsContainer.id = 'stars-container';
-            starsContainer.className = starsContainer.className =
-  'fixed top-0 left-0 w-full h-full z-0 opacity-100 pointer-events-none';
+    let starsContainer = document.getElementById('stars-container');
 
-            document.body.appendChild(starsContainer);
+
+    function createStars() {
+        if (!starsContainer) {
+            console.warn('Stars container not found');
+            // Try to find it again
+            const possibleContainers = document.querySelectorAll('#stars-container');
+            if (possibleContainers.length > 0) {
+                starsContainer = possibleContainers[0];
+            } else {
+                console.error('No stars container found in the document');
+                return;
+            }
         }
 
         starsContainer.innerHTML = ''; // Clear existing stars
@@ -972,23 +955,21 @@ let journalDocRef = null;
                     if (isFlipping) return;
                     
                     isFlipping = true;
-                                                console.log('Card flip initiated');
                     
                     // Toggle the flipped class
                     cardContainer.classList.toggle('flipped');
-                    
-                    // If card is being flipped to the back and hasn't been initialized yet
-                    if (cardContainer.classList.contains('flipped') && 
-                        (affirmationText.textContent === "Your divine message is loading..." ||
-                         affirmationText.textContent.trim() === "" ||
-                         affirmationText.textContent.includes("loading"))) {
-                        drawNewAffirmation();
-                    }
                     
                     // Reset the flipping flag after animation completes
                     setTimeout(() => {
                         isFlipping = false;
                     }, 1000); // Match the CSS transition duration
+                    
+                    // If card is being flipped to the back and hasn't been initialized yet
+                    if (cardContainer.classList.contains('flipped') && 
+                        (affirmationText.textContent === "Your divine message is loading..." ||
+                         affirmationText.textContent.trim() === "")) {
+                        drawNewAffirmation();
+                    }
                 });
             } else {
                 console.error('Card container element not found!');
@@ -1012,8 +993,7 @@ let journalDocRef = null;
     const lifePathBtn = document.getElementById('btn-life-path');
 
     if (affirmationBtn) {
-      affirmationBtn.addEventListener('click', (e) => {
-        e.preventDefault();
+      affirmationBtn.addEventListener('click', () => {
         document.getElementById('card-deck')?.scrollIntoView({
           behavior: 'smooth',
           block: 'start',
@@ -1022,8 +1002,7 @@ let journalDocRef = null;
     }
 
     if (angelNumbersBtn) {
-      angelNumbersBtn.addEventListener('click', (e) => {
-        e.preventDefault();
+      angelNumbersBtn.addEventListener('click', () => {
         document.getElementById('angel-calculator')?.scrollIntoView({
           behavior: 'smooth',
           block: 'start',
@@ -1032,8 +1011,7 @@ let journalDocRef = null;
     }
 
     if (lifePathBtn) {
-      lifePathBtn.addEventListener('click', (e) => {
-        e.preventDefault();
+      lifePathBtn.addEventListener('click', () => {
         document.getElementById('life-path-calculator')?.scrollIntoView({
           behavior: 'smooth',
           block: 'start',
@@ -1127,6 +1105,28 @@ let journalDocRef = null;
     }
 });
 
+                emailStatus.textContent = 'Subscribing...';
+                emailStatus.className = 'text-sm text-center mt-2 text-cosmic-gold';
+
+                // If Brevo API key is available, use it
+                if (window.BREVO_API_KEY) {
+                    try {
+                        const response = await fetch('https://api.brevo.com/v3/contacts', {
+                            method: 'POST',
+                            headers: {
+                                'Accept': 'application/json',
+                                'Content-Type': 'application/json',
+                                'api-key': window.BREVO_API_KEY
+                            },
+                            body: JSON.stringify({
+                                email: email,
+                                attributes: {
+                                    FIRSTNAME: name
+                                },
+                                listIds: [window.BREVO_LIST_ID],
+                                updateEnabled: true
+                            })
+                        });
 
                         if (response.ok || response.status === 201) {
                             emailStatus.textContent = '✨ Welcome! Check your inbox for confirmation.';
@@ -1284,21 +1284,16 @@ let journalDocRef = null;
           const month = today.getMonth() + 1;
           const day = today.getDate();
 
-          // Corrected Julian day calculation (removed extra constant)
+          // Julian day calculation
           let jd = 367 * year - Math.floor(7 * (year + Math.floor((month + 9) / 12)) / 4) +
-                   Math.floor(275 * month / 9) + day;
+                   Math.floor(275 * month / 9) + day + 1721013.5;
 
           // Days since known new moon (Jan 6, 2000)
           const daysSinceNew = jd - 2451549.5;
 
           // Moon phase calculation
-          const lunarCycle = 29.53058867; // Length of synodic month
-          const newMoons = daysSinceNew / lunarCycle;
-
-          let phase = (newMoons - Math.floor(newMoons));
-          
-          // Ensure phase is positive
-          if (phase < 0) phase += 1;
+          const newMoons = daysSinceNew / 29.53058867;
+          const phase = (newMoons - Math.floor(newMoons));
 
           // Convert to 0-7 index
           const phaseIndex = Math.floor(phase * 8) % 8;
@@ -1391,13 +1386,6 @@ let journalDocRef = null;
 
             // Initial call for first-time card load
             drawNewAffirmation();
-            
-            // Also make sure the card is properly initialized with an affirmation
-            if (affirmationText && (affirmationText.textContent === "Your divine message is loading..." ||
-                affirmationText.textContent.trim() === "" ||
-                !affirmationText.textContent)) {
-                drawNewAffirmation();
-            }
 
             // ===== Angel Number Calculator =====
     const angelMeanings = {
@@ -1556,42 +1544,23 @@ let journalDocRef = null;
   };
 
   function calculateLifePath(name, birthdate) {
-    // Extract the date components
-    const dateParts = birthdate.split('-');
-    if (dateParts.length !== 3) {
-      console.error('Invalid birthdate format. Expected YYYY-MM-DD');
-      return 0;
-    }
-    
-    const year = parseInt(dateParts[0]);
-    const month = parseInt(dateParts[1]);
-    const day = parseInt(dateParts[2]);
+    // Calculate from birthdate
+    const dateDigits = birthdate.split('-').join('').split('').map(d => parseInt(d));
+    let dateSum = dateDigits.reduce((sum, digit) => sum + digit, 0);
 
-    // Calculate the life path number by adding all digits of birthdate
-    let total = 0;
-    
-    // Add all digits of the year
-    total += year.toString().split('').reduce((sum, digit) => sum + parseInt(digit), 0);
-    // Add all digits of the month
-    total += month.toString().split('').reduce((sum, digit) => sum + parseInt(digit), 0);
-    // Add all digits of the day
-    total += day.toString().split('').reduce((sum, digit) => sum + parseInt(digit), 0);
-
-    // Reduce to a single digit or master number (11, 22, 33)
-    // Don't reduce master numbers unless they appear after adding date components
-    while (total > 33 && total !== 11 && total !== 22 && total !== 33) {
-      total = total.toString().split('').reduce((sum, digit) => sum + parseInt(digit), 0);
+    // Reduce to single digit or master number
+    while (dateSum > 33) {
+      if (dateSum === 11 || dateSum === 22 || dateSum === 33) break;
+      dateSum = dateSum.toString().split('').reduce((sum, digit) => sum + parseInt(digit), 0);
     }
 
-    // If the total is still greater than 9 but not a master number, reduce further
-    if (total > 9 && total !== 11 && total !== 22 && total !== 33) {
-      total = total.toString().split('').reduce((sum, digit) => sum + parseInt(digit), 0);
+    // Final reduction if not a master number
+    if (dateSum > 9 && dateSum !== 11 && dateSum !== 22 && dateSum !== 33) {
+      dateSum = dateSum.toString().split('').reduce((sum, digit) => sum + parseInt(digit), 0);
     }
 
-    return total;
-}
-
-
+    return dateSum;
+  }
 
   const calculateLifePathButton = document.getElementById('calculate-life-path');
   const lifePathResult = document.getElementById('lifepath-result');
@@ -1615,6 +1584,7 @@ let journalDocRef = null;
     // Scroll to results
     lifePathResult.scrollIntoView({ behavior: 'smooth', block: 'center' });
   });
+        });
 
   /* ===== Supabase Integration =====
   // Initialize Supabase client
@@ -1818,6 +1788,7 @@ let journalDocRef = null;
     createStars();
     drawNewAffirmation();
   }
+  */
 
   // ===== Brevo Email Integration =====
   // Handle email subscription form if it exists
@@ -1835,7 +1806,9 @@ let journalDocRef = null;
       const email = emailInput.value;
 
       // Basic email validation
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+
       if (!emailRegex.test(email)) {
         alert('Please enter a valid email address');
         return;
@@ -1884,50 +1857,6 @@ let journalDocRef = null;
     });
   }
     </script>
-
-                    <!-- Profile Modal -->
-    <div id="profile-modal" class="hidden fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-4">
-        <div class="bg-gradient-to-br from-cosmic-midnight via-cosmic-purple to-cosmic-midnight p-8 rounded-2xl max-w-lg w-full border-2 border-cosmic-gold shadow-2xl">
-            <h2 class="text-3xl font-serif text-cosmic-gold mb-4 text-center">Create Your Soulcodes Profile</h2>
-            <p class="text-gray-300 mb-6 text-center">Personalize your spiritual journey</p>
-            <form id="profile-form" class="space-y-4">
-                <div>
-                    <label class="block text-cosmic-gold mb-2">Your Name</label>
-                    <input type="text" id="profile-name" required class="w-full p-3 rounded-lg bg-white/10 text-white border border-cosmic-purple/30 focus:ring-2 focus:ring-cosmic-gold">
-                </div>
-                <div>
-                    <label class="block text-cosmic-gold mb-2">Birth Date</label>
-                    <input type="date" id="profile-birthdate" required class="w-full p-3 rounded-lg bg-white/10 text-white border border-cosmic-purple/30 focus:ring-2 focus:ring-cosmic-gold">
-                </div>
-                <div>
-                    <label class="block text-cosmic-gold mb-2">What are you seeking guidance on?</label>
-                    <select id="profile-goal" required class="w-full p-3 rounded-lg bg-white/10 text-white border border-cosmic-purple/30 focus:ring-2 focus:ring-cosmic-gold">
-                        <option value="">Select your focus...</option>
-                        <option value="career">Career & Purpose</option>
-                        <option value="love">Love & Relationships</option>
-                        <option value="spiritual">Spiritual Growth</option>
-                        <option value="abundance">Financial Abundance</option>
-                        <option value="health">Health & Wellbeing</option>
-                        <option value="transformation">Personal Transformation</option>
-                    </select>
-                </div>
-                <div>
-                    <label class="block text-cosmic-gold mb-2">Numbers you see frequently (optional)</label>
-                    <input type="text" id="profile-numbers" placeholder="e.g., 111, 444, 777" class="w-full p-3 rounded-lg bg-white/10 text-white placeholder-gray-500 border border-cosmic-purple/30 focus:ring-2 focus:ring-cosmic-gold">
-                </div>
-                <button type="submit" class="w-full bg-gradient-to-r from-cosmic-purple to-cosmic-pink hover:from-cosmic-pink hover:to-cosmic-purple text-white font-bold py-3 px-6 rounded-full transition-all duration-300 transform hover:scale-105">
-                    Start My Journey
-                </button>
-            </form>
-        </div>
-    </div>
-
-    <!-- Personalized Greeting -->
-    <div id="personalized-greeting" class="hidden fixed top-20 right-4 bg-gradient-to-br from-cosmic-purple/90 to-cosmic-midnight/90 backdrop-blur-sm p-6 rounded-xl border-2 border-cosmic-gold/50 shadow-2xl max-w-sm z-40">
-        <p class="text-cosmic-gold text-lg mb-2">Welcome back, <span id="user-name-display" class="font-serif text-xl">✨</span></p>
-        <p class="text-gray-300 text-sm mb-1">Your Life Path Number: <span id="user-life-path" class="text-cosmic-pink font-bold"></span></p>
-        <p class="text-gray-400 text-xs">Days on your journey: <span id="days-since-signup" class="text-cosmic-gold"></span></p>
-    </div>
 </body>
 
 </html>
