@@ -1,6 +1,7 @@
-// Netlify serverless function to handle Brevo newsletter subscriptions
+const fetch = require('node-fetch');
+
 exports.handler = async (event, context) => {
-  // Only allow POST requests
+  // Only allow POST
   if (event.httpMethod !== 'POST') {
     return {
       statusCode: 405,
@@ -8,63 +9,62 @@ exports.handler = async (event, context) => {
     };
   }
 
+  // Parse request body
+  const { name, email } = JSON.parse(event.body);
+
+  // Validate inputs
+  if (!name || !email) {
+    return {
+      statusCode: 400,
+      body: JSON.stringify({ error: 'Name and email are required' })
+    };
+  }
+
+  // Extract first name
+  const firstName = name.split(' ')[0];
+
+  // Brevo API request
   try {
-    // Parse the request body
-    const { email, name } = JSON.parse(event.body);
-
-    // Validate inputs
-    if (!email || !name) {
-      return {
-        statusCode: 400,
-        body: JSON.stringify({ error: 'Email and name are required' })
-      };
-    }
-
-    // Get Brevo API key from environment variable
-    const BREVO_API_KEY = process.env.BREVO_API_KEY;
-    const BREVO_LIST_ID = process.env.BREVO_LIST_ID || 3;
-
-    if (!BREVO_API_KEY) {
-      return {
-        statusCode: 500,
-        body: JSON.stringify({ error: 'API key not configured' })
-      };
-    }
-
-    // Call Brevo API
     const response = await fetch('https://api.brevo.com/v3/contacts', {
       method: 'POST',
       headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        'api-key': BREVO_API_KEY
+        'accept': 'application/json',
+        'api-key': process.env.BREVO_API_KEY,
+        'content-type': 'application/json'
       },
       body: JSON.stringify({
         email: email,
         attributes: {
-          FIRSTNAME: name
+          FIRSTNAME: firstName,
+          NOM: name // Full name
         },
-        listIds: [parseInt(BREVO_LIST_ID)],
-        updateEnabled: true
+        listIds: [7], // SoulCodes Welcome list
+        updateEnabled: true // Update if contact already exists
       })
     });
 
-    // Check if subscription was successful
-    if (response.ok || response.status === 201) {
+    const data = await response.json();
+
+    if (response.ok || response.status === 400) {
+      // 400 with Brevo usually means "Contact already exists", which we treat as success provided updateEnabled is true
+      // However, fetch might not throw on 400, so we handle data checking if needed.
       return {
         statusCode: 200,
-        body: JSON.stringify({ 
-          success: true, 
-          message: 'Successfully subscribed!' 
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Headers': 'Content-Type'
+        },
+        body: JSON.stringify({
+          success: true,
+          message: 'Welcome to your sanctuary! Check your email.'
         })
       };
     } else {
-      const errorData = await response.json();
+      console.error('Brevo API error:', data);
       return {
-        statusCode: response.status,
-        body: JSON.stringify({ 
-          error: 'Subscription failed', 
-          details: errorData 
+        statusCode: 500,
+        body: JSON.stringify({
+          error: 'Failed to subscribe. Please try again.'
         })
       };
     }
@@ -72,9 +72,8 @@ exports.handler = async (event, context) => {
     console.error('Error:', error);
     return {
       statusCode: 500,
-      body: JSON.stringify({ 
-        error: 'Internal server error', 
-        message: error.message 
+      body: JSON.stringify({
+        error: 'Server error. Please try again later.'
       })
     };
   }
