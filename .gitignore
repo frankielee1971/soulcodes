@@ -46,3 +46,5 @@ target/
 # Python specific
 .mypy_cache/
 .pytest_cache/
+# Local Netlify folder
+.netlify

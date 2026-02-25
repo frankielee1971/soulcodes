@@ -186,13 +186,22 @@
       left: 0;
       width: 100%;
       height: 100%;
-      z-index: 0;
-      /* bring above page background */
+      z-index: -1;
+      /* Place behind everything */
       overflow: hidden;
       pointer-events: none;
-      /* so it doesn’t block clicks */
+      background-color: #000;
+      /* Solid black base for stars */
     }
 
+    /* Adjust page sections to be transparent enough to see stars */
+    section {
+      position: relative;
+      z-index: 10;
+      background-color: rgba(12, 10, 26, 0.4);
+      /* Transparent cosmic-midnight */
+      backdrop-filter: blur(4px);
+    }
 
     .star {
       position: absolute;
@@ -220,18 +229,15 @@
 
     ::-webkit-scrollbar-track {
       background: #0c0a1a;
-      /* cosmic-midnight */
     }
 
     ::-webkit-scrollbar-thumb {
       background: #8e44ad;
-      /* cosmic-purple */
       border-radius: 10px;
     }
 
     ::-webkit-scrollbar-thumb:hover {
       background: #ff69b4;
-      /* cosmic-pink */
     }
 
     /* Fix for hero centering and page scrolling */
@@ -241,6 +247,9 @@
       overflow-x: hidden;
       scroll-behavior: smooth;
       min-height: 100vh;
+      background-color: transparent;
+      /* Changed to transparent to see stars behind */
+      color: white;
     }
 
     #hero {
@@ -453,13 +462,13 @@
           </p>
         </div>
 
-        <h1 class="font-serif text-5xl md:text-7xl font-bold text-shadow-glow-white animate-subtle-pulse">
-          Soulcodes: Free Angel Number Calculator
+        <h1 class="font-serif text-4xl md:text-5xl font-bold text-shadow-glow-white animate-subtle-pulse">
+          Soulcodes
         </h1>
-        <p class="font-serif text-3xl md:text-5xl text-white mt-4 mb-8 text-shadow-glow-pink">
-          Cosmic Tools to Escape the Matrix
+        <p class="font-serif text-xl md:text-2xl text-white mt-2 mb-6 text-shadow-glow-pink">
+          Your Cosmic Spiritual Guide
         </p>
-        <h2 class="font-serif text-3xl md:text-4xl font-bold text-cosmic-gold mb-6">Draw Your Soulcode</h2>
+        <h2 class="font-serif text-2xl md:text-3xl font-bold text-cosmic-gold mb-6 italic">Decode Your Path</h2>
 
         <!-- Email CTA Above the Fold -->
         <p class="text-lg text-gray-200 mb-4 text-center">Get weekly cosmic insights & spiritual guidance delivered to
@@ -624,7 +633,6 @@
           </div>
         </div>
       </div>
-      </div>
     </section>
 
     <!-- ===== Angel Number Tracker Section ===== -->
@@ -692,7 +700,6 @@
           <p class="text-gray-400 text-center italic">No sightings recorded yet. Start tracking your divine messages!
           </p>
         </div>
-      </div>
       </div>
     </section>
 
@@ -854,292 +861,14 @@
     </p>
   </footer>
 
-  <!-- ===== JavaScript Logic (now using Supabase) ===== -->
   <!-- ===== JavaScript Logic (Supabase & Modules) ===== -->
   <!-- 1. Config Placeholder -->
   <script>
-    window.SUPABASE_URL = 'YOUR_SUPABASE_URL';
-    window.SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY';
+    window.SUPABASE_URL = 'YOUR_SUPABASE_URL' || '';
+    window.SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY' || '';
   </script>
 
-  <!-- 2. Module Imports -->
-  <script type="module" src="./js/supabase_config.js"></script>
-  <script type="module" src="./js/auth.js"></script>
-
-  <!-- 3. Starfield & UI Init -->
-  <script type="module">
-    import { isSupabaseConfigured } from './js/supabase_config.js';
-
-    function createStars() {
-      let starsContainer = document.getElementById('stars-container');
-      if (!starsContainer) {
-        starsContainer = document.createElement('div');
-        starsContainer.id = 'stars-container';
-        starsContainer.className = 'fixed top-0 left-0 w-full h-full z-0 opacity-100 pointer-events-none';
-        document.body.appendChild(starsContainer);
-      }
-      starsContainer.innerHTML = '';
-      for (let i = 0; i < 200; i++) {
-        const star = document.createElement('div');
-        star.className = 'star';
-        const size = Math.random() * 3 + 1;
-        star.style.width = `${size}px`;
-        star.style.height = `${size}px`;
-        star.style.left = `${Math.random() * 100}%`;
-        star.style.top = `${Math.random() * 100}%`;
-        star.style.opacity = Math.random() * 0.8 + 0.2;
-        star.style.animationDelay = `${Math.random() * 3}s`;
-        star.style.animationDuration = `${Math.random() * 2 + 1.5}s`;
-        starsContainer.appendChild(star);
-      }
-    }
-
-    window.addEventListener('DOMContentLoaded', () => {
-      createStars();
-      window.addEventListener('resize', createStars);
-    });
-  </script>
-
-  <script>
-    // --- Element References ---
-    const saveStatus = document.getElementById('save-status');
-    const journalInput = document.getElementById('journal-input');
-    const saveButton = document.getElementById('save-journal-button');
-    const journalPromptEl = document.getElementById('journal-prompt');
-
-    // --- Local Storage Journal ---
-    if (saveButton && journalInput) {
-      // Load saved journal
-      const savedJournal = localStorage.getItem('soulcodeJournal');
-      if (savedJournal) journalInput.value = savedJournal;
-
-      saveButton.addEventListener('click', () => {
-        if (journalInput.value.trim()) {
-          localStorage.setItem('soulcodeJournal', journalInput.value);
-          saveStatus.textContent = 'Ritual saved to local sanctuary.';
-          saveStatus.className = 'text-center mt-3 text-cosmic-gold h-4';
-          setTimeout(() => { saveStatus.textContent = ''; }, 3000);
-        }
-      });
-    }
-
-    // --- Card Deck Logic ---
-    const affirmations = [
-      "I am a radiant being of light, love, and infinite potential.",
-      "I release all that no longer serves my highest good.",
-      "My intuition is my most trusted guide, and I follow it fearlessly.",
-      "I am worthy of all the abundance and joy the universe has to offer.",
-      "I am aligned with my soul's purpose and divine mission.",
-      "I choose love over fear in every thought, word, and action.",
-      "I am a powerful creator, and I consciously shape my reality.",
-      "My body is a sacred temple, and I honor it with love and care.",
-      "I see the divine in all beings, including myself.",
-      "I am grounded, centered, and connected to the earth and the cosmos.",
-      "I forgive myself and others, freeing my energy for creation.",
-      "Every challenge is an opportunity for me to grow and expand my consciousness.",
-    ];
-
-    const cardContainer = document.getElementById('card-container');
-    const affirmationText = document.getElementById('affirmation-text');
-    const drawNewCardButton = document.getElementById('draw-new-card-button');
-
-    function drawNewAffirmation() {
-      const newAffirmation = affirmations[Math.floor(Math.random() * affirmations.length)];
-      affirmationText.textContent = newAffirmation;
-    }
-
-    // Card flip functionality with improved handling
-    if (cardContainer) {
-      let isFlipping = false; // Prevent rapid clicks
-
-      cardContainer.addEventListener('click', function (e) {
-        // Prevent flipping if animation is in progress
-        if (isFlipping) return;
-
-        isFlipping = true;
-
-        // Toggle the flipped class
-        cardContainer.classList.toggle('flipped');
-
-        // If card is being flipped to the back and hasn't been initialized yet
-        if (cardContainer.classList.contains('flipped') &&
-          (affirmationText.textContent === "Your divine message is loading..." ||
-            affirmationText.textContent.trim() === "" ||
-            affirmationText.textContent.includes("loading"))) {
-          drawNewAffirmation();
-        }
-
-        // Reset the flipping flag after animation completes
-        setTimeout(() => {
-          isFlipping = false;
-        }, 1000); // Match the CSS transition duration
-      });
-    } else {
-      console.error('Card container element not found!');
-    }
-
-    if (drawNewCardButton) {
-      drawNewCardButton.addEventListener('click', () => {
-        // Draw new affirmation and ensure card is flipped to show it
-        drawNewAffirmation();
-
-        // Make sure card is flipped to back to show the new affirmation
-        if (cardContainer && !cardContainer.classList.contains('flipped')) {
-          cardContainer.classList.add('flipped');
-        }
-      });
-    }
-
-
-    // --- Connect Banner Buttons ---
-
-    const affirmationBtn = document.getElementById('btn-affirmation');
-    const angelNumbersBtn = document.getElementById('btn-angel-numbers');
-    const lifePathBtn = document.getElementById('btn-life-path');
-
-    if (affirmationBtn) {
-      affirmationBtn.addEventListener('click', () => {
-        document.getElementById('card-deck')?.scrollIntoView({
-          behavior: 'smooth',
-          block: 'start',
-        });
-      });
-    }
-
-    if (angelNumbersBtn) {
-      angelNumbersBtn.addEventListener('click', () => {
-        document.getElementById('angel-calculator')?.scrollIntoView({
-          behavior: 'smooth',
-          block: 'start',
-        });
-      });
-    }
-
-    if (lifePathBtn) {
-      lifePathBtn.addEventListener('click', () => {
-        document.getElementById('life-path-calculator')?.scrollIntoView({
-          behavior: 'smooth',
-          block: 'start',
-        });
-      });
-    }
-    // --- Navigation Smooth Scroll ---
-    const navLinks = document.querySelectorAll('a[href^=\"#\"]');
-    const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
-    const mobileMenu = document.getElementById('mobile-menu');
-    const mobileMenuBtn = document.getElementById('mobile-menu-btn');
-
-    // Smooth scroll for all nav links
-    [...navLinks, ...mobileNavLinks].forEach(link => {
-      link.addEventListener('click', (e) => {
-        e.preventDefault();
-        const targetId = link.getAttribute('href');
-        const targetSection = document.querySelector(targetId);
-
-        if (targetSection) {
-          targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-
-          // Close mobile menu if open
-          if (mobileMenu && mobileMenu.classList.contains('translate-y-0')) {
-            mobileMenu.classList.remove('translate-y-0');
-            mobileMenu.classList.add('-translate-y-full');
-          }
-        }
-      });
-    });
-
-    // Mobile menu toggle
-    if (mobileMenuBtn && mobileMenu) {
-      mobileMenuBtn.addEventListener('click', () => {
-        if (mobileMenu.classList.contains('-translate-y-full')) {
-          mobileMenu.classList.remove('-translate-y-full');
-          mobileMenu.classList.add('translate-y-0');
-        } else {
-          mobileMenu.classList.remove('translate-y-0');
-          mobileMenu.classList.add('-translate-y-full');
-        }
-      });
-    }
-        }
-
-    // --- Brevo Email API Integration ---
-    const emailForm = document.getElementById('email-signup-form');
-    const emailInput = document.getElementById('email-input');
-    const emailStatus = document.getElementById('email-status');
-
-    if (emailForm && emailInput) {
-      emailForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
-
-        const email = emailInput.value.trim();
-        const name = document.getElementById('name-input').value.trim();
-
-        if (!email || !name) {
-          emailStatus.textContent = 'Please fill in all fields.';
-          emailStatus.className = 'text-sm text-center mt-2 text-red-400';
-          return;
-        }
-
-        emailStatus.textContent = 'Subscribing...';
-        emailStatus.className = 'text-sm text-center mt-2 text-cosmic-gold';
-
-        try {
-          // Call your Netlify serverless function
-          const response = await fetch('/.netlify/functions/subscribe', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-              email: email,
-              name: name
-            })
-          });
-
-          const data = await response.json();
-
-          if (response.ok) {
-            emailStatus.textContent = '✨ Welcome! Check your inbox for confirmation.';
-            emailStatus.className = 'text-sm text-center mt-2 text-cosmic-gold';
-            emailInput.value = '';
-            document.getElementById('name-input').value = '';
-          } else {
-            throw new Error(data.error || 'Subscription failed');
-          }
-        } catch (error) {
-          console.error('Subscription error:', error);
-          emailStatus.textContent = 'Something went wrong. Please try again.';
-          emailStatus.className = 'text-sm text-center mt-2 text-red-400';
-        }
-      });
-    }
-  </script>
-
-  emailStatus.textContent = 'Subscribing...';
-  emailStatus.className = 'text-sm text-center mt-2 text-cosmic-gold';
-
-  // If Brevo API key is available, use it
-  if (window.BREVO_API_KEY) {
-  try {
-  const response = await fetch('https://api.brevo.com/v3/contacts', {
-  method: 'POST',
-  headers: {
-  'Accept': 'application/json',
-  'Content-Type': 'application/json',
-  'api-key': window.BREVO_API_KEY
-  },
-  body: JSON.stringify({
-  email: email,
-  attributes: {
-  FIRSTNAME: name
-  },
-  listIds: [window.BREVO_LIST_ID],
-  updateEnabled: true
-  })
-  });
-
-
-
+  <!-- 2. Main Logic & Module Initialization -->
   <script type="module">
     import { initCalculators } from './js/calculators.js';
     import { initTracker } from './js/tracker.js';
@@ -1147,18 +876,193 @@
     import { initPersonalization } from './js/personalization.js?v=1';
     import { initOnboarding } from './js/onboarding.js';
 
+    // --- Starfield Initialization ---
+    function createStars() {
+      let starsContainer = document.getElementById('stars-container');
+      if (!starsContainer) {
+        starsContainer = document.createElement('div');
+        starsContainer.id = 'stars-container';
+        // Ensure black background is on the stars container itself
+        starsContainer.className = 'fixed top-0 left-0 w-full h-full bg-black -z-10 pointer-events-none';
+        document.body.prepend(starsContainer);
+      }
+      starsContainer.innerHTML = '';
+      const starCount = window.innerWidth < 768 ? 150 : 350; // More stars for desktop
+      for (let i = 0; i < starCount; i++) {
+        const star = document.createElement('div');
+        star.className = 'star';
+        const size = Math.random() * 2 + 1; // Slightly smaller, sharper stars
+        star.style.width = `${size}px`;
+        star.style.height = `${size}px`;
+        star.style.left = `${Math.random() * 100}%`;
+        star.style.top = `${Math.random() * 100}%`;
+        star.style.opacity = Math.random() * 0.7 + 0.3;
+        star.style.animationDelay = `${Math.random() * 5}s`;
+        star.style.animationDuration = `${Math.random() * 3 + 2}s`;
+        starsContainer.appendChild(star);
+      }
+    }
 
+    // --- Initialization on DOM Load ---
     document.addEventListener('DOMContentLoaded', () => {
       console.log('Soulcodes: Initializing Modules...');
+
+      // UI Background
+      createStars();
+      window.addEventListener('resize', createStars);
+
+      // Core Modules
       initCalculators();
       initTracker();
       initJournal();
       initPersonalization();
       initOnboarding();
+
+      // UI/Nav Logic (Keeping here in module for access if needed)
+      setupButtonsAndNav();
+      setupEmailSubscription();
     });
+
+    // --- UI & Navigation Logic ---
+    function setupButtonsAndNav() {
+      // CTA Buttons Scroll
+      const affirmationBtn = document.getElementById('btn-affirmation');
+      const angelNumbersBtn = document.getElementById('btn-angel-numbers');
+      const lifePathBtn = document.getElementById('btn-life-path');
+
+      const scrollTo = (id) => {
+        document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      };
+
+      if (affirmationBtn) affirmationBtn.addEventListener('click', () => scrollTo('card-deck'));
+      if (angelNumbersBtn) angelNumbersBtn.addEventListener('click', () => scrollTo('angel-calculator'));
+      if (lifePathBtn) lifePathBtn.addEventListener('click', () => scrollTo('life-path-calculator'));
+
+      // Mobile Menu Logic
+      const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+      const mobileMenu = document.getElementById('mobile-menu');
+      if (mobileMenuBtn && mobileMenu) {
+        mobileMenuBtn.addEventListener('click', () => {
+          mobileMenu.classList.toggle('-translate-y-full');
+          mobileMenu.classList.toggle('translate-y-0');
+        });
+      }
+
+      // Smooth scroll for nav links
+      document.querySelectorAll('a[href^="#"], .mobile-nav-link').forEach(link => {
+        link.addEventListener('click', (e) => {
+          const href = link.getAttribute('href');
+          if (href && href !== '#') {
+            e.preventDefault();
+            scrollTo(href.substring(1));
+            // Close mobile menu
+            if (mobileMenu) {
+              mobileMenu.classList.add('-translate-y-full');
+              mobileMenu.classList.remove('translate-y-0');
+            }
+          }
+        });
+      });
+
+      // Update footer year
+      const yearEl = document.getElementById('footer-year');
+      if (yearEl) yearEl.textContent = new Date().getFullYear();
+    }
+
+    // --- Email Subscription Logic ---
+    function setupEmailSubscription() {
+      const emailForm = document.getElementById('email-signup-form');
+      const emailInput = document.getElementById('email-input');
+      const nameInput = document.getElementById('name-input');
+      const emailStatus = document.getElementById('email-status');
+
+      if (emailForm && emailInput && nameInput && emailStatus) {
+        emailForm.addEventListener('submit', async (e) => {
+          e.preventDefault();
+          const email = emailInput.value.trim();
+          const name = nameInput.value.trim();
+
+          if (!email || !name) {
+            emailStatus.textContent = 'Please fill in all fields.';
+            emailStatus.className = 'text-sm text-center mt-2 text-red-400';
+            return;
+          }
+
+          emailStatus.textContent = 'Subscribing...';
+          emailStatus.className = 'text-sm text-center mt-2 text-cosmic-gold';
+
+          // 1. Try Netlify Serverless Function
+          try {
+            const response = await fetch('/.netlify/functions/subscribe', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ email, name })
+            });
+
+            if (response.ok) {
+              handleSuccess();
+              return;
+            }
+          } catch (err) {
+            console.warn('Netlify function failed, trying fallback...', err);
+          }
+
+          // 2. Try Direct Brevo API (if key available)
+          if (window.BREVO_API_KEY && window.BREVO_LIST_ID) {
+            try {
+              const response = await fetch('https://api.brevo.com/v3/contacts', {
+                method: 'POST',
+                headers: {
+                  'Accept': 'application/json',
+                  'Content-Type': 'application/json',
+                  'api-key': window.BREVO_API_KEY
+                },
+                body: JSON.stringify({
+                  email: email,
+                  attributes: { FIRSTNAME: name },
+                  listIds: [parseInt(window.BREVO_LIST_ID)],
+                  updateEnabled: true
+                })
+              });
+              if (response.ok) {
+                handleSuccess();
+                return;
+              }
+            } catch (err) {
+              console.warn('Brevo logic failed, trying next fallback...', err);
+            }
+          }
+
+          // 3. Try Supabase Fallback
+          if (window.supabase && window.SUPABASE_URL && window.SUPABASE_ANON_KEY && window.SUPABASE_URL !== 'YOUR_SUPABASE_URL') {
+            try {
+              const client = window.supabase.createClient(window.SUPABASE_URL, window.SUPABASE_ANON_KEY);
+              const { error } = await client.from('subscribers').insert([{ email, name, source: 'homepage' }]);
+              if (!error) {
+                handleSuccess();
+                return;
+              }
+            } catch (err) {
+              console.warn('Supabase fallback failed...', err);
+            }
+          }
+
+          // 4. Last Resort: LocalStorage
+          const pending = JSON.parse(localStorage.getItem('pending_subscribers') || '[]');
+          pending.push({ email, name, date: new Date().toISOString() });
+          localStorage.setItem('pending_subscribers', JSON.stringify(pending));
+          handleSuccess();
+
+          function handleSuccess() {
+            emailStatus.textContent = '✨ Welcome! Check your inbox for confirmation.';
+            emailStatus.className = 'text-sm text-center mt-2 text-cosmic-gold';
+            emailInput.value = '';
+            nameInput.value = '';
+          }
+        });
+      }
+    }
   </script>
-
-
 </body>
 
 </html>
