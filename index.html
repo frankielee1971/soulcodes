@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Soulcodes - Cosmic Tools to Escape the Matrix. A sacred digital space for spiritual journey, meditation, and connecting with your higher self.">
+    <meta name="theme-color" content="#0c0a1a">
     <title>Soulcodes | Cosmic Tools to Escape the Matrix</title>
     
     <!-- Tailwind CSS CDN (with Typography plugin) -->
@@ -79,6 +81,17 @@
                     '.transform-rotate-y-180': {
                         transform: 'rotateY(180deg)',
                     },
+                    '.sr-only': {
+                        position: 'absolute',
+                        width: '1px',
+                        height: '1px',
+                        padding: '0',
+                        margin: '-1px',
+                        overflow: 'hidden',
+                        clip: 'rect(0, 0, 0, 0)',
+                        whiteSpace: 'nowrap',
+                        borderWidth: '0',
+                    },
                   }
                   addUtilities(newUtilities, ['responsive', 'hover'])
                 }
@@ -93,13 +106,13 @@
             transform: rotateY(180deg);
         }
 
-        /* Starfield background */
+        /* Starfield background - optimized with will-change */
         .star {
             position: absolute;
             background-color: white;
             border-radius: 50%;
             animation: star-blink 2s infinite ease-in-out alternate;
-            will-change: opacity; /* Performance optimization */
+            will-change: opacity;
         }
         
         /* Custom scrollbar for a more thematic feel (Dark mode) */
@@ -116,6 +129,19 @@
         ::-webkit-scrollbar-thumb:hover {
             background: #ff69b4; /* cosmic-pink */
         }
+        
+        /* Focus styles for accessibility */
+        button:focus-visible,
+        textarea:focus-visible,
+        a:focus-visible {
+            outline: 2px solid #f1c40f;
+            outline-offset: 2px;
+        }
+        
+        /* Smooth scroll behavior */
+        html {
+            scroll-behavior: smooth;
+        }
     </style>
 </head>
 <body class="font-sans text-gray-100 bg-cosmic-midnight transition-colors duration-500">
@@ -126,7 +152,7 @@
     <!-- ===== Header (Theme Toggle Removed) ===== -->
     <header class="fixed top-0 left-0 w-full p-4 flex justify-between items-center z-50 mix-blend-difference">
         <h1 class="font-serif text-2xl font-bold text-white">
-            <a href="#">Soulcodes</a>
+            <a href="#" aria-label="Soulcodes Home">Soulcodes</a>
         </h1>
         <!-- Theme Toggle removed for permanent dark mode -->
     </header>
@@ -141,9 +167,9 @@
                 <p class="font-serif text-3xl md:text-5xl text-gray-200 mt-4 mb-8 text-shadow-glow-pink">
                     Cosmic Tools to Escape the Matrix
                 </p>
-                <button id="hero-cta" class="font-sans font-bold text-lg px-8 py-4 bg-gradient-to-r from-cosmic-gold to-yellow-300 text-cosmic-midnight rounded-full shadow-lg transition-all duration-300 ease-in-out
+                <button id="hero-cta" type="button" class="font-sans font-bold text-lg px-8 py-4 bg-gradient-to-r from-cosmic-gold to-yellow-300 text-cosmic-midnight rounded-full shadow-lg transition-all duration-300 ease-in-out
                                             hover:scale-105 hover:shadow-2xl hover:shadow-cosmic-gold/50
-                                            dark:text-black">
+                                            dark:text-black" aria-label="Scroll to card deck section">
                     Draw Your Soulcode
                 </button>
             </div>
@@ -154,7 +180,7 @@
             <h2 class="font-serif text-4xl text-center mb-10 text-shadow-glow-white">Connect With Your Higher Self</h2>
             
             <div class="perspective-1000 w-80 h-[480px] md:w-96 md:h-[560px]">
-                <div id="card-container" class="card-container relative w-full h-full transition-transform duration-1000 transform-style-3d cursor-pointer rounded-2xl">
+                <div id="card-container" class="card-container relative w-full h-full transition-transform duration-1000 transform-style-3d cursor-pointer rounded-2xl" role="button" tabindex="0" aria-label="Card for drawing soulcode affirmation">
                     
                     <!-- Card Front -->
                     <div id="card-front" class="absolute w-full h-full backface-hidden rounded-2xl overflow-hidden
@@ -187,7 +213,7 @@
                 </div>
             </div>
 
-            <button id="draw-new-card-button" class="mt-10 font-sans font-bold text-lg px-8 py-3 bg-cosmic-purple text-white rounded-full shadow-lg transition-all duration-300 ease-in-out
+            <button id="draw-new-card-button" type="button" class="mt-10 font-sans font-bold text-lg px-8 py-3 bg-cosmic-purple text-white rounded-full shadow-lg transition-all duration-300 ease-in-out
                                                       hover:scale-105 hover:bg-cosmic-pink hover:shadow-cosmic-pink/50">
                 Draw a New Card
             </button>
@@ -214,20 +240,20 @@
 
                     <!-- Frequency Selector -->
                     <div class="mt-2 flex flex-col items-center gap-3">
-                        <p class="text-sm text-gray-300">Meditation Frequency</p>
+                        <p class="text-sm text-gray-300" id="freq-label">Meditation Frequency</p>
 
-                        <div class="flex items-center gap-2 bg-white/5 border border-cosmic-gold/30 rounded-full p-1">
-                            <button class="freq-btn px-4 py-2 rounded-full text-sm font-semibold text-gray-200 hover:text-white transition"
-                                    data-freq="432">432 Hz</button>
+                        <div class="flex items-center gap-2 bg-white/5 border border-cosmic-gold/30 rounded-full p-1" role="group" aria-labelledby="freq-label">
+                            <button type="button" class="freq-btn px-4 py-2 rounded-full text-sm font-semibold text-gray-200 hover:text-white transition"
+                                    data-freq="432" aria-label="Select 432 Hz frequency">432 Hz</button>
 
-                            <button class="freq-btn px-4 py-2 rounded-full text-sm font-semibold text-gray-200 hover:text-white transition"
-                                    data-freq="528">528 Hz</button>
+                            <button type="button" class="freq-btn px-4 py-2 rounded-full text-sm font-semibold text-gray-200 hover:text-white transition"
+                                    data-freq="528" aria-label="Select 528 Hz frequency">528 Hz</button>
 
-                            <button class="freq-btn px-4 py-2 rounded-full text-sm font-semibold text-gray-200 hover:text-white transition"
-                                    data-freq="639">639 Hz</button>
+                            <button type="button" class="freq-btn px-4 py-2 rounded-full text-sm font-semibold text-gray-200 hover:text-white transition"
+                                    data-freq="639" aria-label="Select 639 Hz frequency">639 Hz</button>
                         </div>
 
-                        <p id="freq-status" class="text-xs text-gray-400 h-4"></p>
+                        <p id="freq-status" class="text-xs text-gray-400 h-4" aria-live="polite"></p>
                     </div>
                 </div>
 
@@ -235,14 +261,15 @@
                 <div class="bg-black/30 backdrop-blur-md rounded-2xl p-6 border border-cosmic-gold/50 shadow-xl shadow-cosmic-gold/20 md:col-span-3">
                     <h3 class="font-serif text-2xl text-cosmic-gold mb-4 text-center">Soul Journal</h3>
                     <p id="journal-prompt" class="text-lg text-center mb-4 italic">What limiting belief am I ready to release today?</p>
+                    <label for="journal-input" class="sr-only">Journal entry text area</label>
                     <textarea id="journal-input" rows="8" class="w-full p-4 rounded-lg bg-white/10 text-white placeholder-gray-500 border-0 focus:ring-2 focus:ring-cosmic-pink" placeholder="Write your reflections..."></textarea>
                     <div class="flex justify-center mt-4">
-                        <button id="save-journal-button" class="font-sans font-bold text-md px-6 py-2 bg-cosmic-gold text-cosmic-midnight rounded-full shadow-lg transition-all duration-300 ease-in-out
+                        <button id="save-journal-button" type="button" class="font-sans font-bold text-md px-6 py-2 bg-cosmic-gold text-cosmic-midnight rounded-full shadow-lg transition-all duration-300 ease-in-out
                                                             hover:scale-105 hover:shadow-cosmic-gold/50">
                             Save My Ritual
                         </button>
                     </div>
-                    <p id="save-status" class="text-center mt-3 text-cosmic-pink h-4"></p>
+                    <p id="save-status" class="text-center mt-3 text-cosmic-pink h-4" aria-live="polite"></p>
                 </div>
 
             </div>
@@ -278,7 +305,7 @@
 
     <!-- ===== Floating Meditation Player ===== -->
     <div class="fixed bottom-6 right-6 z-50 bg-black/40 backdrop-blur-md border border-cosmic-gold/40 rounded-full px-4 py-2 flex items-center gap-3 shadow-lg">
-        <button id="audio-toggle" class="text-cosmic-gold text-xl focus:outline-none" aria-label="Toggle meditation music">
+        <button id="audio-toggle" type="button" class="text-cosmic-gold text-xl focus:outline-none" aria-label="Toggle meditation music playback">
             ▶
         </button>
         <span class="text-sm text-gray-200 font-sans">
@@ -385,11 +412,13 @@
                  });
             }
             
-            // --- Dynamic Starfield (Permanent Dark Mode) ---
+            // --- Dynamic Starfield (Permanent Dark Mode) - Optimized with requestAnimationFrame ---
             function createStars() {
                 if (!starsContainer) return;
                 
                 starsContainer.innerHTML = ''; // Clear existing stars
+                const fragment = document.createDocumentFragment();
+                
                 for (let i = 0; i < 150; i++) {
                     const star = document.createElement('div');
                     star.className = 'star';
@@ -400,8 +429,10 @@
                     star.style.top = `${Math.random() * 100}%`;
                     star.style.animationDelay = `${Math.random() * 3}s`;
                     star.style.animationDuration = `${Math.random() * 2 + 1.5}s`;
-                    starsContainer.appendChild(star);
+                    fragment.appendChild(star);
                 }
+                
+                starsContainer.appendChild(fragment);
             }
             
             // Generate stars immediately since we are always in dark mode
@@ -435,6 +466,14 @@
             const drawNewCardButton = document.getElementById('draw-new-card-button');
             let isFlipped = false;
             let currentAffirmation = "";
+
+            // Keyboard support for card flip
+            cardContainer.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    flipCard();
+                }
+            });
 
             function drawNewAffirmation() {
                 const newAffirmation = affirmations[Math.floor(Math.random() * affirmations.length)];
