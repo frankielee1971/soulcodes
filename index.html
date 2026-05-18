@@ -673,38 +673,6 @@
                 }
             }
 
-            // init selection
-            const savedFreq = localStorage.getItem('soulcodesFrequency') || "432";
-            setActiveFreqButton(savedFreq);
-            setFrequency(savedFreq);
-
-            // frequency button clicks
-            freqButtons.forEach(btn => {
-                btn.addEventListener('click', () => setFrequency(btn.dataset.freq));
-            });
-
-            // play/pause toggle
-            audioToggle.addEventListener('click', async () => {
-                if (audio.paused) {
-                    audio.volume = 0.35;
-                    try {
-                        await audio.play();
-                        audioToggle.textContent = '⏸';
-                        if (freqStatus) {
-                            const currentFreq = localStorage.getItem('soulcodesFrequency') || "432";
-                            freqStatus.textContent = `Playing ${currentFreq} Hz`;
-                        }
-                    } catch {
-                        if (freqStatus) freqStatus.textContent = 'Browser blocked playback — tap again.';
-                    }
-                } else {
-                    audio.pause();
-                    audioToggle.textContent = '▶';
-                    if (freqStatus) freqStatus.textContent = 'Paused';
-                }
-            });
-
-        });
     </script>
     <script>
 // your existing script here...
