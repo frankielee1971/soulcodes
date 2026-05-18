@@ -672,18 +672,38 @@
                     }
                 }
             }
-
-    </script>
-    <script>
-// your existing script here...
 </script>
 
 <script>
-// NEW dynamic frequency switching script goes here
+document.addEventListener("DOMContentLoaded", () => {
+  const buttons = document.querySelectorAll(".freq-btn");
+  const blocks = document.querySelectorAll(".freq-block");
+  const status = document.getElementById("freq-status");
+
+  buttons.forEach(btn => {
+    btn.addEventListener("click", () => {
+      const selected = btn.dataset.freq;
+
+      // Hide all blocks
+      blocks.forEach(block => block.style.display = "none");
+
+      // Show selected block
+      const activeBlock = document.querySelector(`.freq-block[data-freq="${selected}"]`);
+      if (activeBlock) activeBlock.style.display = "block";
+
+      // Update status text
+      status.textContent = `${selected} Hz selected`;
+    });
+  });
+
+  // Default frequency on load
+  const defaultBlock = document.querySelector('.freq-block[data-freq="432"]');
+  if (defaultBlock) defaultBlock.style.display = "block";
+  status.textContent = "432 Hz selected";
+});
 </script>
 
 </body>
 </html>
 
-</body>
-</html>
+  
