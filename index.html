@@ -7,17 +7,21 @@
     <meta name="theme-color" content="#0c0a1a">
     <title>Soulcodes | Cosmic Tools to Escape the Matrix</title>
     
+    <!-- Preconnect to CDNs for faster resource loading -->
+    <link rel="preconnect" href="https://cdn.tailwindcss.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://unpkg.com" crossorigin>
+    <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
+    <link rel="dns-prefetch" href="https://open.spotify.com">
+    <link rel="dns-prefetch" href="https://www.youtube.com">
+    
     <!-- Tailwind CSS CDN (with Typography plugin) -->
     <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
     
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Google Fonts - Single request with display=swap for performance -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
     
-    <!-- Lucide Icons CDN (kept for potential future use, though theme icons are removed) -->
-    <script src="https://unpkg.com/lucide-react@0.294.0/dist/lucide-react.js"></script>
-
     <!-- Custom Tailwind Configuration -->
     <script>
         tailwind.config = {
@@ -101,18 +105,19 @@
 
     <!-- Custom CSS for Card Flip and Starfield (Simplified for Dark Mode only) -->
     <style>
-        /* Card Flip */
+        /* Card Flip - GPU accelerated */
         .card-container.is-flipped {
             transform: rotateY(180deg);
         }
 
-        /* Starfield background - optimized with will-change */
+        /* Starfield background - optimized with will-change and GPU acceleration */
         .star {
             position: absolute;
             background-color: white;
             border-radius: 50%;
             animation: star-blink 2s infinite ease-in-out alternate;
             will-change: opacity;
+            contain: layout style;
         }
         
         /* Custom scrollbar for a more thematic feel (Dark mode) */
@@ -141,6 +146,15 @@
         /* Smooth scroll behavior */
         html {
             scroll-behavior: smooth;
+        }
+        
+        /* Reduce motion for accessibility */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
         }
     </style>
 </head>
@@ -376,7 +390,7 @@
     </div>
 
     <!-- ===== JavaScript Logic (now using Firebase Firestore) ===== -->
-    <script type="module">
+    <script type="module" defer>
         // Import Firebase modules
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
@@ -474,14 +488,13 @@
                  });
             }
             
-            // --- Dynamic Starfield (Permanent Dark Mode) - Optimized with requestAnimationFrame ---
+            // --- Dynamic Starfield (Permanent Dark Mode) - Optimized with DocumentFragment ---
             function createStars() {
                 if (!starsContainer) return;
                 
-                starsContainer.innerHTML = ''; // Clear existing stars
                 const fragment = document.createDocumentFragment();
                 
-                for (let i = 0; i < 150; i++) {
+                for (let i = 0; i < 100; i++) {
                     const star = document.createElement('div');
                     star.className = 'star';
                     const size = Math.random() * 2 + 0.5;
